@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 
 namespace ServicePlace.Logic
 {
-    public class ExecutorRepository
+    public class ExecutorService
     {
-        public ExecutorRepository(List<Executor> executors)
+        public ExecutorService(List<Executor> executors)
         {
             Executors = executors;
+        }
+
+        public ExecutorService()
+        {
+            Executors = new List<Executor>();
         }
 
         public List<Executor> Executors { get; }

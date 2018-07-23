@@ -1,28 +1,28 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ServicePlace.Logic;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 
 namespace ServicePlace.Website.Controllers
 {
     public class ExecutorsController : BaseController
     {
-        private ExecutorRepository repository;
+        private ExecutorService service;
         public ExecutorsController()
         {
-            repository = ExecutorSeeder.GetRepository(10);
+            service = ExecutorInitializer.GetService(10);
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(repository);
+            return View(service);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            var executor = repository.GetExecutors(id);
+            var executor = service.GetExecutors(id);
             if (executor == null) return NotFound(new
             {
                 Error = $"Executor #{id} has been not found"
@@ -43,8 +43,8 @@ namespace ServicePlace.Website.Controllers
         {
             if (executor == null) return new StatusCodeResult(500);
 
-            repository.AddExecutor(executor);
-            return View("Get", repository.Executors.Last());
+            service.AddExecutor(executor);
+            return View("Get", service.Executors.Last());
         }
     }
 }

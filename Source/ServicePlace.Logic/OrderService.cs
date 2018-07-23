@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 
 namespace ServicePlace.Logic
 {
-    public class OrderRepository
+    public class OrderService
     {
-        public OrderRepository(List<Order> orders)
+        public OrderService(List<Order> orders)
         {
             Orders = orders;
+        }
+
+        public OrderService()
+        {
+            Orders = new List<Order>();
         }
 
         public List<Order> Orders { get; }

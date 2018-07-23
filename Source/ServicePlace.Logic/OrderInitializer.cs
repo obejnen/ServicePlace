@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 
 namespace ServicePlace.Logic
 {
-    public static class OrderSeeder
+    public static class OrderInitializer
     {
-        private static OrderRepository _repository;
-        public static OrderRepository GetRepository(int count)
+        private static OrderService _service;
+        public static OrderService GetService(int count)
         {
-            if (_repository == null)
+            if (_service == null)
             {
-                _repository = new OrderRepository(new List<Order>());
+                _service = new OrderService(new List<Order>());
                 for (int i = 1; i <= count; i++)
                 {
                     Order order = new Order
@@ -20,11 +20,11 @@ namespace ServicePlace.Logic
                         Title = $"Order title #{i}",
                         Body = $"Order body #{i}"
                     };
-                    _repository.AddOrder(order);
+                    _service.AddOrder(order);
                 }
             }
             
-            return _repository;
+            return _service;
         }
     }
 }

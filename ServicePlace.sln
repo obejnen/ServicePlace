@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicePlace.Logic", "Sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicePlace.DataProvider", "Source\ServicePlace.DataProvider\ServicePlace.DataProvider.csproj", "{1A08EE36-C359-4C3B-837B-32F354CBAD24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicePlace.Models", "Source\ServicePlace.Models\ServicePlace.Models.csproj", "{0FDB78B9-EBBC-4977-89CE-D32B1E14CBF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicePlace.ViewModels", "Source\ServicePlace.ViewModels\ServicePlace.ViewModels.csproj", "{0FDB78B9-EBBC-4977-89CE-D32B1E14CBF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

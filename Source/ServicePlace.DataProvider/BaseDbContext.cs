@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 
 namespace ServicePlace.DataProvider
 {

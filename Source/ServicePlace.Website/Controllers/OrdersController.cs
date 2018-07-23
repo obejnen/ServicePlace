@@ -1,24 +1,24 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ServicePlace.Logic;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 
 namespace ServicePlace.Website.Controllers
 {
     public class OrdersController : BaseController
     {
-        private OrderRepository repository = OrderSeeder.GetRepository(10);
+        private OrderService service = OrderInitializer.GetService(10);
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(repository);
+            return View(service);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            var order = repository.GetOrder(id);
+            var order = service.GetOrder(id);
 
             if (order == null) return NotFound(new {
                 Error = $"Order #{id} has not been found"
@@ -39,8 +39,8 @@ namespace ServicePlace.Website.Controllers
         {
             if (order == null) return new StatusCodeResult(500);
 
-            repository.AddOrder(order);
-            return View("Get", repository.Orders.Last());
+            service.AddOrder(order);
+            return View("Get", service.Orders.Last());
         }
     }
 }

@@ -1,17 +1,17 @@
 ﻿using System;
-using ServicePlace.Models;
+using ServicePlace.ViewModels;
 using System.Collections.Generic;
 
 namespace ServicePlace.Logic
 {
-    public static class ExecutorSeeder
+    public static class ExecutorInitializer
     {
-        private static ExecutorRepository _repository;
-        public static ExecutorRepository GetRepository(int count)
+        private static ExecutorService _service;
+        public static ExecutorService GetService(int count)
         {
-            if (_repository == null)
+            if (_service == null)
             {
-                _repository = new ExecutorRepository(new List<Executor>());
+                _service = new ExecutorService(new List<Executor>());
 
                 for (int i = 1; i <= count; i++)
                 {
@@ -21,11 +21,11 @@ namespace ServicePlace.Logic
                         Title = $"Executor title #{i}",
                         Body = $"Executor body #{i}"
                     };
-                    _repository.AddExecutor(executor);
+                    _service.AddExecutor(executor);
                 }
             }
 
-            return _repository;
+            return _service;
         }
     }
 }
