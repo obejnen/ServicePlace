@@ -1,3 +1,10 @@
-﻿@{
+﻿@model OrderRepository
+
+@{
     Layout = "_Layout";
+}
+
+@foreach (var order in Model.Orders)
+{
+    <partial name="/Views/Partials/_Order.cshtml" for="@order"/>
 }

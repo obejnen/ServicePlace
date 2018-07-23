@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/vendor.min.css" />
+    <link rel="stylesheet" href="~/common.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
@@ -13,14 +14,14 @@
       <li class="nav-item"><a class="nav-link" href="#">Orders</a></li>
       <li class="nav-item"><a class="nav-link" href="#">Executers</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-collapse">
       <li class="nav-item"><a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       <li class="nav-item"><a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
 </nav>
-<div>
+<div class="main">
     @RenderBody()
-    <script src="~/vendor.min.js"></script>
 </div>
+<script src="~/vendor.min.js"></script>
 </body>
 </html>

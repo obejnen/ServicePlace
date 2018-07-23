@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using ServicePlace.Models;
 
 namespace ServicePlace.DataProvider
 {
@@ -10,6 +11,7 @@ namespace ServicePlace.DataProvider
 
         }
 
-        public virtual DbSet<>
+        public virtual DbSet<Executor> Executors { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }
