@@ -29,7 +29,7 @@ namespace ServicePlace.Website
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=home}/{action=Index}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

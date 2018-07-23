@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ServicePlace.Models;
 
@@ -12,10 +13,14 @@ namespace ServicePlace.Logic
         }
 
         public List<Order> Orders { get; }
-        public Order GetOrder(int id) => Orders.FirstOrDefault(x => x.Id == id);
+        public Order GetOrder(string id) => Orders.FirstOrDefault(x => x.Id == id);
 
-        public void AddOrder(Order order) => Orders.Add(order);
+        public void AddOrder(Order order)
+        {
+            order.Id = Guid.NewGuid().ToString();
+            Orders.Add(order);
+        }
 
-        public void RemoveOrder(int id) => Orders.Remove(Orders.FirstOrDefault(x => x.Id == id));
+        public void RemoveOrder(string id) => Orders.Remove(Orders.FirstOrDefault(x => x.Id == id));
     }
 }

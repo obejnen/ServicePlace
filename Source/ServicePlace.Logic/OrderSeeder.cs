@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServicePlace.Models;
 
 namespace ServicePlace.Logic
 {
     public static class OrderSeeder
     {
+        private static OrderRepository _repository;
         public static OrderRepository GetRepository(int count)
         {
-            var repository = new OrderRepository(new List<Order>());
-            for (int i = 1; i <= count; i++)
+            if (_repository == null)
             {
-                Order order = new Order
+                _repository = new OrderRepository(new List<Order>());
+                for (int i = 1; i <= count; i++)
                 {
-                    Id = i,
-                    Title = $"Order title #{i}",
-                    Body = $"Order body #{i}"
-                };
-                repository.AddOrder(order);
+                    Order order = new Order
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Title = $"Order title #{i}",
+                        Body = $"Order body #{i}"
+                    };
+                    _repository.AddOrder(order);
+                }
             }
-
-            return repository;
+            
+            return _repository;
         }
     }
 }
