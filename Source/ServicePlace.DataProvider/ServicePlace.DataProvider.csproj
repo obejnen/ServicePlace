@@ -56,7 +56,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServicePlace.Models\ServicePlace.Models.csproj">
+    <ProjectReference Include="..\ServicePlace.Models\ServicePlace.Models.csproj">
       <Project>{0fdb78b9-ebbc-4977-89ce-d32b1e14cbf4}</Project>
       <Name>ServicePlace.Models</Name>
     </ProjectReference>

@@ -45,13 +45,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServicePlace.Models\ServicePlace.Models.csproj">
-      <Project>{0fdb78b9-ebbc-4977-89ce-d32b1e14cbf4}</Project>
-      <Name>ServicePlace.Models</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ServicePlace.DataProvider\ServicePlace.DataProvider.csproj">
       <Project>{1a08ee36-c359-4c3b-837b-32f354cbad24}</Project>
       <Name>ServicePlace.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServicePlace.Models\ServicePlace.Models.csproj">
+      <Project>{0fdb78b9-ebbc-4977-89ce-d32b1e14cbf4}</Project>
+      <Name>ServicePlace.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
