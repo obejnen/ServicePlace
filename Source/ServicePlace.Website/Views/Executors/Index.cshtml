@@ -1,0 +1,10 @@
+﻿@model ExecutorRepository
+
+@{
+    Layout = "_Layout";
+}
+
+@foreach (var executor in Model.Executors)
+{
+    <partial name="/Views/Partials/_Executor.cshtml" for="@executor" />
+}

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecutorRepository.cs" />
+    <Compile Include="ExecutorSeeder.cs" />
     <Compile Include="OrderRepository.cs" />
     <Compile Include="OrderSeeder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
