@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ServicePlace.Website.Views.Partials
+namespace ServicePlace.Website.Views.Partials.Order
 {
-    public class _ExecutorModel : PageModel
+    public class OrderModel : PageModel
     {
         public void OnGet()
         {
