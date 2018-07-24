@@ -5,8 +5,7 @@ namespace ServicePlace.DataProvider.Models
 {
     public class Executor
     {
-        [Key]
-        [Required]
+        [Key, Required]
         public int Id { get; set; }
 
         [Required]

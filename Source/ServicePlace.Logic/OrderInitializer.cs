@@ -16,7 +16,7 @@ namespace ServicePlace.Logic
                 {
                     Order order = new Order
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = i,
                         Title = $"Order title #{i}",
                         Body = $"Order body #{i}"
                     };

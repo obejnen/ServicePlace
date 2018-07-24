@@ -17,7 +17,7 @@ namespace ServicePlace.Logic
                 {
                     var executor = new Executor
                     {
-                        Id = new Guid().ToString(),
+                        Id = i,
                         Title = $"Executor title #{i}",
                         Body = $"Executor body #{i}"
                     };

@@ -15,8 +15,8 @@ namespace ServicePlace.Website.Controllers
             return View(service);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        [HttpGet("{id:int}")]
+        public IActionResult Get(int id)
         {
             var order = service.GetOrder(id);
 

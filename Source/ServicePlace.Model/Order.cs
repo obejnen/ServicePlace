@@ -7,9 +7,8 @@ namespace ServicePlace.Model
     [Table("Orders")]
     public class Order
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [StringLength(200)]
         public string Title { get; set; }
         public string Body { get; set; }

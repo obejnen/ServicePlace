@@ -18,14 +18,14 @@ namespace ServicePlace.Logic
         }
 
         public List<Executor> Executors { get; }
-        public Executor GetExecutors(string id) => Executors.FirstOrDefault(x => x.Id == id);
+        public Executor GetExecutors(int id) => Executors.FirstOrDefault(x => x.Id == id);
 
         public void AddExecutor(Executor executor)
         {
-            executor.Id = Guid.NewGuid().ToString();
+            executor.Id = Executors.Last().Id + 1;
             Executors.Add(executor);
         }
 
-        public void RemoveExecutor(string id) => Executors.Remove(Executors.FirstOrDefault(x => x.Id == id));
+        public void RemoveExecutor(int id) => Executors.Remove(Executors.FirstOrDefault(x => x.Id == id));
     }
 }
