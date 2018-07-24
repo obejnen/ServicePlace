@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ServicePlace.ViewModels;
+using ServicePlace.Model;
 
 namespace ServicePlace.Logic
 {

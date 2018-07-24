@@ -48,18 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDbContext.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Models\Executor.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DbContexts\ExecutorContext.cs" />
+    <Compile Include="Repositories\ExecutorRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ServicePlace.ViewModels\ServicePlace.ViewModels.csproj">
-      <Project>{0fdb78b9-ebbc-4977-89ce-d32b1e14cbf4}</Project>
-      <Name>ServicePlace.ViewModels</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

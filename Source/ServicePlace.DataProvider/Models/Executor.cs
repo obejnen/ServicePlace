@@ -1,20 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServicePlace.ViewModels
+namespace ServicePlace.DataProvider.Models
 {
-    [Table("Departament")]
     public class Executor
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
-        [StringLength(200)]
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
         public string Title { get; set; }
+
+        [Required]
         public string Body { get; set; }
+
         public decimal Price { get; set; }
-        public string UserId { get; set; }
+
+        public int UserId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

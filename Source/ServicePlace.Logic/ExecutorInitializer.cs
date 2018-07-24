@@ -1,5 +1,5 @@
 ﻿using System;
-using ServicePlace.ViewModels;
+using ServicePlace.Model;
 using System.Collections.Generic;
 
 namespace ServicePlace.Logic

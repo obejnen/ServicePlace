@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ServicePlace.Logic\ServicePlace.Logic.csproj" />
-    <ProjectReference Include="..\ServicePlace.ViewModels\ServicePlace.ViewModels.csproj" />
+    <ProjectReference Include="..\ServicePlace.Model\ServicePlace.Model.csproj" />
   </ItemGroup>
 
 </Project>

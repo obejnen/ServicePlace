@@ -51,9 +51,9 @@
       <Project>{1a08ee36-c359-4c3b-837b-32f354cbad24}</Project>
       <Name>ServicePlace.DataProvider</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServicePlace.ViewModels\ServicePlace.ViewModels.csproj">
+    <ProjectReference Include="..\ServicePlace.Model\ServicePlace.Model.csproj">
       <Project>{0fdb78b9-ebbc-4977-89ce-d32b1e14cbf4}</Project>
-      <Name>ServicePlace.ViewModels</Name>
+      <Name>ServicePlace.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

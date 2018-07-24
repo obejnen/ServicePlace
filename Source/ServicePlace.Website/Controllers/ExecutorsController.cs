@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ServicePlace.Logic;
-using ServicePlace.ViewModels;
+using ServicePlace.Model;
 
 namespace ServicePlace.Website.Controllers
 {
