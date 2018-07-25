@@ -22,7 +22,6 @@ namespace ServicePlace.Logic
 
         public void AddExecutor(Executor executor)
         {
-            executor.Id = Executors.Last().Id + 1;
             Executors.Add(executor);
         }
 

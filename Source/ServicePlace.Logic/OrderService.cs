@@ -22,7 +22,6 @@ namespace ServicePlace.Logic
 
         public void AddOrder(Order order)
         {
-            order.Id = Orders.Last().Id + 1;
             Orders.Add(order);
         }
 

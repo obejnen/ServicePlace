@@ -1,15 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-ServicePlace.Website-B1FA2451-3F80-4A5E-9971-56A13EC3487B</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ServicePlace.DataProvider\ServicePlace.DataProvider.csproj" />
     <ProjectReference Include="..\ServicePlace.Logic\ServicePlace.Logic.csproj" />
     <ProjectReference Include="..\ServicePlace.Model\ServicePlace.Model.csproj" />
   </ItemGroup>
