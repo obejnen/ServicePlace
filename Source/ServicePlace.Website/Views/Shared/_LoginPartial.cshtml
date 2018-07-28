@@ -1,25 +1,18 @@
 @using Microsoft.AspNetCore.Identity
 @using ServicePlace.DataProvider.Models
 
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+@inject SignInManager<ServicePlace.DataProvider.Models.User> SignInManager
+@inject UserManager<ServicePlace.DataProvider.Models.User> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>Hello @UserManager.GetUserName(User)!
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
-            </li>
-        </ul>
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+        <input class="w3-button w3-padding-large w3-hide-small login-link" type="submit" value="LOG OUT" />
+        <a class="w3-button w3-padding-large w3-hide-small login-link">@UserManager.GetUserName(User)</a>
     </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
-    </ul>
+    <a class="w3-button w3-padding-large w3-hide-small login-link" asp-controller="Account" asp-action="Register">SIGN UP</a>
+    <a class="w3-button w3-padding-large w3-hide-small login-link" asp-controller="Account" asp-action="Login">SIGN IN</a>
 }

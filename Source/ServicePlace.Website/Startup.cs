@@ -19,37 +19,20 @@ namespace ServicePlace.Website
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, UserRole>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<User, UserRole>().AddDefaultTokenProviders();
             services.AddTransient<IUserStore<User>, UserStore>();
             services.AddTransient<IRoleStore<UserRole>, RoleStore>();
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.LoginPath = "/Login";
-                options.LogoutPath = "/Logout";
-            });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationContext context, SignInManager<User> s)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                if (s.UserManager.FindByNameAsync("dev").Result == null)
-                {
-                    var result = s.UserManager.CreateAsync(new User
-                    {
-                        UserName = "dev",
-                        Email = "dev@app.com"
-                    }, "Aut94L#G-a").Result;
-                }
             }
 
             app.UseAuthentication();

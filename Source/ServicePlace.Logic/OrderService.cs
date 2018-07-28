@@ -22,6 +22,7 @@ namespace ServicePlace.Logic
 
         public void AddOrder(Order order)
         {
+            order.CreatedAt = DateTime.Now;
             Orders.Add(order);
         }
 
