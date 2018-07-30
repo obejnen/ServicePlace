@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ServicePlace.DataProvider.Repositories;
 using ServicePlace.Model;
 
 namespace ServicePlace.Logic
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
-        public OrderService(List<Order> orders)
-        {
-            Orders = orders;
-        }
+        private readonly OrderRepository _orderRepository;
 
         public OrderService()
         {
-            Orders = new List<Order>();
+            _orderRepository = new OrderRepository();
         }
 
-        public List<Order> Orders { get; }
-        public Order GetOrder(int id) => Orders.FirstOrDefault(x => x.Id == id);
+        public IEnumerable<Order> Orders => _orderRepository.GetAllOrders();
 
         public void AddOrder(Order order)
         {
             order.CreatedAt = DateTime.Now;
-            Orders.Add(order);
+            _orderRepository.AddOrder(order);
         }
 
-        public void RemoveOrder(int id) => Orders.Remove(Orders.FirstOrDefault(x => x.Id == id));
+        public Order GetOrder(int id) => _orderRepository.GetOrder(id);
+
+        public void RemoveOrder(int id) => _orderRepository.RemoveOrder(id);
+
+        public void UpdateOrder(Order order) => _orderRepository.UpdateOrder(order);
     }
 }

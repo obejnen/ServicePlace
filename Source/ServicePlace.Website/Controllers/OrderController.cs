@@ -13,19 +13,20 @@ namespace ServicePlace.Website.Controllers
 {
     public class OrderController : BaseController
     {
-        private OrderService orderService = OrderInitializer.GetService(10);
+        private IOrderService orderService;
         private UserManager<User> userManager;
 
-        public OrderController(UserManager<User> userManager)
+        public OrderController(UserManager<User> userManager, IOrderService orderService)
         {
             this.userManager = userManager;
+            this.orderService = orderService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<List<ServicePlace.Model.Order>, List<PreviewViewModel>>());
-            var model = Mapper.Map<List<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders);           
+            Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>());
+            var model = Mapper.Map<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders);
             Mapper.Reset();
             return View(model);
         }
