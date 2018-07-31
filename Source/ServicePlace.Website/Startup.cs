@@ -25,8 +25,6 @@ namespace ServicePlace.Website
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new ContainerBuilder();
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             services.AddDbContext<ApplicationContext>();
             //services.AddIdentity<User, UserRole>().AddDefaultTokenProviders();
             services.AddIdentity<User, Role>()
@@ -37,9 +35,7 @@ namespace ServicePlace.Website
             services.AddTransient<IUserStore<User>, UserStore>();
             services.AddTransient<IRoleStore<Role>, RoleStore>();
 
-            services.AddTransient<DataProvider.Interfaces.IRolesRepository, DataProvider.Repositories.RolesRepository>();
-            services.AddTransient<DataProvider.Interfaces.IUsersRepository, DataProvider.Repositories.UsersRepository>();
-            services.AddTransient<DataProvider.Interfaces.IUsersRolesRepository, DataProvider.Repositories.UsersRolesRepository>();
+            services.AddRepositories();
 
             services.AddTransient<Logic.Interfaces.IRoleStore, Logic.Stores.RoleStore>();
             services.AddTransient<Logic.Interfaces.IUserStore, Logic.Stores.UserStore>();
