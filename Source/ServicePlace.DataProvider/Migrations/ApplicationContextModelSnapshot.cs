@@ -48,9 +48,8 @@ namespace ServicePlace.DataProvider.Migrations
 
             modelBuilder.Entity("ServicePlace.DataProvider.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -88,7 +87,8 @@ namespace ServicePlace.DataProvider.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("RoleId");
+                    b.Property<string>("RoleId")
+                        .IsRequired();
 
                     b.Property<string>("UserId")
                         .IsRequired();
@@ -113,12 +113,12 @@ namespace ServicePlace.DataProvider.Migrations
             modelBuilder.Entity("ServicePlace.DataProvider.Models.UserRole", b =>
                 {
                     b.HasOne("ServicePlace.DataProvider.Models.Role", "Role")
-                        .WithMany("UserRoles")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ServicePlace.DataProvider.Models.User", "User")
-                        .WithMany("UserRoles")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

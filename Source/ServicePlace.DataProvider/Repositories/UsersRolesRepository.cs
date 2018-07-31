@@ -10,7 +10,7 @@ using CommonModels = ServicePlace.Model;
 using DataModels = ServicePlace.DataProvider.Models;
 using ServicePlace.DataProvider.Interfaces;
 
-namespace DL.Repositories
+namespace ServicePlace.DataProvider.Repositories
 {
     public class UsersRolesRepository : IUsersRolesRepository
     {

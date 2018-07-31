@@ -3,7 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ServicePlace.Logic;
-using ServicePlace.DataProvider.Models;
+using ServicePlace.Model;
 using Microsoft.AspNetCore.Identity;
 using ServicePlace.Website.Models.OrderViewModels;
 using System.Threading.Tasks;

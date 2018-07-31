@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ServicePlace.DataProvider.Migrations
@@ -11,8 +12,7 @@ namespace ServicePlace.DataProvider.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -35,13 +35,36 @@ namespace ServicePlace.DataProvider.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatorId = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(maxLength: 256, nullable: false),
+                    Body = table.Column<string>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_User_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRole",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,6 +84,11 @@ namespace ServicePlace.DataProvider.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Order_CreatorId",
+                table: "Order",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",
                 table: "UserRole",
                 column: "RoleId");
@@ -73,6 +101,9 @@ namespace ServicePlace.DataProvider.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Order");
+
             migrationBuilder.DropTable(
                 name: "UserRole");
 

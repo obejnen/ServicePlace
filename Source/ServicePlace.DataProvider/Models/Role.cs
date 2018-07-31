@@ -13,6 +13,6 @@ namespace ServicePlace.DataProvider.Models
         [Required]
         public string Name { get; set; }
 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        //public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

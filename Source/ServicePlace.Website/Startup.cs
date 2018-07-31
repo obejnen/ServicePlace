@@ -9,6 +9,7 @@ using ServicePlace.Model;
 using ServicePlace.Logic.Stores;
 using ServicePlace.Logic;
 using Autofac;
+using AutoMapper;
 
 namespace ServicePlace.Website
 {
@@ -26,15 +27,29 @@ namespace ServicePlace.Website
             var builder = new ContainerBuilder();
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
             optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddMvc();
             services.AddDbContext<ApplicationContext>();
-            services.AddIdentity<User, UserRole>().AddDefaultTokenProviders();
+            //services.AddIdentity<User, UserRole>().AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>()
+                .AddUserManager<Infrastructure.UserManager>()
+                .AddSignInManager<Infrastructure.SignInManager>()
+                .AddRoleManager<Infrastructure.RoleManager>()
+                .AddDefaultTokenProviders();
             services.AddTransient<IUserStore<User>, UserStore>();
-            services.AddTransient<IRoleStore<UserRole>, RoleStore>();
-            services.AddScoped<IOrderService, OrderService>();
-            builder
-                .RegisterInstance(new OrderService())
-                .As<IOrderService>();
+            services.AddTransient<IRoleStore<Role>, RoleStore>();
+
+            services.AddTransient<DataProvider.Interfaces.IRolesRepository, DataProvider.Repositories.RolesRepository>();
+            services.AddTransient<DataProvider.Interfaces.IUsersRepository, DataProvider.Repositories.UsersRepository>();
+            services.AddTransient<DataProvider.Interfaces.IUsersRolesRepository, DataProvider.Repositories.UsersRolesRepository>();
+
+            services.AddTransient<Logic.Interfaces.IRoleStore, Logic.Stores.RoleStore>();
+            services.AddTransient<Logic.Interfaces.IUserStore, Logic.Stores.UserStore>();
+            services.AddMvc();
+            services.AddAutoMapper();
+
+            services.AddTransient<IOrderService, OrderService>();
+            //builder
+            //    .RegisterInstance(new OrderService())
+            //    .As<IOrderService>();
             //builder.Build();
         }
 
