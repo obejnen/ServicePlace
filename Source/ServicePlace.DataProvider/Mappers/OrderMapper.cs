@@ -15,8 +15,8 @@ namespace ServicePlace.DataProvider.Mappers
                 Title = model.Title,
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
-                Creator = creator,
-                CreatorId = creator.Id
+                Creator = creator
+                //CreatorId = creator.Id
             };
         }
 

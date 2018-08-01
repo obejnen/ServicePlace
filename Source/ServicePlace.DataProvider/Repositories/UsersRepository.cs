@@ -11,7 +11,7 @@ using ServicePlace.DataProvider.Interfaces;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class UsersRepository : IUsersRepository
+    public class UsersRepository : IUsersRepository<CommonModels.User, string, IdentityResult>
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;

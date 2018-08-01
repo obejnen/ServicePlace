@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using ServicePlace.Model;
-using Microsoft.AspNetCore.Identity;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IUsersRepository : IRepository<User, string, IdentityResult>
+    public interface IUsersRepository<T, TId, TResult> : IRepository<T, TId, TResult> where T : class
     {
         Task<User> FindByUserNameAsync(string userName);
 

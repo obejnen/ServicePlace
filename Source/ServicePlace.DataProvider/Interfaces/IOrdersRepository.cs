@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ServicePlace.Model;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IOrdersRepository<T1, T2, TResult> : IRepository<T1, T2, TResult> where T1 : class
+    public interface IOrdersRepository<T, TId, TResult> : IRepository<T, TId, TResult> where T : class
     {
-        Task<Order> FindByNameAsync(string name);
 
-        Task<IEnumerable<Order>> SearchByNameAsync(string name);
+        Task<IEnumerable<Order>> SearchAsync(string search);
 
-        Task<IEnumerable<Order>> Take(int count);
+        Task<IEnumerable<Order>> Take(int skip, int count);
     }
 }

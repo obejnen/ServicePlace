@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServicePlace.Common.Enums
+﻿namespace ServicePlace.Common.Enums
 {
-    class ResponseType
+    public enum ResponseType
     {
+        Success,
+        Failded
     }
 }

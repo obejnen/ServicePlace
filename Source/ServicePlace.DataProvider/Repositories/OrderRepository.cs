@@ -1,18 +1,14 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using System.Linq;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DataModels = ServicePlace.DataProvider.Models;
 using CommonModels = ServicePlace.Model;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.Common.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServicePlace.DataProvider.Repositories
 {
@@ -35,57 +31,101 @@ namespace ServicePlace.DataProvider.Repositories
             //Mapper.Initialize(cfg => cfg.CreateMap<List<DataModels.Order>, List<CommonModels.Order>>());
             //var collection =
             //    Mapper.Map<List<DataModels.Order>, List<CommonModels.Order>>(_context.Orders.ToList());
-            var list = _context.Orders.Select(x => _mapper.MapToCommonModel(x)).ToList();
+            var list = _context.Orders.Include(x => x.Creator).Select(x => _mapper.MapToCommonModel(x)).ToList();
             return Task.FromResult(_autoMapper.Map<IEnumerable<CommonModels.Order>>(list));
         }
 
         public Task<ResponseType> CreateAsync(CommonModels.Order model, CancellationToken cancellationToken)
         {
             var order = _mapper.MapToDataModel(model);
-            _context.Orders.Add(order);
+            _context.Orders.AddAsync(order, cancellationToken);
             return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
                 ? ResponseType.Success
                 : ResponseType.Failded);
         }
 
-    public void AddOrder(CommonModels.Order order)
+        public Task<ResponseType> DeleteAsync(CommonModels.Order model, CancellationToken cancellationToken)
         {
-            //Mapper.Reset();
-            //Mapper.Initialize(cfg => cfg.CreateMap<CommonModels.Order, DataModels.Order>());
-            //var model = Mapper.Map<CommonModels.Order, DataModels.Order>(order);
-            var model = _mapper.MapToDataModel(order);
-            _context.Orders.Add(model);
-            _context.SaveChanges();
+            var order = _mapper.MapToDataModel(model);
+            _context.Orders.Remove(order);
+            return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
+                ? ResponseType.Success
+                : ResponseType.Failded);
         }
 
-        public void RemoveOrder(int id)
+        public Task<ResponseType> UpdateAsync(CommonModels.Order model, CancellationToken cancellationToken)
         {
-            _context.Orders.Remove(_context.Orders.FirstOrDefault(order => order.Id == id));
-            _context.SaveChanges();
+            var newOrder = _mapper.MapToDataModel(model);
+            var order = _context.Orders.FirstOrDefault(x => x.Id == newOrder.Id);
+            order = newOrder;
+            return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
+                ? ResponseType.Success
+                : ResponseType.Failded);
         }
 
-        public void UpdateOrder(CommonModels.Order newOrder)
+        public Task<CommonModels.Order> FindByIdAsync(int id)
         {
-            var order = _context.Orders.FirstOrDefault(ord => ord.Id == newOrder.Id);
-            Mapper.Reset();
-            Mapper.Initialize(cfg => cfg.CreateMap<CommonModels.Order, DataModels.Order>());
-            var updatedOrder = Mapper.Map<CommonModels.Order, DataModels.Order>(newOrder);
-            order = updatedOrder;
-            _context.SaveChanges();
+            var order = _context.Orders.Find(id);
+            return Task.FromResult(_mapper.MapToCommonModel(order));
         }
 
-        public CommonModels.Order GetOrder(int id)
+        public Task<IEnumerable<CommonModels.Order>> SearchAsync(string search)
         {
-            var model = _context.Orders.FirstOrDefault(ord => ord.Id == id);
-            CommonModels.Order order = null;
-            if(model != null)
-            {
-                Mapper.Initialize(cfg => cfg.CreateMap<DataModels.Order, CommonModels.Order>());
-                order = Mapper.Map<DataModels.Order, CommonModels.Order>(model);
-                Mapper.Reset();
-            }
-
-            return order;
+            var orders = _context.Orders.Where(x => x.Title.Contains(search) || x.Body.Contains(search));
+            return Task.FromResult(
+                _autoMapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x))));
         }
+
+        public Task<IEnumerable<CommonModels.Order>> Take(int skip, int count)
+        {
+            var orders = _context.Orders.Skip(skip).Take(count);
+            return Task.FromResult(
+                _autoMapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x))));
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+
+    //public void AddOrder(CommonModels.Order order)
+    //    {
+    //        //Mapper.Reset();
+    //        //Mapper.Initialize(cfg => cfg.CreateMap<CommonModels.Order, DataModels.Order>());
+    //        //var model = Mapper.Map<CommonModels.Order, DataModels.Order>(order);
+    //        var model = _mapper.MapToDataModel(order);
+    //        _context.Orders.Add(model);
+    //        _context.SaveChanges();
+    //    }
+
+    //    public void RemoveOrder(int id)
+    //    {
+    //        _context.Orders.Remove(_context.Orders.FirstOrDefault(order => order.Id == id));
+    //        _context.SaveChanges();
+    //    }
+
+    //    public void UpdateOrder(CommonModels.Order newOrder)
+    //    {
+    //        var order = _context.Orders.FirstOrDefault(ord => ord.Id == newOrder.Id);
+    //        Mapper.Reset();
+    //        Mapper.Initialize(cfg => cfg.CreateMap<CommonModels.Order, DataModels.Order>());
+    //        var updatedOrder = Mapper.Map<CommonModels.Order, DataModels.Order>(newOrder);
+    //        order = updatedOrder;
+    //        _context.SaveChanges();
+    //    }
+
+    //    public CommonModels.Order GetOrder(int id)
+    //    {
+    //        var model = _context.Orders.FirstOrDefault(ord => ord.Id == id);
+    //        CommonModels.Order order = null;
+    //        if(model != null)
+    //        {
+    //            Mapper.Initialize(cfg => cfg.CreateMap<DataModels.Order, CommonModels.Order>());
+    //            order = Mapper.Map<DataModels.Order, CommonModels.Order>(model);
+    //            Mapper.Reset();
+    //        }
+
+    //        return order;
+    //    }
     }
 }

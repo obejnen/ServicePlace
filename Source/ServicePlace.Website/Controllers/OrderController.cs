@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using ServicePlace.Website.Models.OrderViewModels;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -15,26 +16,29 @@ namespace ServicePlace.Website.Controllers
     {
         private IOrderService orderService;
         private UserManager<User> userManager;
+        private readonly IMapper _mapper;
 
-        public OrderController(UserManager<User> userManager, IOrderService orderService)
+        public OrderController(UserManager<User> userManager, IOrderService orderService, IMapper mapper)
         {
             this.userManager = userManager;
             this.orderService = orderService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>());
-            var model = Mapper.Map<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders);
-            Mapper.Reset();
+            //Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>());
+            //var model = Mapper.Map<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders.Result);
+            //Mapper.Reset();
+            var model = _mapper.Map<IEnumerable<PreviewViewModel>>(orderService.Orders.Result);
             return View(model);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            var order = orderService.GetOrder(id);
+            var order = orderService.FindByIdAsync(id).Result;
 
             Mapper.Initialize(cfg => cfg.CreateMap<ServicePlace.Model.Order, ShowViewModel>()
                 .ForMember("CreatedAt", opt => opt.MapFrom(src => src.CreatedAt.ToString())));
@@ -71,11 +75,11 @@ namespace ServicePlace.Website.Controllers
                     Body = model.Body,
                     Creator = userManager.GetUserAsync(User).Result
                 };
-                orderService.AddOrder(order);
-                return RedirectToLocal($"Order/{orderService.Orders.Last().Id}");
+                orderService.CreateAsync(order, new CancellationToken());
+                return RedirectToLocal($"Order/{orderService.Orders.Result.Last().Id}");
             }
 
-            return View("Get", orderService.Orders.Last());
+            return View("Get", orderService.Orders.Result.Last());
         }
     }
 }

@@ -190,6 +190,10 @@
     <Compile Include="Stores\UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ServicePlace.Common\ServicePlace.Common.csproj">
+      <Project>{676F48D5-A911-415E-84DD-FA66379AC170}</Project>
+      <Name>ServicePlace.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServicePlace.DataProvider\ServicePlace.DataProvider.csproj">
       <Project>{1a08ee36-c359-4c3b-837b-32f354cbad24}</Project>
       <Name>ServicePlace.DataProvider</Name>

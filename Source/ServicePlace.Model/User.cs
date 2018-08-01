@@ -12,6 +12,6 @@ namespace ServicePlace.Model
 
         public string Email { get; set; }
 
-        //public virtual ICollection<UserRole> UserRoles { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

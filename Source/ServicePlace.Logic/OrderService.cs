@@ -1,32 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using ServicePlace.DataProvider.Repositories;
+using System.Threading;
+using System.Threading.Tasks;
+using ServicePlace.Common.Enums;
+using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model;
 
 namespace ServicePlace.Logic
 {
     public class OrderService : IOrderService
     {
-        private readonly OrderRepository _orderRepository;
+        private readonly IOrdersRepository<Order, int, ResponseType> _ordersRepository;
 
-        public OrderService()
+        public OrderService(IOrdersRepository<Order, int, ResponseType> ordersRepository)
         {
-            _orderRepository = new OrderRepository();
+            _ordersRepository = ordersRepository;
         }
 
-        public IEnumerable<Order> Orders => _orderRepository.GetAllOrders();
+        public Task<IEnumerable<Order>> Orders => _ordersRepository.GetAll();
 
-        public void AddOrder(Order order)
+        public Task<ResponseType> CreateAsync(Order order, CancellationToken cancellationToken)
         {
             order.CreatedAt = DateTime.Now;
-            _orderRepository.AddOrder(order);
+            return _ordersRepository.CreateAsync(order, cancellationToken);
         }
 
-        public Order GetOrder(int id) => _orderRepository.GetOrder(id);
+        public Task<ResponseType> DeleteAsync(Order order, CancellationToken cancellationToken)
+        {
+            return _ordersRepository.DeleteAsync(order, cancellationToken);
+        }
 
-        public void RemoveOrder(int id) => _orderRepository.RemoveOrder(id);
+        public Task<ResponseType> UpdateAsync(Order order, CancellationToken cancellationToken)
+        {
+            return _ordersRepository.UpdateAsync(order, cancellationToken);
+        }
 
-        public void UpdateOrder(Order order) => _orderRepository.UpdateOrder(order);
+        public Task<Order> FindByIdAsync(int id)
+        {
+            return _ordersRepository.FindByIdAsync(id);
+        }
+
+        public Task<IEnumerable<Order>> SearchAsync(string search)
+        {
+            return _ordersRepository.SearchAsync(search);
+        }
+
+        public Task<IEnumerable<Order>> TakeAsync(int skip, int count)
+        {
+            return _ordersRepository.Take(skip, count);
+        }
     }
 }

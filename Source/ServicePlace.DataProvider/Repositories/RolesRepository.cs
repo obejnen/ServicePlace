@@ -11,7 +11,7 @@ using CommonModels = ServicePlace.Model;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class RolesRepository : IRolesRepository
+    public class RolesRepository : IRolesRepository<CommonModels.Role, string, IdentityResult>
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;

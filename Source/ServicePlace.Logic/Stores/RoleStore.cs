@@ -11,9 +11,9 @@ namespace ServicePlace.Logic.Stores
 {
     public class RoleStore : IQueryableRoleStore<Role>, IRoleStore
     {
-        private readonly IRolesRepository _rolesRepository;
+        private readonly IRolesRepository<Role, string, IdentityResult> _rolesRepository;
 
-        public RoleStore(IRolesRepository rolesRepository)
+        public RoleStore(IRolesRepository<Role, string, IdentityResult> rolesRepository)
         {
             _rolesRepository = rolesRepository;
         }

@@ -12,9 +12,9 @@ namespace ServicePlace.Logic.Stores
 {
     public class UserStore : IUserStore<User>, IUserPasswordStore<User>, IUserStore
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUsersRepository<User, string, IdentityResult> _usersRepository;
 
-        public UserStore(IUsersRepository usersRepository, IMapper mapper)
+        public UserStore(IUsersRepository<User, string, IdentityResult> usersRepository, IMapper mapper)
         {
             _usersRepository = usersRepository;
         }

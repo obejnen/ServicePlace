@@ -5,17 +5,17 @@ using Microsoft.AspNet.Identity;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IRepository<T1, T2, TResult> where T1 : class
+    public interface IRepository<T, TId, TResult> where T : class
     {
-        Task<TResult> CreateAsync(T1 model, CancellationToken cancellationToken);
+        Task<TResult> CreateAsync(T model, CancellationToken cancellationToken);
 
-        Task<TResult> DeleteAsync(T1 model, CancellationToken cancellationToken);
+        Task<TResult> DeleteAsync(T model, CancellationToken cancellationToken);
 
-        Task<TResult> UpdateAsync(T1 model, CancellationToken cancellationToken);
+        Task<TResult> UpdateAsync(T model, CancellationToken cancellationToken);
 
-        Task<T1> FindByIdAsync(T2 id);
+        Task<T> FindByIdAsync(TId id);
 
-        Task<IEnumerable<T1>> GetAll();
+        Task<IEnumerable<T>> GetAll();
 
         void Dispose();
     }

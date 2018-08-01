@@ -10,7 +10,7 @@ using ServicePlace.DataProvider.DbContexts;
 namespace ServicePlace.DataProvider.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180731111908_Initial")]
+    [Migration("20180801105843_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,31 +97,14 @@ namespace ServicePlace.DataProvider.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("ServicePlace.DataProvider.Models.Order", b =>
                 {
                     b.HasOne("ServicePlace.DataProvider.Models.User", "Creator")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ServicePlace.DataProvider.Models.UserRole", b =>
-                {
-                    b.HasOne("ServicePlace.DataProvider.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ServicePlace.DataProvider.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

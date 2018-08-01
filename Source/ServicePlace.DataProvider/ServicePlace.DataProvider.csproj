@@ -243,9 +243,9 @@
     <Compile Include="Interfaces\IUsersRolesRepository.cs" />
     <Compile Include="Mappers\OrderMapper.cs" />
     <Compile Include="Mappers\UserMapper.cs" />
-    <Compile Include="Migrations\20180731111908_Initial.cs" />
-    <Compile Include="Migrations\20180731111908_Initial.designer.cs">
-      <DependentUpon>20180731111908_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\20180801105843_Initial.cs" />
+    <Compile Include="Migrations\20180801105843_Initial.designer.cs">
+      <DependentUpon>20180801105843_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
     <Compile Include="Models\Order.cs" />
