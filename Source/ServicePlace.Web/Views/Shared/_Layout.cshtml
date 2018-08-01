@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepickerfrom").datepicker();
+            $("#datepickerto").datepicker();
+        });
+    </script>
+    <title>Service Place</title>
+</head>
+<body>
+<div class="w3-top">
+    <div class="w3-bar w3-black w3-card">
+        <a class="w3-bar-item w3-button w3-padding-large" asp-controller="Home" asp-action="Index">HOME</a>
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Order" asp-action="Index">ORDERS</a>
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Executor" asp-action="Index">EXECUTORS</a>
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Order" asp-action="Create">NEED SERVICE</a>
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Executor" asp-action="Create">PROVIDE SERVICE</a>
+        <partial name="_LoginPartial" />
+    </div>
+</div>
+<div class="main">
+    @RenderBody()
+</div>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

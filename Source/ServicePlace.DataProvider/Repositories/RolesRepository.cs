@@ -25,7 +25,7 @@ namespace ServicePlace.DataProvider.Repositories
         public Task<IdentityResult> CreateAsync(CommonModels.Role role, CancellationToken cancellationToken)
         {
             var model = _mapper.Map<DataModels.Role>(role);
-            _context.Add(model);
+            _context.Roles.Add(model);
             return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
                 ? IdentityResult.Success
                 : IdentityResult.Failed(new IdentityError
@@ -38,7 +38,7 @@ namespace ServicePlace.DataProvider.Repositories
         public Task<IdentityResult> DeleteAsync(CommonModels.Role role, CancellationToken cancellationToken)
         {
             var model = _mapper.Map<DataModels.Role>(role);
-            _context.Remove(model);
+            _context.Roles.Remove(model);
             return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
                 ? IdentityResult.Success
                 : IdentityResult.Failed(new IdentityError

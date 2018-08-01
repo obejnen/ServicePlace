@@ -8,7 +8,7 @@ using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.Common.Enums;
-using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 
 namespace ServicePlace.DataProvider.Repositories
 {
@@ -38,7 +38,7 @@ namespace ServicePlace.DataProvider.Repositories
         public Task<ResponseType> CreateAsync(CommonModels.Order model, CancellationToken cancellationToken)
         {
             var order = _mapper.MapToDataModel(model);
-            _context.Orders.AddAsync(order, cancellationToken);
+            _context.Orders.Add(order);
             return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
                 ? ResponseType.Success
                 : ResponseType.Failded);
