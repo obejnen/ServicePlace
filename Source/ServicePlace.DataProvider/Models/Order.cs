@@ -12,7 +12,6 @@ namespace ServicePlace.DataProvider.Models
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; }
 
         [Required]
@@ -26,6 +25,7 @@ namespace ServicePlace.DataProvider.Models
 
         public DateTime UpdatedAt { get; set; }
 
+        [ForeignKey(nameof(CreatorId))]
         public virtual User Creator { get; set; }
     }
 }

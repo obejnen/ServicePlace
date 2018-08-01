@@ -3,37 +3,42 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ServicePlace.Logic;
-using ServicePlace.DataProvider.Models;
+using ServicePlace.Model;
 using Microsoft.AspNetCore.Identity;
 using ServicePlace.Website.Models.OrderViewModels;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ServicePlace.Website.Controllers
 {
     public class OrderController : BaseController
     {
-        private OrderService orderService = OrderInitializer.GetService(10);
+        private IOrderService orderService;
         private UserManager<User> userManager;
+        private readonly IMapper _mapper;
 
-        public OrderController(UserManager<User> userManager)
+        public OrderController(UserManager<User> userManager, IOrderService orderService, IMapper mapper)
         {
             this.userManager = userManager;
+            this.orderService = orderService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<List<ServicePlace.Model.Order>, List<PreviewViewModel>>());
-            var model = Mapper.Map<List<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders);           
-            Mapper.Reset();
+            //Mapper.Initialize(cfg => cfg.CreateMap<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>());
+            //var model = Mapper.Map<IEnumerable<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders.Result);
+            //Mapper.Reset();
+            var model = _mapper.Map<IEnumerable<PreviewViewModel>>(orderService.Orders.Result);
             return View(model);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            var order = orderService.GetOrder(id);
+            var order = orderService.FindByIdAsync(id).Result;
 
             Mapper.Initialize(cfg => cfg.CreateMap<ServicePlace.Model.Order, ShowViewModel>()
                 .ForMember("CreatedAt", opt => opt.MapFrom(src => src.CreatedAt.ToString())));
@@ -60,15 +65,21 @@ namespace ServicePlace.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                Mapper.Initialize(cfg => cfg.CreateMap<CreateViewModel, ServicePlace.Model.Order>()
-                    .ForMember("Creator", opt => opt.UseValue(userManager.GetUserName(User))));
-                var order = Mapper.Map<CreateViewModel, ServicePlace.Model.Order>(model);
-                Mapper.Reset();
-                orderService.AddOrder(order);
-                return RedirectToLocal($"Order/{orderService.Orders.Last().Id}");
+                //Mapper.Initialize(cfg => cfg.CreateMap<CreateViewModel, ServicePlace.Model.Order>()
+                //    .ForMember("Creator", opt => opt.UseValue(userManager.GetUserAsync(User))));
+                //var order = Mapper.Map<CreateViewModel, ServicePlace.Model.Order>(model);
+                //Mapper.Reset();
+                var order = new Order
+                {
+                    Title = model.Title,
+                    Body = model.Body,
+                    Creator = userManager.GetUserAsync(User).Result
+                };
+                orderService.CreateAsync(order, new CancellationToken());
+                return RedirectToLocal($"Order/{orderService.Orders.Result.Last().Id}");
             }
 
-            return View("Get", orderService.Orders.Last());
+            return View("Get", orderService.Orders.Result.Last());
         }
     }
 }

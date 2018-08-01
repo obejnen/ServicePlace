@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ServicePlace.DataProvider.DbContexts;
-using ServicePlace.DataProvider.Models;
+using ServicePlace.Model;
 using ServicePlace.Logic.Stores;
+using ServicePlace.Logic;
+using Autofac;
+using AutoMapper;
 
 namespace ServicePlace.Website
 {
@@ -21,11 +23,23 @@ namespace ServicePlace.Website
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, UserRole>().AddDefaultTokenProviders();
+            var builder = new ContainerBuilder();
+            services.AddIdentity<User, Role>()
+                .AddUserManager<Infrastructure.UserManager>()
+                .AddSignInManager<Infrastructure.SignInManager>()
+                .AddRoleManager<Infrastructure.RoleManager>()
+                .AddDefaultTokenProviders();
             services.AddTransient<IUserStore<User>, UserStore>();
-            services.AddTransient<IRoleStore<UserRole>, RoleStore>();
+            services.AddTransient<IRoleStore<Role>, RoleStore>();
+
+            services.AddRepositories();
+
+            services.AddTransient<Logic.Interfaces.IRoleStore, RoleStore>();
+            services.AddTransient<Logic.Interfaces.IUserStore, UserStore>();
+            services.AddMvc();
+            services.AddAutoMapper();
+
+            services.AddTransient<IOrderService, OrderService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

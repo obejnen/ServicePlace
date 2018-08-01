@@ -1,4 +1,6 @@
-﻿namespace ServicePlace.Model
+﻿using System.Collections.Generic;
+
+namespace ServicePlace.Model
 {
     public class User
     {
@@ -10,6 +12,6 @@
 
         public string Email { get; set; }
 
-        //public virtual ICollection<UserRole> UserRoles { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

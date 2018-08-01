@@ -19,6 +19,6 @@ namespace ServicePlace.DataProvider.Models
         [Required, MaxLength(128)]
         public string Email { get; set; }
 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }
 }

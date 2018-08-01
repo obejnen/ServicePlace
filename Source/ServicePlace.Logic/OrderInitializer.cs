@@ -11,28 +11,28 @@ namespace ServicePlace.Logic
         {
             if (_service == null)
             {
-                _service = new OrderService(new List<Order>());
-                for (int i = 1; i <= count; i++)
-                {
-                    Order order = new Order
-                    {
-                        Id = i,
-                        Title = $"Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl",
-                        Body = $"Order body #{i}" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
-                        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl"
-                    };
-                    _service.AddOrder(order);
-                }
+                //_service = new OrderService(new List<Order>());
+                //for (int i = 1; i <= count; i++)
+                //{
+                //    Order order = new Order
+                //    {
+                //        Id = i,
+                //        Title = $"Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl",
+                //        Body = $"Order body #{i}" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl" +
+                //        "Order title #{i}ahlfsdajfksadjlkfjsdalkfjdaslkfjds klafjdsl asdlkf jsdakl jfkldasj flkdsjfkldsjflkdsajf lksdjf lksd jfl"
+                //    };
+                //    _service.AddOrder(order);
+                //}
             }
             
             return _service;

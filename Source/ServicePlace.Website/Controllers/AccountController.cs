@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ServicePlace.Website.Models.AccountViewModels;
-using ServicePlace.DataProvider.Models;
+using ServicePlace.Model;
 
 namespace ServicePlace.Website.Controllers
 {

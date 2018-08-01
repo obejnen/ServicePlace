@@ -1,8 +1,8 @@
 @using Microsoft.AspNetCore.Identity
-@using ServicePlace.DataProvider.Models
+@using ServicePlace.Model
 
-@inject SignInManager<ServicePlace.DataProvider.Models.User> SignInManager
-@inject UserManager<ServicePlace.DataProvider.Models.User> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {

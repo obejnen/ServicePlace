@@ -1,119 +1,293 @@
 ﻿using System;
+using AutoMapper;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
-using ServicePlace.DataProvider.DbContexts;
-using ServicePlace.DataProvider.Models;
+using ServicePlace.DataProvider.Interfaces;
+using ServicePlace.Model;
+using ServicePlace.Logic.Interfaces;
 
 namespace ServicePlace.Logic.Stores
 {
-    public class UserStore : IUserStore<User>, IUserPasswordStore<User>
+    public class UserStore : IUserStore<User>, IUserPasswordStore<User>, IUserStore
     {
-        private readonly ApplicationContext _context;
+        private readonly IUsersRepository<User, string, IdentityResult> _usersRepository;
 
-        public UserStore(ApplicationContext context)
+        public UserStore(IUsersRepository<User, string, IdentityResult> usersRepository, IMapper mapper)
         {
-            _context = context;
+            _usersRepository = usersRepository;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public IQueryable<User> Users => _usersRepository.GetAll().Result.AsQueryable();
 
-        protected virtual void Dispose(bool disposing)
+        IQueryable<User> IUserStore.Users() => Users;
+
+        public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            if (disposing)
+            if (user == null)
             {
-                _context?.Dispose();
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
             }
+
+            return _usersRepository.CreateAsync(user, cancellationToken);
         }
 
-        public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
+        public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
         {
-            return Task.FromResult(user.Id.ToString());
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            return _usersRepository.DeleteAsync(user, cancellationToken);
         }
 
-        public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+        public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            return Task.FromResult(user.UserName);
+            cancellationToken.ThrowIfCancellationRequested();
+            return _usersRepository.FindByIdAsync(userId);
         }
 
-        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        public Task<User> FindByNameAsync(string userName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(nameof(SetUserNameAsync));
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException(nameof(userName), "Parameter normalizedUserName cannot be null or empty.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return _usersRepository.FindByUserNameAsync(userName);
         }
 
-        public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+        public Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(nameof(GetNormalizedUserNameAsync));
-        }
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException(nameof(email), "Parameter normalizedUserName cannot be null or empty.");
+            }
 
-        public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
-        {
-            return Task.FromResult((object)null);
-        }
-
-        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
-        {
-            _context.Add(user);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return await Task.FromResult(IdentityResult.Success);
+            cancellationToken.ThrowIfCancellationRequested();
+            return _usersRepository.FindByEmailAsync(email);
         }
 
         public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(nameof(UpdateAsync));
-        }
-
-        public async Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
-        {
-            _context.Remove(user);
-
-            int i = await _context.SaveChangesAsync(cancellationToken);
-
-            return await Task.FromResult(i == 1 ? IdentityResult.Success : IdentityResult.Failed());
-        }
-
-        public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
-        {
-            if (int.TryParse(userId, out int id))
+            if (user == null)
             {
-                return await _context.Users.FindAsync(id);
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
             }
-            else
-            {
-                return await Task.FromResult((User)null);
-            }
+
+            return _usersRepository.UpdateAsync(user, cancellationToken);
         }
 
-        public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public void Dispose()
         {
-            return await _context.Users
-                           .AsAsyncEnumerable()
-                           .SingleOrDefault(p => p.UserName.Equals(normalizedUserName, StringComparison.OrdinalIgnoreCase), cancellationToken);
+            _usersRepository.Dispose();
+        }
+
+        public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(user.Id);
+        }
+
+        public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task SetNormalizedUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException(nameof(userName), "Parameter userName cannot be null or empty.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            user.UserName = userName;
+            return Task.FromResult<object>(null);
+        }
+
+        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException(nameof(userName), "Parameter userName cannot be null or empty.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            user.UserName = userName;
+            return Task.FromResult<object>(null);
         }
 
         public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
         {
-            user.PasswordHash = passwordHash;
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
 
-            return Task.FromResult((object)null);
+            if (string.IsNullOrEmpty(passwordHash))
+            {
+                throw new ArgumentNullException(nameof(passwordHash), "Parameter passwordHash cannot be null or empty.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            user.PasswordHash = passwordHash;
+            return Task.FromResult<object>(null);
         }
 
         public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(user.PasswordHash);
         }
 
         public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
         {
-            return Task.FromResult(!string.IsNullOrWhiteSpace(user.PasswordHash));
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "Parameter user is not set to an instance of an object.");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
         }
+
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
+
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        _context?.Dispose();
+        //    }
+        //}
+
+        //public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    return Task.FromResult(user.Id.ToString());
+        //}
+
+        //public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    return Task.FromResult(user.UserName);
+        //}
+
+        //public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException(nameof(SetUserNameAsync));
+        //}
+
+        //public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException(nameof(GetNormalizedUserNameAsync));
+        //}
+
+        //public Task SetNormalizedUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        //{
+        //    return Task.FromResult((object)null);
+        //}
+
+        //public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    _context.Add(user);
+
+        //    await _context.SaveChangesAsync(cancellationToken);
+
+        //    return await Task.FromResult(IdentityResult.Success);
+        //}
+
+        //public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException(nameof(UpdateAsync));
+        //}
+
+        //public async Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    _context.Remove(user);
+
+        //    int i = await _context.SaveChangesAsync(cancellationToken);
+
+        //    return await Task.FromResult(i == 1 ? IdentityResult.Success : IdentityResult.Failed());
+        //}
+
+        //public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        //{
+        //    if (int.TryParse(userId, out int id))
+        //    {
+        //        return await _context.Users.FindAsync(id);
+        //    }
+        //    else
+        //    {
+        //        return await Task.FromResult((User)null);
+        //    }
+        //}
+
+        //public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        //{
+        //    return await _context.Users
+        //                   .AsAsyncEnumerable()
+        //                   .SingleOrDefault(p => p.UserName.Equals(normalizedUserName, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        //}
+
+        //public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
+        //{
+        //    user.PasswordHash = passwordHash;
+
+        //    return Task.FromResult((object)null);
+        //}
+
+        //public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    return Task.FromResult(user.PasswordHash);
+        //}
+
+        //public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+        //{
+        //    return Task.FromResult(!string.IsNullOrWhiteSpace(user.PasswordHash));
+        //}
     }
 }
