@@ -60,6 +60,12 @@ namespace ServicePlace.DataProvider.Repositories
             return Task.FromResult(_mapper.Map<CommonModels.User>(model));
         }
 
+        public Task<CommonModels.User> FindByNameAsync(string name)
+        {
+            var model = _context.Users.FirstOrDefault(x => x.UserName == name);
+            return Task.FromResult(_mapper.Map<CommonModels.User>(model));
+        }
+
         public Task<CommonModels.User> FindByEmailAsync(string email)
         {
             var model = _context.Users.FirstOrDefault(x => x.Email == email);
@@ -80,7 +86,7 @@ namespace ServicePlace.DataProvider.Repositories
                 }));
         }
 
-        public Task<IEnumerable<CommonModels.User>> GetAllUsers()
+        public Task<IEnumerable<CommonModels.User>> GetAll()
         {
             return Task.FromResult(_mapper.Map<IEnumerable<CommonModels.User>>(_context.Users));
         }

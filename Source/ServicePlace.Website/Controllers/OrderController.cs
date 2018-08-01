@@ -61,10 +61,16 @@ namespace ServicePlace.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                Mapper.Initialize(cfg => cfg.CreateMap<CreateViewModel, ServicePlace.Model.Order>()
-                    .ForMember("Creator", opt => opt.UseValue(userManager.GetUserName(User))));
-                var order = Mapper.Map<CreateViewModel, ServicePlace.Model.Order>(model);
-                Mapper.Reset();
+                //Mapper.Initialize(cfg => cfg.CreateMap<CreateViewModel, ServicePlace.Model.Order>()
+                //    .ForMember("Creator", opt => opt.UseValue(userManager.GetUserAsync(User))));
+                //var order = Mapper.Map<CreateViewModel, ServicePlace.Model.Order>(model);
+                //Mapper.Reset();
+                var order = new Order
+                {
+                    Title = model.Title,
+                    Body = model.Body,
+                    Creator = userManager.GetUserAsync(User).Result
+                };
                 orderService.AddOrder(order);
                 return RedirectToLocal($"Order/{orderService.Orders.Last().Id}");
             }

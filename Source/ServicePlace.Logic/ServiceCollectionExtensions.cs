@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ServicePlace.DataProvider.DbContexts;
+using ServicePlace.Model;
 
 namespace ServicePlace.Logic
 {

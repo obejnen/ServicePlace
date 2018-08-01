@@ -19,7 +19,7 @@ namespace ServicePlace.Logic.Stores
             _usersRepository = usersRepository;
         }
 
-        public IQueryable<User> Users => _usersRepository.GetAllUsers().Result.AsQueryable();
+        public IQueryable<User> Users => _usersRepository.GetAll().Result.AsQueryable();
 
         IQueryable<User> IUserStore.Users() => Users;
 

@@ -234,9 +234,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContexts\ApplicationContext.cs" />
+    <Compile Include="EntityConverters\IntTypeConverter.cs" />
+    <Compile Include="EntityConverters\StringTypeConverter.cs" />
+    <Compile Include="Interfaces\IOrdersRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IRolesRepository.cs" />
     <Compile Include="Interfaces\IUsersRepository.cs" />
     <Compile Include="Interfaces\IUsersRolesRepository.cs" />
+    <Compile Include="Mappers\OrderMapper.cs" />
+    <Compile Include="Mappers\UserMapper.cs" />
     <Compile Include="Migrations\20180731111908_Initial.cs" />
     <Compile Include="Migrations\20180731111908_Initial.designer.cs">
       <DependentUpon>20180731111908_Initial.cs</DependentUpon>
@@ -245,7 +251,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserRoles.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\RolesRepository.cs" />
@@ -257,6 +263,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ServicePlace.Common\ServicePlace.Common.csproj">
+      <Project>{676f48d5-a911-415e-84dd-fa66379ac170}</Project>
+      <Name>ServicePlace.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServicePlace.Model\ServicePlace.Model.csproj">
       <Project>{0fdb78b9-ebbc-4977-89ce-d32b1e14cbf4}</Project>
       <Name>ServicePlace.Model</Name>

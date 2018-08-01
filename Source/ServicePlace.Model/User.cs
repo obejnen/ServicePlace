@@ -1,4 +1,6 @@
-﻿namespace ServicePlace.Model
+﻿using System.Collections.Generic;
+
+namespace ServicePlace.Model
 {
     public class User
     {

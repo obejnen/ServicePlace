@@ -18,7 +18,7 @@ namespace ServicePlace.Logic.Stores
             _rolesRepository = rolesRepository;
         }
 
-        public IQueryable<Role> Roles => _rolesRepository.GetAllRoles().Result.AsQueryable();
+        public IQueryable<Role> Roles => _rolesRepository.GetAll().Result.AsQueryable();
 
         IQueryable<Role> IRoleStore.Roles() => Roles;
 

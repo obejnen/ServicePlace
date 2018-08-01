@@ -14,8 +14,5 @@ namespace ServicePlace.DataProvider.Models
 
         [Required, ForeignKey(nameof(Role))]
         public string RoleId { get; set; }
-
-        public virtual Role Role { get; set; }
-        public virtual User User { get; set; }
     }
 }

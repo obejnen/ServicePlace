@@ -63,19 +63,19 @@ namespace ServicePlace.DataProvider.Repositories
                 }));
         }
 
-        public Task<CommonModels.Role> FindByIdAsync(string roleId)
+        public Task<CommonModels.Role> FindByIdAsync(string id)
         {
-            var model = _context.Roles.FirstOrDefault(x => x.Id == roleId);
+            var model = _context.Roles.FirstOrDefault(x => x.Id == id);
             return Task.FromResult(_mapper.Map<CommonModels.Role>(model));
         }
 
-        public Task<CommonModels.Role> FindByNameAsync(string roleName)
+        public Task<CommonModels.Role> FindByNameAsync(string name)
         {
-            var model = _context.Roles.FirstOrDefault(x => x.Name == roleName);
+            var model = _context.Roles.FirstOrDefault(x => x.Name == name);
             return Task.FromResult(_mapper.Map<CommonModels.Role>(model));
         }
 
-        public Task<IEnumerable<CommonModels.Role>> GetAllRoles()
+        public Task<IEnumerable<CommonModels.Role>> GetAll()
         {
             return Task.FromResult(_mapper.Map<IEnumerable<CommonModels.Role>>(_context.Roles));
         }

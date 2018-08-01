@@ -44,7 +44,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public Task<IList<string>> GetRolesAsync(CommonModels.User user, CancellationToken cancellationToken)
         {
-            IEnumerable<DataModels.Role> result = _context.UserRoles.Where(x => x.UserId == user.Id).Select(x => x.Role);
+            IEnumerable<string> result = _context.UserRoles.Where(x => x.UserId == user.Id).Select(x => x.RoleId);
             var userRoles = _mapper.Map<IEnumerable<CommonModels.Role>>(result);
 
             return Task.FromResult<IList<string>>(userRoles.Select(x => x.Name).ToList());
