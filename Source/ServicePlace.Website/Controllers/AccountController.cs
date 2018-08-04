@@ -1,98 +1,100 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ServicePlace.Website.Models.AccountViewModels;
 using ServicePlace.Model;
+using ServicePlace.Logic.Interfaces;
+using ServicePlace.Logic.Services;
+using System.Security.Claims;
+using ServicePlace.Common.Enums;
+using ServicePlace.Website.Models.AccountViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace ServicePlace.Website.Controllers
 {
-    [Route("[controller]/[action]")]
-    public class AccountController : BaseController
+    public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public ActionResult Login()
         {
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public ActionResult Login(LoginViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                User user = new User { Email = model.Email, Password = model.Password };
+                ClaimsIdentity claim = UserService.AuthenticateAsync(user).Result;
+                if (claim == null)
                 {
-                    return RedirectToLocal(returnUrl);
+                    ModelState.AddModelError("", "Неверный логин или пароль.");
                 }
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                else
+                {
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    return RedirectToAction("Index", "Home");
+                }
             }
-
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        public ActionResult Logout()
         {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+
+        public async Task<ActionResult> Register()
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            await SetInitialDataAsync();
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.UserName, Email = model.Email, Id = Guid.NewGuid().ToString() };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                User user = new User
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
+                    Email = model.Email,
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    Name = model.Name,
+                    Role = "user"
+                };
+                var result = await UserService.CreateUserAsync(user);
+                if (result.Succeeded)
+                    return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("Error", "Failed");
             }
             return View(model);
         }
-
-        private void AddErrors(IdentityResult result)
+        private async Task SetInitialDataAsync()
         {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+            await UserService.CreateRoleAsync(new ServicePlace.Model.Role { Name = "user" });
+            //await UserService.SetInitialData(new User
+            //{
+            //    Email = "somemail@mail.ru",
+            //    UserName = "somemail@mail.ru",
+            //    Password = "ad46D_ewr3",
+            //    Name = "Семен Семенович Горбунков",
+            //    Role = "admin",
+            //}, new List<string> { "user", "admin" });
         }
     }
 }

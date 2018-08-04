@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{676F48D5-A911-415E-84DD-FA66379AC170}</ProjectGuid>
+    <ProjectGuid>{DA393A72-6A15-4B72-B121-16847BCA4957}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ServicePlace.Common</RootNamespace>
@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Enums\ResponseType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

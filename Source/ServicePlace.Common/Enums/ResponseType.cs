@@ -3,6 +3,6 @@
     public enum ResponseType
     {
         Success,
-        Failded
+        Failed
     }
 }
