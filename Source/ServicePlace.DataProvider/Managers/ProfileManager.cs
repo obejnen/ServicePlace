@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using ServicePlace.DataProvider.Mappers;
+﻿using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using CommonModels = ServicePlace.Model;
-using DataModels = ServicePlace.DataProvider.Entities;
 
 namespace ServicePlace.DataProvider.Managers
 {
@@ -16,11 +14,11 @@ namespace ServicePlace.DataProvider.Managers
             _context = new ApplicationContext();
         }
 
-        public async void CreateAsync(CommonModels.User user, string userId)
+        public void CreateAsync(CommonModels.User user, string userId)
         {
             var profile = new ProfileMapper().MapToDataModel(user, userId);
             _context.Profiles.Add(profile);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
         public async void UpdateAsync(CommonModels.User user)

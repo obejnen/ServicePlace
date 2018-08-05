@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using CommonModels = ServicePlace.Model;
 using DataModels = ServicePlace.DataProvider.Entities;
-using ServicePlace.Common.Enums;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.DataProvider.Interfaces;
 

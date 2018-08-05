@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -46,6 +52,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,12 +65,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContexts\ApplicationContext.cs" />
+    <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Infrastructure\DataProviderModule.cs" />
     <Compile Include="Interfaces\IIdentityRepository.cs" />
     <Compile Include="Interfaces\IProfileManager.cs" />
-    <Compile Include="Interfaces\IOrdersRepository.cs" />
+    <Compile Include="Interfaces\IOrderRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IRolesRepository.cs" />
     <Compile Include="Interfaces\IUsersRepository.cs" />
@@ -76,6 +88,10 @@
     <Compile Include="Migrations\201808041937350_Initial.Designer.cs">
       <DependentUpon>201808041937350_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808050915562_Create-Orders.cs" />
+    <Compile Include="Migrations\201808050915562_Create-Orders.Designer.cs">
+      <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IdentityRepository.cs" />
@@ -86,6 +102,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ServicePlace.Common\ServicePlace.Common.csproj">
+      <Project>{da393a72-6a15-4b72-b121-16847bca4957}</Project>
+      <Name>ServicePlace.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServicePlace.Model\ServicePlace.Model.csproj">
       <Project>{47cee8df-4231-4eca-96d4-6dc71768269c}</Project>
       <Name>ServicePlace.Model</Name>
@@ -94,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808041937350_Initial.resx">
       <DependentUpon>201808041937350_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808050915562_Create-Orders.resx">
+      <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

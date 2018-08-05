@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Linq;
 using ServicePlace.DataProvider.Entities;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace ServicePlace.DataProvider.Managers
 
         public override Task<User> FindByEmailAsync(string email)
         {
-            return Users.Include(x => x.Profile).FirstOrDefaultAsync(y => y.Email == email);
+            return Task.FromResult(Users.Include(x => x.Profile).FirstOrDefault(y => y.Email == email));
         }
 
         public override Task<User> FindByNameAsync(string userName) =>

@@ -6,7 +6,7 @@ namespace ServicePlace.DataProvider.Managers
 {
     public class RoleManager : RoleManager<Role>
     {
-        public RoleManager(RoleStore<Role> store) : base(store)
+        public RoleManager(IRoleStore<Role, string> store) : base(store)
         {
         }
     }
