@@ -1,25 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ServicePlace.DataProvider.Models;
+﻿using System.Data.Entity;
+using System.Configuration;
+using Microsoft.AspNet.Identity.EntityFramework;
+using ServicePlace.DataProvider.Entities;
 
 namespace ServicePlace.DataProvider.DbContexts
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
-        public ApplicationContext()
-            : this(new DbContextOptionsBuilder<ApplicationContext>()
-                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ServicePlaceDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
-                .Options)
+        public ApplicationContext() : base("name = DefaultConnection")
         {
         }
 
-        private ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-        }
-
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
     }
 }
