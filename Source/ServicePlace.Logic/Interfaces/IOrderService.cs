@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ServicePlace.Common.Enums;
 using ServicePlace.Model;
 
-namespace ServicePlace.Logic
+namespace ServicePlace.Logic.Interfaces
 {
     public interface IOrderService
     {

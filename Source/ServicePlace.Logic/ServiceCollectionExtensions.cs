@@ -14,7 +14,7 @@
 //            //services.AddTransient<DataProvider.Interfaces.IRolesRepository<Role, string, IdentityResult>, DataProvider.Repositories.RolesRepository>();
 //            //services.AddTransient<DataProvider.Interfaces.IUsersRepository<User, string, IdentityResult>, DataProvider.Repositories.UsersRepository>();
 //            //services.AddTransient<DataProvider.Interfaces.IUsersRolesRepository, DataProvider.Repositories.UsersRolesRepository>();
-//            //services.AddTransient<DataProvider.Interfaces.IOrdersRepository<Order, int, ResponseType>, DataProvider.Repositories.OrderRepository>();
+//            //services.AddTransient<DataProvider.Interfaces.IOrderRepository<Order, int, ResponseType>, DataProvider.Repositories.OrderRepository>();
 //            return services;
 //        }
 //    }

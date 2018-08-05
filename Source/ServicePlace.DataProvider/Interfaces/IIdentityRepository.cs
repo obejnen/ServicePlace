@@ -9,8 +9,6 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IIdentityRepository : IDisposable
     {
-        Task SaveChangesAsync();
-
         Task<IdentityResult> CreateUserAsync(CommonModels.User user);
 
         Task<IdentityResult> UpdateUserAsync(CommonModels.User user);

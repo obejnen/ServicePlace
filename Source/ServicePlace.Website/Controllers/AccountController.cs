@@ -1,14 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity.Owin;
-using System.Threading.Tasks;
 using ServicePlace.Model;
 using ServicePlace.Logic.Interfaces;
-using ServicePlace.Logic.Services;
 using System.Security.Claims;
-using ServicePlace.Common.Enums;
 using ServicePlace.Website.Models.AccountViewModels;
 using Microsoft.AspNet.Identity;
 
@@ -16,9 +10,15 @@ namespace ServicePlace.Website.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
+        private readonly IUserService _userService;
 
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
+        private readonly IAuthenticationManager _authenticationManager;
+
+        public AccountController(IUserService userService, IAuthenticationManager authManager)
+        {
+            _userService = userService;
+            _authenticationManager = authManager;
+        }
 
         public ActionResult Login()
         {
@@ -31,16 +31,16 @@ namespace ServicePlace.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = UserService.AuthenticateAsync(user).Result;
+                User user = new User { UserName = model.UserName, Password = model.Password };
+                ClaimsIdentity claim = _userService.AuthenticateAsync(user).Result;
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
                 }
                 else
                 {
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    _authenticationManager.SignOut();
+                    _authenticationManager.SignIn(new AuthenticationProperties
                     {
                         IsPersistent = true
                     }, claim);
@@ -52,20 +52,19 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Logout()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            _authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
 
 
-        public async Task<ActionResult> Register()
+        public ActionResult Register()
         {
-            await SetInitialDataAsync();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -77,24 +76,12 @@ namespace ServicePlace.Website.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                var result = await UserService.CreateUserAsync(user);
+                var result = _userService.CreateUserAsync(user).Result;
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Home");
                 ModelState.AddModelError("Error", "Failed");
             }
             return View(model);
-        }
-        private async Task SetInitialDataAsync()
-        {
-            await UserService.CreateRoleAsync(new ServicePlace.Model.Role { Name = "user" });
-            //await UserService.SetInitialData(new User
-            //{
-            //    Email = "somemail@mail.ru",
-            //    UserName = "somemail@mail.ru",
-            //    Password = "ad46D_ewr3",
-            //    Name = "Семен Семенович Горбунков",
-            //    Role = "admin",
-            //}, new List<string> { "user", "admin" });
         }
     }
 }
