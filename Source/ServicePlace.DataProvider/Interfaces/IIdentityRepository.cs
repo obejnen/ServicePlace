@@ -1,28 +1,17 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using ServicePlace.DataProvider.Managers;
-using CommonModels = ServicePlace.Model;
+using ServicePlace.Model;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IIdentityRepository : IDisposable
+    public interface IIdentityRepository : IRepository<User>
     {
-        IdentityResult CreateUser(CommonModels.User user);
+        User FindByEmail(string email);
 
-        IdentityResult UpdateUser(CommonModels.User user);
+        User FindByUserName(string username);
 
-        IdentityResult DeleteUser(CommonModels.User user);
+        ClaimsIdentity Authenticate(User user);
 
-        CommonModels.User FindByEmail(string email);
-
-        CommonModels.User FindByUserName(string username);
-
-        CommonModels.User FindById(string id);
-
-        ClaimsIdentity Authenticate(CommonModels.User user);
-
-        IdentityResult CreateRole(CommonModels.Role role);
+        IdentityResult CreateRole(Role role);
     }
 }

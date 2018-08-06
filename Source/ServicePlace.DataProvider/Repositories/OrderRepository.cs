@@ -3,7 +3,6 @@ using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using ServicePlace.Common.Enums;
 using ServicePlace.DataProvider.Mappers;
 using CommonModels = ServicePlace.Model;
 using ServicePlace.DataProvider.DbContexts;
@@ -11,7 +10,7 @@ using ServicePlace.DataProvider.Interfaces;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class OrderRepository : IOrderRepository<CommonModels.Order, int, ResponseType>
+    public class OrderRepository : IOrderRepository
     {
         private readonly ApplicationContext _context;
         private readonly OrderMapper _mapper;
@@ -31,37 +30,31 @@ namespace ServicePlace.DataProvider.Repositories
             return Mapper.Map<IEnumerable<CommonModels.Order>>(result);
         }
 
-        public ResponseType Create(CommonModels.Order model)
+        public void Create(CommonModels.Order model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var order = _mapper.MapToDataModel(model, creator);
             _context.Orders.Add(order);
-            return _context.SaveChanges() > 0
-                ? ResponseType.Success
-                : ResponseType.Failed;
+            _context.SaveChanges();
         }
 
-        public ResponseType Delete(CommonModels.Order model)
+        public void Delete(CommonModels.Order model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var order = _mapper.MapToDataModel(model, creator);
             _context.Orders.Remove(order);
-            return _context.SaveChanges() > 0
-                ? ResponseType.Success
-                : ResponseType.Failed;
+            _context.SaveChanges();
         }
 
-        public ResponseType Update(CommonModels.Order model)
+        public void Update(CommonModels.Order model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var newOrder = _mapper.MapToDataModel(model, creator);
             _context.Orders.AddOrUpdate(newOrder);
-            return _context.SaveChanges() > 0
-                ? ResponseType.Success
-                : ResponseType.Failed;
+            _context.SaveChanges();
         }
 
-        public CommonModels.Order FindById(int id)
+        public CommonModels.Order FindById(object id)
         {
             var order = _context.Orders.Find(id);
             return _mapper.MapToCommonModel(order);

@@ -11,7 +11,7 @@ using ServicePlace.DataProvider.Interfaces;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class ExecutorRepository : IExecutorRepository<CommonModels.Executor, int, ResponseType>
+    public class ExecutorRepository : IExecutorRepository
     {
         private readonly ApplicationContext _context;
         private readonly ExecutorMapper _mapper;
@@ -31,39 +31,33 @@ namespace ServicePlace.DataProvider.Repositories
             return Mapper.Map<IEnumerable<CommonModels.Executor>>(result);
         }
 
-        public ResponseType Create(CommonModels.Executor model)
+        public void Create(CommonModels.Executor model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var executor = _mapper.MapToDataModel(model, creator);
             _context.Executors.Add(executor);
-            return _context.SaveChanges() > 0
-                ? ResponseType.Success
-                : ResponseType.Failed;
+            _context.SaveChanges();
         }
 
-        public ResponseType Delete(CommonModels.Executor model)
+        public void Delete(CommonModels.Executor model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var executor = _mapper.MapToDataModel(model, creator);
             _context.Executors.Remove(executor);
-            return _context.SaveChanges() > 0
-                ? ResponseType.Success
-                : ResponseType.Failed;
+            _context.SaveChanges();
         }
 
-        public ResponseType Update(CommonModels.Executor model)
+        public void Update(CommonModels.Executor model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var newExecutor = _mapper.MapToDataModel(model, creator);
             _context.Executors.AddOrUpdate(newExecutor);
-            return _context.SaveChanges() > 0
-                ? ResponseType.Success
-                : ResponseType.Failed;
+            _context.SaveChanges();
         }
 
-        public CommonModels.Executor FindById(int id)
+        public CommonModels.Executor FindById(object id)
         {
-            var executor = _context.Executors.SingleOrDefault(x => x.Id == id);
+            var executor = _context.Executors.Find(id);
             return _mapper.MapToCommonModel(executor);
         }
 

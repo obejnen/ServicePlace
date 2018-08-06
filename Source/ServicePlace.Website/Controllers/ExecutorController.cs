@@ -28,8 +28,12 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                return View();
+            return RedirectToAction("Index", "Executor");
         }
+
+
 
         [HttpPost]
         public RedirectToRouteResult Create(CreateViewModel model)
@@ -47,7 +51,7 @@ namespace ServicePlace.Website.Controllers
                 _executorService.Create(executor);
             }
 
-            return RedirectToAction("Index", "Order");
+            return RedirectToAction("Index", "Executor");
         }
 
         public ActionResult Show(int id)

@@ -76,10 +76,12 @@ namespace ServicePlace.Website.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                var result = _userService.CreateUser(user);
-                if (result.Succeeded)
-                    return RedirectToAction("Index", "Home");
-                ModelState.AddModelError("Error", "Failed");
+                _userService.Create(user);
+                Login(new LoginViewModel
+                {
+                    UserName = user.UserName,
+                    Password = user.Password
+                });
             }
             return View(model);
         }

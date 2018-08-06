@@ -17,22 +17,32 @@ namespace ServicePlace.Logic.Services
             _repository = repository;
         }
 
-        public IdentityResult CreateUser(CommonModels.User user) =>
-            _repository.FindByEmail(user.Email) == null
-                ? _repository.CreateUser(user)
-                : IdentityResult.Failed($"User with email {user.Email} already exists");
+        public void Create(CommonModels.User user)
+        {
+            if (_repository.FindByEmail(user.Email) == null)
+            {
+                _repository.Create(user);
+            }
 
-        public IdentityResult UpdateUser(CommonModels.User user) =>
-            _repository.FindById(user.Id) == null
-                ? IdentityResult.Failed("Cannot find user")
-                : _repository.UpdateUser(user);
+        }
 
-        public IdentityResult DeleteUser(CommonModels.User user) =>
-            _repository.FindById(user.Id) == null
-                ? IdentityResult.Failed("Cannot find user")
-                : _repository.DeleteUser(user);
+        public void Update(CommonModels.User user)
+        {
+            if (_repository.FindById(user.Id) != null)
+            {
+                _repository.Update(user);
+            }
+        }
 
-        public CommonModels.User FindById(string id) => _repository.FindById(id);
+        public void Delete(CommonModels.User user)
+        {
+            if (_repository.FindById(user.Id) != null)
+            {
+                _repository.Delete(user);
+            }
+        }
+
+        public CommonModels.User FindById(object id) => _repository.FindById(id);
 
         public CommonModels.User FindByEmail(string email) =>
             _repository.FindByEmail(email);

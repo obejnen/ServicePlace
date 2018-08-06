@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ServicePlace.Common.Enums;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.Model;
@@ -9,32 +8,32 @@ namespace ServicePlace.Logic.Services
 {
     public class ExecutorService : IExecutorService
     {
-        private readonly IExecutorRepository<Executor, int, ResponseType> _executorRepository;
+        private readonly IExecutorRepository _executorRepository;
 
-        public ExecutorService(IExecutorRepository<Executor, int, ResponseType> executorRepository)
+        public ExecutorService(IExecutorRepository executorRepository)
         {
             _executorRepository = executorRepository;
         }
 
         public IEnumerable<Executor> Executors => _executorRepository.GetAll();
 
-        public ResponseType Create(Executor executor)
+        public void Create(Executor executor)
         {
             executor.CreatedAt = DateTime.Now;
-            return _executorRepository.Create(executor);
+            _executorRepository.Create(executor);
         }
 
-        public ResponseType Delete(Executor executor)
+        public void Delete(Executor executor)
         {
-            return _executorRepository.Delete(executor);
+            _executorRepository.Delete(executor);
         }
 
-        public ResponseType Update(Executor executor)
+        public void Update(Executor executor)
         {
-            return _executorRepository.Update(executor);
+            _executorRepository.Update(executor);
         }
 
-        public Executor FindById(int id)
+        public Executor FindById(object id)
         {
             return _executorRepository.FindById(id);
         }

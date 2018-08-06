@@ -8,13 +8,13 @@ namespace ServicePlace.Logic.Interfaces
     {
         IEnumerable<Executor> Executors { get; }
 
-        ResponseType Create(Executor executor);
+        void Create(Executor executor);
 
-        ResponseType Delete(Executor order);
+        void Delete(Executor executor);
 
-        ResponseType Update(Executor executor);
+        void Update(Executor executor);
 
-        Executor FindById(int id);
+        Executor FindById(object id);
 
         IEnumerable<Executor> Search(string query);
 

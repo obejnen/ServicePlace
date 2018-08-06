@@ -9,17 +9,17 @@ namespace ServicePlace.Logic.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        IdentityResult CreateUser(User user);
+        void Create(User user);
 
-        IdentityResult UpdateUser(User user);
+        void Update(User user);
 
-        IdentityResult DeleteUser(User user);
+        void Delete(User user);
 
         User FindByEmail(string email);
 
         User FindByUserName(string username);
 
-        User FindById(string id);
+        User FindById(object id);
 
         ClaimsIdentity Authenticate(User user);
 

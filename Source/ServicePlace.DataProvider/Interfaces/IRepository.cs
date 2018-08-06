@@ -5,15 +5,15 @@ using Microsoft.AspNet.Identity;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IRepository<T, TId, TResult> where T : class
+    public interface IRepository<T> where T : class
     {
-        TResult Create(T model);
+        void Create(T model);
 
-        TResult Delete(T model);
+        void Delete(T model);
 
-        TResult Update(T model);
+        void Update(T model);
 
-        T FindById(TId id);
+        T FindById(object id);
 
         IEnumerable<T> GetAll();
 

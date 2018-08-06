@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ServicePlace.Common.Enums;
 using ServicePlace.Model;
 
 namespace ServicePlace.Logic.Interfaces
@@ -8,13 +7,13 @@ namespace ServicePlace.Logic.Interfaces
     {
         IEnumerable<Order> Orders { get; }
 
-        ResponseType Create(Order order);
+        void Create(Order order);
 
-        ResponseType Delete(Order order);
+        void Delete(Order order);
 
-        ResponseType Update(Order order);
+        void Update(Order order);
 
-        Order FindById(int id);
+        Order FindById(object id);
 
         IEnumerable<Order> Search(string query);
 

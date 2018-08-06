@@ -3,12 +3,13 @@ using System.Linq;
 using ServicePlace.DataProvider.Entities;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using ServicePlace.DataProvider.Stores;
 
 namespace ServicePlace.DataProvider.Managers
 {
     public class UserManager : UserManager<User>
     {
-        public UserManager(IUserStore<User> store) : base(store)
+        public UserManager(UserStore store) : base(store)
         {
         }
 
