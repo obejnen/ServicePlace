@@ -6,7 +6,7 @@ namespace ServicePlace.Website.Models.OrderViewModels
     {
         [Required]
         public string Title { get; set; }
-        
+
         [Required]
         public string Body { get; set; }
     }

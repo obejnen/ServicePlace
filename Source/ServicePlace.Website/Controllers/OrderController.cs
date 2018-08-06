@@ -1,74 +1,75 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using ServicePlace.Logic;
-using ServicePlace.DataProvider.Models;
-using Microsoft.AspNetCore.Identity;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using ServicePlace.Logic.Interfaces;
+using ServicePlace.Model;
+using ServicePlace.Website.Models.AccountViewModels;
 using ServicePlace.Website.Models.OrderViewModels;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace ServicePlace.Website.Controllers
 {
-    public class OrderController : BaseController
+    public class OrderController : Controller
     {
-        private OrderService orderService = OrderInitializer.GetService(10);
-        private UserManager<User> userManager;
+        private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
 
-        public OrderController(UserManager<User> userManager)
+        public OrderController(IOrderService orderService, IUserService userService)
         {
-            this.userManager = userManager;
+            _orderService = orderService;
+            _userService = userService;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<List<ServicePlace.Model.Order>, List<PreviewViewModel>>());
-            var model = Mapper.Map<List<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders);           
-            Mapper.Reset();
+            var model = Mapper.Map<IEnumerable<IndexViewModel>>(_orderService.Orders);
             return View(model);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
-        {
-            var order = orderService.GetOrder(id);
-
-            Mapper.Initialize(cfg => cfg.CreateMap<ServicePlace.Model.Order, ShowViewModel>()
-                .ForMember("CreatedAt", opt => opt.MapFrom(src => src.CreatedAt.ToString())));
-            var model = Mapper.Map<ServicePlace.Model.Order, ShowViewModel>(order);
-            Mapper.Reset();
-
-            if (order == null) return NotFound(new
-            {
-                Error = $"Order #{id} has not been found"
-            });
-
-            return View(model);
-        }
-
-        [HttpGet]
-        [Route("Create")]
-        public IActionResult Create()
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Post(CreateViewModel model)
+        public RedirectToRouteResult Create(CreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Mapper.Initialize(cfg => cfg.CreateMap<CreateViewModel, ServicePlace.Model.Order>()
-                    .ForMember("Creator", opt => opt.UseValue(userManager.GetUserName(User))));
-                var order = Mapper.Map<CreateViewModel, ServicePlace.Model.Order>(model);
-                Mapper.Reset();
-                orderService.AddOrder(order);
-                return RedirectToLocal($"Order/{orderService.Orders.Last().Id}");
+                var order = new Order
+                {
+                    Title = model.Title,
+                    Body = model.Body,
+                    Creator = _userService.FindById(User.Identity.GetUserId())
+                };
+
+                _orderService.Create(order);
             }
 
-            return View("Get", orderService.Orders.Last());
+            return RedirectToAction("Index", "Order");
+        }
+
+        public ActionResult Show(int id)
+        {
+            var order = _orderService.FindById(id);
+            var creator = _userService.FindById(order.Creator.Id);
+            var creatorViewModel = new CreatorViewModel
+            {
+                Id = creator.Id,
+                Name = creator.Name,
+                UserName = creator.UserName
+            };
+            var viewModel = new ShowViewModel
+            {
+                Id = order.Id,
+                Title = order.Title,
+                Body = order.Body,
+                CreatedAt = order.CreatedAt,
+                UpdatedAt = order.UpdatedAt,
+                Creator = creatorViewModel
+            };
+
+            return View(viewModel);
         }
     }
 }

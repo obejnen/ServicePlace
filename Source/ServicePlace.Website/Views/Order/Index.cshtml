@@ -1,11 +1,21 @@
 ﻿@using ServicePlace.Website.Models.OrderViewModels
-@model IEnumerable<PreviewViewModel>
+@model IEnumerable<IndexViewModel>
 
-@{
-    Layout = "_Layout";
-}
+<link rel="stylesheet" href="~/Content/order.css" />
 
-@foreach (var order in Model)
+@foreach (var order in @Model)
 {
-    <partial name="/Views/Partials/Order/Preview.cshtml" for="@order" />
+    <div class="preview-container">
+        <img src="~/Content/Images/preview-background.png" alt="Avatar" class="preview-image">
+        <div class="preview-content">
+            <div class="preview-title">
+                @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "preview-title" })
+            </div>
+            <div class="preview-body">@order.Body</div>
+        </div>
+        <div class="preview-info">
+            <div class="preview-date">@order.CreatedAt.ToShortDateString()</div>
+            <div class="preview-creator">@order.Creator.UserName</div>
+        </div>
+    </div>
 }

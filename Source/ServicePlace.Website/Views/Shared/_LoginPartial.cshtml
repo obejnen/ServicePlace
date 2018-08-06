@@ -1,18 +1,15 @@
-@using Microsoft.AspNetCore.Identity
-@using ServicePlace.DataProvider.Models
-
-@inject SignInManager<ServicePlace.DataProvider.Models.User> SignInManager
-@inject UserManager<ServicePlace.DataProvider.Models.User> UserManager
-
-@if (SignInManager.IsSignedIn(User))
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
-        <input class="w3-button w3-padding-large w3-hide-small login-link" type="submit" value="LOG OUT" />
-        <a class="w3-button w3-padding-large w3-hide-small login-link">@UserManager.GetUserName(User)</a>
-    </form>
+    using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input class="w3-button w3-padding-large w3-hide-small login-link" type="submit" value="SIGN OUT" />
+        <a class="w3-button w3-padding-large w3-hide-small login-link">@User.Identity.GetUserName()</a>
+    }
 }
 else
 {
-    <a class="w3-button w3-padding-large w3-hide-small login-link" asp-controller="Account" asp-action="Register">SIGN UP</a>
-    <a class="w3-button w3-padding-large w3-hide-small login-link" asp-controller="Account" asp-action="Login">SIGN IN</a>
+    @Html.ActionLink("SIGN UP", "Register", "Account", null, new { id = "registerLink", @class = "w3-button w3-padding-large w3-hide-small login-link" })
+    @Html.ActionLink("SIGN IN", "Login", "Account", null, new { id = "loginLink", @class = "w3-button w3-padding-large w3-hide-small login-link" })
 }

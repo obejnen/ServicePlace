@@ -1,13 +1,11 @@
 ﻿@using ServicePlace.Website.Models.OrderViewModels
 @model CreateViewModel
-@{
-    Layout = "_Layout";
-}
 
-<form asp-action="Post" role="form">
-    <label asp-for="Title"></label>
-    <input asp-for="Title" />
-    <label asp-for="Body"></label>
-    <input asp-for="Body" />
-    <input type="submit" value="Submit" />
-</form>
+@using (Html.BeginForm("Create", "Order", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Title)
+    @Html.TextBoxFor(m => m.Title)
+    @Html.LabelFor(m => m.Body)
+    @Html.TextBoxFor(m => m.Body)
+    <input type = "submit" value = "Submit" />
+}
