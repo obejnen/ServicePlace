@@ -13,6 +13,7 @@ namespace ServicePlace.Logic.Infrastructure
 
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<OrderService>().As<IOrderService>();
+            builder.RegisterType<ExecutorService>().As<IExecutorService>();
         }
     }
 }

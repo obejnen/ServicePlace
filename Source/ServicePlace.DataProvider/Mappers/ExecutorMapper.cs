@@ -3,29 +3,31 @@ using DataModels = ServicePlace.DataProvider.Entities;
 
 namespace ServicePlace.DataProvider.Mappers
 {
-    public class OrderMapper
+    public class ExecutorMapper
     {
-        public DataModels.Order MapToDataModel(CommonModels.Order model, DataModels.User creator)
+        public DataModels.Executor MapToDataModel(CommonModels.Executor model, DataModels.User creator)
         {
-            return new DataModels.Order
+            return new DataModels.Executor
             {
                 Id = model.Id,
                 Body = model.Body,
                 Title = model.Title,
+                Price = model.Price,
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
                 Creator = creator
             };
         }
 
-        public CommonModels.Order MapToCommonModel(DataModels.Order model)
+        public CommonModels.Executor MapToCommonModel(DataModels.Executor model)
         {
             var creator = new UserMapper().MapToCommonModel(model.Creator);
-            return new CommonModels.Order
+            return new CommonModels.Executor
             {
                 Id = model.Id,
                 Title = model.Title,
                 Body = model.Body,
+                Price = model.Price,
                 Creator = creator,
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt

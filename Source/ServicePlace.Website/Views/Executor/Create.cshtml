@@ -1,0 +1,13 @@
+﻿@using ServicePlace.Website.Models.ExecutorViewModels
+@model CreateViewModel
+
+@using (Html.BeginForm("Create", "Executor", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Title)
+    @Html.TextBoxFor(m => m.Title)
+    @Html.LabelFor(m => m.Body)
+    @Html.TextBoxFor(m => m.Body)
+    @Html.LabelFor(m => m.Price)
+    @Html.TextBoxFor(m => m.Price)
+    <input type="submit" value="Submit" />
+}

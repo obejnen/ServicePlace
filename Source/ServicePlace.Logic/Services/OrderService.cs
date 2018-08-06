@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using ServicePlace.Common.Enums;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces;

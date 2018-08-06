@@ -18,9 +18,9 @@
         <div class="w3-bar w3-black w3-card">
             @Html.ActionLink("HOME", "Index", "Home", null, new { @class = "w3-bar-item w3-button w3-padding-large" })
             @Html.ActionLink("ORDERS", "Index", "Order", null, new { @class = "w3-bar-item w3-button w3-padding-large w3-hide-small" })
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Executor" asp-action="Index">EXECUTORS</a>
+            @Html.ActionLink("EXECUTORS", "Index", "Executor", null, new { @class = "w3-bar-item w3-button w3-padding-large w3-hide-small" })
             @Html.ActionLink("NEED SERVICE", "Create", "Order", null, new { @class = "w3-bar-item w3-button w3-padding-large w3-hide-small" })
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Executor" asp-action="Create">PROVIDE SERVICE</a>
+            @Html.ActionLink("PROVIDE SERVICE", "Create", "Executor", null, new { @class = "w3-bar-item w3-button w3-padding-large w3-hide-small" })
             @Html.Partial("_LoginPartial")
         </div>
     </div>
