@@ -1,0 +1,22 @@
+﻿@using ServicePlace.Website.Models.ExecutorViewModels
+@model IEnumerable<IndexViewModel>
+
+<link rel="stylesheet" href="~/Content/order.css" />
+
+@foreach (var executor in @Model)
+{
+    <div class="preview-container">
+        <img src="~/Content/Images/preview-background.png" alt="Avatar" class="preview-image">
+        <div class="preview-content">
+            <div class="preview-title">
+                @Html.ActionLink(executor.Title, "Show", "Executor", new { id = executor.Id }, new { @class = "preview-title" })
+            </div>
+            <div class="preview-body">@executor.Body</div>
+        </div>
+        <div class="preview-info">
+            <div class="preview-date">@executor.CreatedAt.ToShortDateString()</div>
+            <div class="preview-creator">@executor.Creator.UserName</div>
+            <div class="preview-creator">@(executor.Price?.ToString() ?? "Contract price")</div>
+        </div>
+    </div>
+}

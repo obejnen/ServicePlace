@@ -1,16 +1,13 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using System.Linq;
 using System.Data.Entity;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
+using System.Data.Entity.Migrations;
+using ServicePlace.Common.Enums;
+using ServicePlace.DataProvider.Mappers;
 using CommonModels = ServicePlace.Model;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
-using ServicePlace.DataProvider.Mappers;
-using ServicePlace.Common.Enums;
 
 namespace ServicePlace.DataProvider.Repositories
 {
@@ -27,10 +24,11 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<CommonModels.Order> GetAll()
         {
-            var list = _context.Orders.Include(x => x.Creator.Profile).ToList().Select(x => _mapper.MapToCommonModel(x));
+            var result = _context.Orders.Include(x => x.Creator.Profile).ToList()
+                .Select(x => _mapper.MapToCommonModel(x));
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Order>, IEnumerable<CommonModels.Order>>());
-            return Mapper.Map<IEnumerable<CommonModels.Order>>(list);
+            return Mapper.Map<IEnumerable<CommonModels.Order>>(result);
         }
 
         public ResponseType Create(CommonModels.Order model)
@@ -57,8 +55,7 @@ namespace ServicePlace.DataProvider.Repositories
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var newOrder = _mapper.MapToDataModel(model, creator);
-            var order = _context.Orders.FirstOrDefault(x => x.Id == newOrder.Id);
-            order = newOrder;
+            _context.Orders.AddOrUpdate(newOrder);
             return _context.SaveChanges() > 0
                 ? ResponseType.Success
                 : ResponseType.Failed;
