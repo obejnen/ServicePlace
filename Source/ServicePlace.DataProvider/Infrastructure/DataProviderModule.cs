@@ -15,12 +15,16 @@ namespace ServicePlace.DataProvider.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ApplicationContext>().AsSelf();
+
             builder.RegisterType<UserStore<User>>().As<IUserStore<User>>();
-            builder.RegisterType<UserStore>();
             builder.RegisterType<RoleStore<Role>>().As<IRoleStore<Role, string>>();
+            builder.RegisterType<ProfileManager>().As<IProfileManager>();
+
+            builder.RegisterType<UserStore>();
             builder.RegisterType<UserManager>();
             builder.RegisterType<RoleManager>();
-            builder.RegisterType<ProfileManager>().As<IProfileManager>();
+
+
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
             builder.RegisterType<ExecutorRepository>().As<IExecutorRepository>();

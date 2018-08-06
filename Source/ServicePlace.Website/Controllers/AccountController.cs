@@ -77,7 +77,7 @@ namespace ServicePlace.Website.Controllers
                     Role = "user"
                 };
                 _userService.Create(user);
-                Login(new LoginViewModel
+                return Login(new LoginViewModel
                 {
                     UserName = user.UserName,
                     Password = user.Password
