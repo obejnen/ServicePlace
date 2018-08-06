@@ -32,7 +32,7 @@ namespace ServicePlace.Website.Controllers
             if (ModelState.IsValid)
             {
                 User user = new User { UserName = model.UserName, Password = model.Password };
-                ClaimsIdentity claim = _userService.AuthenticateAsync(user).Result;
+                ClaimsIdentity claim = _userService.Authenticate(user);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
@@ -76,7 +76,7 @@ namespace ServicePlace.Website.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                var result = _userService.CreateUserAsync(user).Result;
+                var result = _userService.CreateUser(user);
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Home");
                 ModelState.AddModelError("Error", "Failed");

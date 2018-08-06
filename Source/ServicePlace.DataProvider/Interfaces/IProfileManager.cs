@@ -5,10 +5,10 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IProfileManager : IDisposable
     {
-        void CreateAsync(User item, string id);
+        void Create(User item, string id);
 
-        void UpdateAsync(User item);
+        void Update(User item);
 
-        void DeleteAsync(User item);
+        void Delete(User item);
     }
 }

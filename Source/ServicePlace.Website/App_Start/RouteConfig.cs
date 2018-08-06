@@ -13,6 +13,14 @@ namespace ServicePlace.Website
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute
+            (
+                name: "Show",
+                url: "{controller}/{id}",
+                defaults: new { action = "Show", id = UrlParameter.Optional },
+                constraints: new { id = "[0-9]" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

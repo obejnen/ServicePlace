@@ -9,22 +9,20 @@ namespace ServicePlace.Logic.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        Task<IdentityResult> CreateUserAsync(User user);
+        IdentityResult CreateUser(User user);
 
-        Task<IdentityResult> UpdateUserAsync(User user);
+        IdentityResult UpdateUser(User user);
 
-        Task<IdentityResult> DeleteUserAsync(User user);
+        IdentityResult DeleteUser(User user);
 
-        Task<User> FindByEmailAsync(string email);
+        User FindByEmail(string email);
 
-        Task<User> FindByUserNameAsync(string username);
+        User FindByUserName(string username);
 
-        Task<User> FindByIdAsync(string id);
+        User FindById(string id);
 
-        Task<ClaimsIdentity> AuthenticateAsync(User user);
+        ClaimsIdentity Authenticate(User user);
 
-        Task<IdentityResult> CreateRoleAsync(Role role);
-
-        Task SetInitialData(User admin, IEnumerable<string> roles);
+        IdentityResult CreateRole(Role role);
     }
 }

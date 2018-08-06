@@ -14,14 +14,14 @@ namespace ServicePlace.DataProvider.Managers
             _context = new ApplicationContext();
         }
 
-        public void CreateAsync(CommonModels.User user, string userId)
+        public void Create(CommonModels.User user, string userId)
         {
             var profile = new ProfileMapper().MapToDataModel(user, userId);
             _context.Profiles.Add(profile);
             _context.SaveChangesAsync();
         }
 
-        public async void UpdateAsync(CommonModels.User user)
+        public async void Update(CommonModels.User user)
         {
             var modifiedProfile = new ProfileMapper().MapToDataModel(user);
             var profile = await _context.Profiles.FindAsync(user.Id);
@@ -29,7 +29,7 @@ namespace ServicePlace.DataProvider.Managers
             await _context.SaveChangesAsync();
         }
 
-        public async void DeleteAsync(CommonModels.User user)
+        public async void Delete(CommonModels.User user)
         {
             var profile = new ProfileMapper().MapToDataModel(user);
             _context.Profiles.Remove(profile);

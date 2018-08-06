@@ -5,9 +5,9 @@ namespace ServicePlace.DataProvider.Mappers
 {
     public class OrderMapper
     {
-        public DataModels.Order MapToDataModel(CommonModels.Order model)
+        public DataModels.Order MapToDataModel(CommonModels.Order model, DataModels.User creator)
         {
-            var creator = new UserMapper().MapToDataModel(model.Creator);
+            //var creator = new UserMapper().MapToDataModel(model.Creator);
             return new DataModels.Order
             {
                 Id = model.Id,

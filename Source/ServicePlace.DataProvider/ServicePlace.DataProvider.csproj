@@ -92,6 +92,14 @@
     <Compile Include="Migrations\201808050915562_Create-Orders.Designer.cs">
       <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808061014333_DisableLazyLoading.cs" />
+    <Compile Include="Migrations\201808061014333_DisableLazyLoading.Designer.cs">
+      <DependentUpon>201808061014333_DisableLazyLoading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.cs" />
+    <Compile Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.Designer.cs">
+      <DependentUpon>201808061022447_MakeUpdatedAtOrderFieldNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IdentityRepository.cs" />
@@ -117,6 +125,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808050915562_Create-Orders.resx">
       <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808061014333_DisableLazyLoading.resx">
+      <DependentUpon>201808061014333_DisableLazyLoading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.resx">
+      <DependentUpon>201808061022447_MakeUpdatedAtOrderFieldNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

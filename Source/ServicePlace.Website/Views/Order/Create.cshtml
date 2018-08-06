@@ -1,0 +1,11 @@
+﻿@using ServicePlace.Website.Models.OrderViewModels
+@model CreateViewModel
+
+@using (Html.BeginForm("Create", "Order", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.Title)
+    @Html.TextBoxFor(m => m.Title)
+    @Html.LabelFor(m => m.Body)
+    @Html.TextBoxFor(m => m.Body)
+    <input type = "submit" value = "Submit" />
+}

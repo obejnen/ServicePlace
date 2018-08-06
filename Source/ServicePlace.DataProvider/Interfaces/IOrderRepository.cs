@@ -7,8 +7,8 @@ namespace ServicePlace.DataProvider.Interfaces
     public interface IOrderRepository<T, TId, TResult> : IRepository<T, TId, TResult> where T : class
     {
 
-        Task<IEnumerable<Order>> SearchAsync(string search);
+        IEnumerable<Order> Search(string search);
 
-        Task<IEnumerable<Order>> Take(int skip, int count);
+        IEnumerable<Order> Take(int skip, int count);
     }
 }

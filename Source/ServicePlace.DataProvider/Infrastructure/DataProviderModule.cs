@@ -23,7 +23,8 @@ namespace ServicePlace.DataProvider.Infrastructure
             builder.RegisterType<RoleManager>();
             builder.RegisterType<ProfileManager>().As<IProfileManager>();
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
-            builder.RegisterType<OrderRepository>().As<IOrderRepository<CommonModels.Order, int, ResponseType>>();
+            builder.RegisterType<OrderRepository>().As<IOrderRepository<CommonModels.Order, int, ResponseType>>()
+                .WithParameter("context", new ApplicationContext());
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using System.Linq;
-using System.Threading;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using CommonModels = ServicePlace.Model;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
@@ -23,58 +25,65 @@ namespace ServicePlace.DataProvider.Repositories
             _mapper = new OrderMapper();
         }
 
-        public Task<IEnumerable<CommonModels.Order>> GetAll()
+        public IEnumerable<CommonModels.Order> GetAll()
         {
-            var list = _context.Orders.Include(x => x.Creator).Select(x => _mapper.MapToCommonModel(x)).ToList();
-            return Task.FromResult(Mapper.Map<IEnumerable<CommonModels.Order>>(list));
+            var list = _context.Orders.Include(x => x.Creator.Profile).ToList().Select(x => _mapper.MapToCommonModel(x));
+            Mapper.Reset();
+            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Order>, IEnumerable<CommonModels.Order>>());
+            return Mapper.Map<IEnumerable<CommonModels.Order>>(list);
         }
 
-        public Task<ResponseType> CreateAsync(CommonModels.Order model, CancellationToken cancellationToken)
+        public ResponseType Create(CommonModels.Order model)
         {
-            var order = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var order = _mapper.MapToDataModel(model, creator);
             _context.Orders.Add(order);
-            return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
+            return _context.SaveChanges() > 0
                 ? ResponseType.Success
-                : ResponseType.Failed);
+                : ResponseType.Failed;
         }
 
-        public Task<ResponseType> DeleteAsync(CommonModels.Order model, CancellationToken cancellationToken)
+        public ResponseType Delete(CommonModels.Order model)
         {
-            var order = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var order = _mapper.MapToDataModel(model, creator);
             _context.Orders.Remove(order);
-            return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
+            return _context.SaveChanges() > 0
                 ? ResponseType.Success
-                : ResponseType.Failed);
+                : ResponseType.Failed;
         }
 
-        public Task<ResponseType> UpdateAsync(CommonModels.Order model, CancellationToken cancellationToken)
+        public ResponseType Update(CommonModels.Order model)
         {
-            var newOrder = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var newOrder = _mapper.MapToDataModel(model, creator);
             var order = _context.Orders.FirstOrDefault(x => x.Id == newOrder.Id);
             order = newOrder;
-            return Task.FromResult(_context.SaveChangesAsync(cancellationToken).Result > 0
+            return _context.SaveChanges() > 0
                 ? ResponseType.Success
-                : ResponseType.Failed);
+                : ResponseType.Failed;
         }
 
-        public Task<CommonModels.Order> FindByIdAsync(int id)
+        public CommonModels.Order FindById(int id)
         {
             var order = _context.Orders.Find(id);
-            return Task.FromResult(_mapper.MapToCommonModel(order));
+            return _mapper.MapToCommonModel(order);
         }
 
-        public Task<IEnumerable<CommonModels.Order>> SearchAsync(string search)
+        public IEnumerable<CommonModels.Order> Search(string search)
         {
             var orders = _context.Orders.Where(x => x.Title.Contains(search) || x.Body.Contains(search));
-            return Task.FromResult(
-                Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x))));
+            Mapper.Reset();
+            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Order>, IEnumerable<CommonModels.Order>>());
+            return Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));
         }
 
-        public Task<IEnumerable<CommonModels.Order>> Take(int skip, int count)
+        public IEnumerable<CommonModels.Order> Take(int skip, int count)
         {
             var orders = _context.Orders.Skip(skip).Take(count);
-            return Task.FromResult(
-                Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x))));
+            Mapper.Reset();
+            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Order>, IEnumerable<CommonModels.Order>>());
+            return Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));
         }
 
         public void Dispose()
