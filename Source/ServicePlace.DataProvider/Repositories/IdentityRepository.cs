@@ -27,90 +27,90 @@ namespace ServicePlace.DataProvider.Repositories
             _mapper = new UserMapper();
         }
 
-        public Task<IdentityResult> CreateUserAsync(CommonModels.User user)
+        public IdentityResult CreateUser(CommonModels.User user)
         {
             var model = new UserMapper().MapToDataModel(user);
             model.Id = Guid.NewGuid().ToString();
-            var result = _userManager.CreateAsync(model, user.Password).Result;
+            var result = _userManager.Create(model, user.Password);
             if (result.Errors.Any())
             {
-                return Task.FromResult(IdentityResult.Failed(result.Errors.ToArray()));
+                return IdentityResult.Failed(result.Errors.ToArray());
             }
 
             _userManager.AddToRole(model.Id, user.Role);
-            _profileManager.CreateAsync(user, model.Id);
-            return Task.FromResult(IdentityResult.Success);
+            _profileManager.Create(user, model.Id);
+            return IdentityResult.Success;
         }
 
-        public async Task<IdentityResult> UpdateUserAsync(CommonModels.User user)
+        public IdentityResult UpdateUser(CommonModels.User user)
         {
             var model = _mapper.MapToDataModel(user);
-            var result = await _userManager.UpdateAsync(model);
+            var result = _userManager.Update(model);
 
             if (result.Errors.Any())
             {
                 return IdentityResult.Failed(result.Errors.ToArray());
             }
 
-            _profileManager.UpdateAsync(user);
+            _profileManager.Update(user);
             return IdentityResult.Success;
         }
 
-        public async Task<IdentityResult> DeleteUserAsync(CommonModels.User user)
+        public IdentityResult DeleteUser(CommonModels.User user)
         {
             var model = _mapper.MapToDataModel(user);
-            var result = await _userManager.DeleteAsync(model);
+            var result = _userManager.Delete(model);
 
             if (result.Errors.Any())
             {
                 return IdentityResult.Failed(result.Errors.ToArray());
             }
 
-            _profileManager.DeleteAsync(user);
+            _profileManager.Delete(user);
             return IdentityResult.Success;
         }
 
-        public async Task<CommonModels.User> FindByEmailAsync(string email)
+        public CommonModels.User FindByEmail(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = _userManager.FindByEmail(email);
             return user == null
                 ? null 
                 : _mapper.MapToCommonModel(user);
         }
 
-        public async Task<CommonModels.User> FindByUserNameAsync(string username)
+        public CommonModels.User FindByUserName(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = _userManager.FindByName(username);
             return _mapper.MapToCommonModel(user);
         }
 
-        public async Task<CommonModels.User> FindByIdAsync(string id)
+        public CommonModels.User FindById(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = _userManager.FindById(id);
             return _mapper.MapToCommonModel(user);
         }
 
-        public Task<ClaimsIdentity> AuthenticateAsync(CommonModels.User user)
+        public ClaimsIdentity Authenticate(CommonModels.User user)
         {
             var result = _userManager.Find(user.UserName, user.Password);
             return result == null
                 ? null
-                : _userManager.CreateIdentityAsync(result, DefaultAuthenticationTypes.ApplicationCookie);
+                : _userManager.CreateIdentity(result, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
-        public Task<IdentityResult> CreateRoleAsync(CommonModels.Role role)
+        public IdentityResult CreateRole(CommonModels.Role role)
         {
             var model = new RoleMapper().MapToDataModel(role);
-            var result = _roleManager.FindByNameAsync(model.Name).Result;
+            var result = _roleManager.FindByName(model.Name);
 
             if (result == null)
             {
                 model.Id = Guid.NewGuid().ToString();
                 _roleManager.Create(model);
-                return Task.FromResult(IdentityResult.Success);
+                return IdentityResult.Success;
             }
 
-            return Task.FromResult(IdentityResult.Failed($"Cannot create role with name {model.Name}"));
+            return IdentityResult.Failed($"Cannot create role with name {model.Name}");
         }
 
         public void Dispose()

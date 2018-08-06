@@ -18,35 +18,35 @@ namespace ServicePlace.Logic.Services
             _orderRepository = orderRepository;
         }
 
-        public Task<IEnumerable<Order>> Orders => _orderRepository.GetAll();
+        public IEnumerable<Order> Orders => _orderRepository.GetAll();
 
-        public Task<ResponseType> CreateAsync(Order order, CancellationToken cancellationToken)
+        public ResponseType Create(Order order)
         {
             order.CreatedAt = DateTime.Now;
-            return _orderRepository.CreateAsync(order, cancellationToken);
+            return _orderRepository.Create(order);
         }
 
-        public Task<ResponseType> DeleteAsync(Order order, CancellationToken cancellationToken)
+        public ResponseType Delete(Order order)
         {
-            return _orderRepository.DeleteAsync(order, cancellationToken);
+            return _orderRepository.Delete(order);
         }
 
-        public Task<ResponseType> UpdateAsync(Order order, CancellationToken cancellationToken)
+        public ResponseType Update(Order order)
         {
-            return _orderRepository.UpdateAsync(order, cancellationToken);
+            return _orderRepository.Update(order);
         }
 
-        public Task<Order> FindByIdAsync(int id)
+        public Order FindById(int id)
         {
-            return _orderRepository.FindByIdAsync(id);
+            return _orderRepository.FindById(id);
         }
 
-        public Task<IEnumerable<Order>> SearchAsync(string search)
+        public IEnumerable<Order> Search(string search)
         {
-            return _orderRepository.SearchAsync(search);
+            return _orderRepository.Search(search);
         }
 
-        public Task<IEnumerable<Order>> TakeAsync(int skip, int count)
+        public IEnumerable<Order> Take(int skip, int count)
         {
             return _orderRepository.Take(skip, count);
         }

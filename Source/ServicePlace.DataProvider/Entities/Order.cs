@@ -21,9 +21,9 @@ namespace ServicePlace.DataProvider.Entities
         [Required]
         public DateTime CreatedAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [Required]
-        public virtual User Creator { get; set; }
+        public User Creator { get; set; }
     }
 }

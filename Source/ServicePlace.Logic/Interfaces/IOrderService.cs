@@ -8,18 +8,18 @@ namespace ServicePlace.Logic.Interfaces
 {
     public interface IOrderService
     {
-        Task<IEnumerable<Order>> Orders { get; }
+        IEnumerable<Order> Orders { get; }
 
-        Task<ResponseType> CreateAsync(Order order, CancellationToken cancellationToken);
+        ResponseType Create(Order order);
 
-        Task<ResponseType> DeleteAsync(Order order, CancellationToken cancellationToken);
+        ResponseType Delete(Order order);
 
-        Task<ResponseType> UpdateAsync(Order order, CancellationToken cancellationToken);
+        ResponseType Update(Order order);
 
-        Task<Order> FindByIdAsync(int id);
+        Order FindById(int id);
 
-        Task<IEnumerable<Order>> SearchAsync(string query);
+        IEnumerable<Order> Search(string query);
 
-        Task<IEnumerable<Order>> TakeAsync(int skip, int count);
+        IEnumerable<Order> Take(int skip, int count);
     }
 }

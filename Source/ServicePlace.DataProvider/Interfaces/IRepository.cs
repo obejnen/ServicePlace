@@ -7,15 +7,15 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IRepository<T, TId, TResult> where T : class
     {
-        Task<TResult> CreateAsync(T model, CancellationToken cancellationToken);
+        TResult Create(T model);
 
-        Task<TResult> DeleteAsync(T model, CancellationToken cancellationToken);
+        TResult Delete(T model);
 
-        Task<TResult> UpdateAsync(T model, CancellationToken cancellationToken);
+        TResult Update(T model);
 
-        Task<T> FindByIdAsync(TId id);
+        T FindById(TId id);
 
-        Task<IEnumerable<T>> GetAll();
+        IEnumerable<T> GetAll();
 
         void Dispose();
     }

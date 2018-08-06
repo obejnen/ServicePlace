@@ -9,20 +9,20 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IIdentityRepository : IDisposable
     {
-        Task<IdentityResult> CreateUserAsync(CommonModels.User user);
+        IdentityResult CreateUser(CommonModels.User user);
 
-        Task<IdentityResult> UpdateUserAsync(CommonModels.User user);
+        IdentityResult UpdateUser(CommonModels.User user);
 
-        Task<IdentityResult> DeleteUserAsync(CommonModels.User user);
+        IdentityResult DeleteUser(CommonModels.User user);
 
-        Task<CommonModels.User> FindByEmailAsync(string email);
+        CommonModels.User FindByEmail(string email);
 
-        Task<CommonModels.User> FindByUserNameAsync(string username);
+        CommonModels.User FindByUserName(string username);
 
-        Task<CommonModels.User> FindByIdAsync(string id);
+        CommonModels.User FindById(string id);
 
-        Task<ClaimsIdentity> AuthenticateAsync(CommonModels.User user);
+        ClaimsIdentity Authenticate(CommonModels.User user);
 
-        Task<IdentityResult> CreateRoleAsync(CommonModels.Role role);
+        IdentityResult CreateRole(CommonModels.Role role);
     }
 }
