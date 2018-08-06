@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using ServicePlace.DataProvider.DbContexts;
-using ServicePlace.DataProvider.Entities;
+using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Stores
 {

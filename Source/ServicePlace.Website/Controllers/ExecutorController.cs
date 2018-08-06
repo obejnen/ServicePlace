@@ -3,8 +3,8 @@ using AutoMapper;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model;
-using ServicePlace.Website.Models.AccountViewModels;
+using ServicePlace.Model.LogicModels;
+using ServicePlace.Model.ViewModels.AccountViewModels;
 using ServicePlace.Website.Models.ExecutorViewModels;
 
 namespace ServicePlace.Website.Controllers

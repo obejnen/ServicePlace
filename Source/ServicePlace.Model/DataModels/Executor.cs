@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServicePlace.Model.DataModels
 {
-    [Table("Executor")]
+    [Table(nameof(Executor))]
     public class Executor
     {
         [Key]

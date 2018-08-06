@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using ServicePlace.Model;
+using ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Interfaces
 {

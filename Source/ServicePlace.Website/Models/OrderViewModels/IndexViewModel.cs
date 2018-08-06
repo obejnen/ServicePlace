@@ -1,5 +1,5 @@
 ﻿using System;
-using ServicePlace.Website.Models.AccountViewModels;
+using ServicePlace.Model.ViewModels.AccountViewModels;
 
 namespace ServicePlace.Website.Models.OrderViewModels
 {

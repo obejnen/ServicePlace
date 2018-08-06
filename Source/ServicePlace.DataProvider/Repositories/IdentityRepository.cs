@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Interfaces;
-using CommonModels = ServicePlace.Model;
+using CommonModels = ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {

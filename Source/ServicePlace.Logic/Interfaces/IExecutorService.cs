@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using ServicePlace.Common.Enums;
-using ServicePlace.Model;
+using ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.Logic.Interfaces
 {

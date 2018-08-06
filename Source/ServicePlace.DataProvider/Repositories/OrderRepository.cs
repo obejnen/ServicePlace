@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using ServicePlace.DataProvider.Mappers;
-using CommonModels = ServicePlace.Model;
+using CommonModels = ServicePlace.Model.LogicModels;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 

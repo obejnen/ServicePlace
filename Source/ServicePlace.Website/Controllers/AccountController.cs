@@ -1,9 +1,9 @@
 ﻿using System.Web.Mvc;
 using Microsoft.Owin.Security;
-using ServicePlace.Model;
+using ServicePlace.Model.LogicModels;
 using ServicePlace.Logic.Interfaces;
 using System.Security.Claims;
-using ServicePlace.Website.Models.AccountViewModels;
+using ServicePlace.Model.ViewModels.AccountViewModels;
 using Microsoft.AspNet.Identity;
 
 namespace ServicePlace.Website.Controllers

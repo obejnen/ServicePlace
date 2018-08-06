@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using ServicePlace.DataProvider.Entities;
+using ServicePlace.Model.DataModels;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using ServicePlace.DataProvider.Stores;

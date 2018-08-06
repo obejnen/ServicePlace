@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using ServicePlace.DataProvider.Entities;
+using ServicePlace.Model.DataModels;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.DataProvider.Managers;
