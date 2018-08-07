@@ -11,10 +11,10 @@ namespace ServicePlace.Model.DataModels
         public int Id { get; set; }
 
         [Required]
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
 
         [Required]
-        public Provider Provider { get; set; }
+        public virtual Provider Provider { get; set; }
 
         public decimal? Price { get; set; }
 

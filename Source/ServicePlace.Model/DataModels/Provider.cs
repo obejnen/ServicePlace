@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,7 @@ namespace ServicePlace.Model.DataModels
 
         [Required]
         public User Creator { get; set; }
+
+        public ICollection<OrderResponse> OrderResponses { get; set; }
     }
 }

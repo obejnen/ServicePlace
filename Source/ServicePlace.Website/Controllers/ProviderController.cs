@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.Model.LogicModels;
 using ServicePlace.Model.ViewModels.AccountViewModels;
-using ServicePlace.Website.Models.ProviderViewModels;
+using ServicePlace.Model.ViewModels.ProviderViewModels;
 
 namespace ServicePlace.Website.Controllers
 {

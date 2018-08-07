@@ -18,5 +18,9 @@ namespace ServicePlace.Logic.Interfaces
         IEnumerable<Order> Search(string query);
 
         IEnumerable<Order> Take(int skip, int count);
+
+        void CreateResponse(OrderResponse response);
+
+        IEnumerable<OrderResponse> GetOrderResponses(int orderId);
     }
 }

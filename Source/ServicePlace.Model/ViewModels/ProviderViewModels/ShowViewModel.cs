@@ -1,7 +1,7 @@
 ﻿using System;
 using ServicePlace.Model.ViewModels.AccountViewModels;
 
-namespace ServicePlace.Website.Models.ProviderViewModels
+namespace ServicePlace.Model.ViewModels.ProviderViewModels
 {
     public class ShowViewModel
     {

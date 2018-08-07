@@ -256,10 +256,12 @@
     <Content Include="Views\Provider\Create.cshtml" />
     <Content Include="Views\Provider\Index.cshtml" />
     <Content Include="Views\Provider\Show.cshtml" />
-    <Content Include="Views\OrderResponse\Create.cshtml" />
+    <Content Include="Views\Shared\_OrderResponsePartial.cshtml" />
+    <Content Include="Views\Shared\_OrderResponseIndexPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\OrderResponse\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

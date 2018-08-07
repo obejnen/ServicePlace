@@ -9,10 +9,12 @@ namespace ServicePlace.Logic.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IOrderResponseRepository _orderResponseRepository;
 
-        public OrderService(IOrderRepository orderRepository)
+        public OrderService(IOrderRepository orderRepository, IOrderResponseRepository orderResponseRepository)
         {
             _orderRepository = orderRepository;
+            _orderResponseRepository = orderResponseRepository;
         }
 
         public IEnumerable<Order> Orders => _orderRepository.GetAll();
@@ -46,6 +48,18 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<Order> Take(int skip, int count)
         {
             return _orderRepository.Take(skip, count);
+        }
+
+        public void CreateResponse(OrderResponse response)
+        {
+            response.IsCompleted = false;
+            response.CreatedAt = DateTime.Now;
+            _orderResponseRepository.Create(response);
+        }
+
+        public IEnumerable<OrderResponse> GetOrderResponses(int orderId)
+        {
+            return _orderResponseRepository.GetOrderResponses(orderId);
         }
     }
 }
