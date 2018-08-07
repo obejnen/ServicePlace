@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServicePlace.DataProvider.Entities
+namespace ServicePlace.Model.DataModels
 {
-    [Table("Executor")]
+    [Table(nameof(Executor))]
     public class Executor
     {
         [Key]

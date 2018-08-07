@@ -3,38 +3,38 @@ using System.Collections.Generic;
 using ServicePlace.Common.Enums;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model;
+using ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.Logic.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository<Order, int, ResponseType> _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderService(IOrderRepository<Order, int, ResponseType> orderRepository)
+        public OrderService(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
 
         public IEnumerable<Order> Orders => _orderRepository.GetAll();
 
-        public ResponseType Create(Order order)
+        public void Create(Order order)
         {
             order.CreatedAt = DateTime.Now;
-            return _orderRepository.Create(order);
+            _orderRepository.Create(order);
         }
 
-        public ResponseType Delete(Order order)
+        public void Delete(Order order)
         {
-            return _orderRepository.Delete(order);
+            _orderRepository.Delete(order);
         }
 
-        public ResponseType Update(Order order)
+        public void Update(Order order)
         {
-            return _orderRepository.Update(order);
+            _orderRepository.Update(order);
         }
 
-        public Order FindById(int id)
+        public Order FindById(object id)
         {
             return _orderRepository.FindById(id);
         }

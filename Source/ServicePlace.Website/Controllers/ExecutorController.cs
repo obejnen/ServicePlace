@@ -3,8 +3,8 @@ using AutoMapper;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model;
-using ServicePlace.Website.Models.AccountViewModels;
+using ServicePlace.Model.LogicModels;
+using ServicePlace.Model.ViewModels.AccountViewModels;
 using ServicePlace.Website.Models.ExecutorViewModels;
 
 namespace ServicePlace.Website.Controllers
@@ -28,8 +28,12 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                return View();
+            return RedirectToAction("Index", "Executor");
         }
+
+
 
         [HttpPost]
         public RedirectToRouteResult Create(CreateViewModel model)
@@ -47,7 +51,7 @@ namespace ServicePlace.Website.Controllers
                 _executorService.Create(executor);
             }
 
-            return RedirectToAction("Index", "Order");
+            return RedirectToAction("Index", "Executor");
         }
 
         public ActionResult Show(int id)

@@ -65,18 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContexts\ApplicationContext.cs" />
-    <Compile Include="Entities\Executor.cs" />
-    <Compile Include="Entities\Order.cs" />
-    <Compile Include="Entities\Profile.cs" />
-    <Compile Include="Entities\Role.cs" />
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Infrastructure\DataProviderModule.cs" />
     <Compile Include="Interfaces\IExecutorRepository.cs" />
     <Compile Include="Interfaces\IIdentityRepository.cs" />
     <Compile Include="Interfaces\IProfileManager.cs" />
     <Compile Include="Interfaces\IOrderRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IUsersRepository.cs" />
     <Compile Include="Managers\ProfileManager.cs" />
     <Compile Include="Managers\RoleManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
@@ -110,6 +104,7 @@
     <Compile Include="Repositories\ExecutorRepository.cs" />
     <Compile Include="Repositories\IdentityRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Stores\UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

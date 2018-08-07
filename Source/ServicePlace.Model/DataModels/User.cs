@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace ServicePlace.DataProvider.Entities
+namespace ServicePlace.Model.DataModels
 {
     public class User : IdentityUser
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ServicePlace.DataProvider.Entities
+namespace ServicePlace.Model.DataModels
 {
     [Table(nameof(Order))]
     public class Order

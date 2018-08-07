@@ -1,7 +1,7 @@
 ﻿using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
-using CommonModels = ServicePlace.Model;
+using CommonModels = ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Managers
 {

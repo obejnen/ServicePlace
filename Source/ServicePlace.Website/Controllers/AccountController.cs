@@ -1,9 +1,9 @@
 ﻿using System.Web.Mvc;
 using Microsoft.Owin.Security;
-using ServicePlace.Model;
+using ServicePlace.Model.LogicModels;
 using ServicePlace.Logic.Interfaces;
 using System.Security.Claims;
-using ServicePlace.Website.Models.AccountViewModels;
+using ServicePlace.Model.ViewModels.AccountViewModels;
 using Microsoft.AspNet.Identity;
 
 namespace ServicePlace.Website.Controllers
@@ -76,10 +76,12 @@ namespace ServicePlace.Website.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                var result = _userService.CreateUser(user);
-                if (result.Succeeded)
-                    return RedirectToAction("Index", "Home");
-                ModelState.AddModelError("Error", "Failed");
+                _userService.Create(user);
+                return Login(new LoginViewModel
+                {
+                    UserName = user.UserName,
+                    Password = user.Password
+                });
             }
             return View(model);
         }

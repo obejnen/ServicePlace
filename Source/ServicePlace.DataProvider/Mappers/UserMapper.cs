@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using CommonModels = ServicePlace.Model;
-using DataModels = ServicePlace.DataProvider.Entities;
+using CommonModels = ServicePlace.Model.LogicModels;
+using DataModels = ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Mappers
 {

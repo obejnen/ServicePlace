@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace ServicePlace.DataProvider.Entities
+namespace ServicePlace.Model.DataModels
 {
     public class Role : IdentityRole
     {

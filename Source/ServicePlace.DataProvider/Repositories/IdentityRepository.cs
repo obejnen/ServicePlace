@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using Microsoft.AspNet.Identity;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Interfaces;
-using CommonModels = ServicePlace.Model;
+using CommonModels = ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {
@@ -27,47 +28,27 @@ namespace ServicePlace.DataProvider.Repositories
             _mapper = new UserMapper();
         }
 
-        public IdentityResult CreateUser(CommonModels.User user)
+        public void Create(CommonModels.User user)
         {
             var model = new UserMapper().MapToDataModel(user);
             model.Id = Guid.NewGuid().ToString();
-            var result = _userManager.Create(model, user.Password);
-            if (result.Errors.Any())
-            {
-                return IdentityResult.Failed(result.Errors.ToArray());
-            }
-
+            _userManager.Create(model, user.Password);
             _userManager.AddToRole(model.Id, user.Role);
             _profileManager.Create(user, model.Id);
-            return IdentityResult.Success;
         }
 
-        public IdentityResult UpdateUser(CommonModels.User user)
+        public void Update(CommonModels.User user)
         {
             var model = _mapper.MapToDataModel(user);
-            var result = _userManager.Update(model);
-
-            if (result.Errors.Any())
-            {
-                return IdentityResult.Failed(result.Errors.ToArray());
-            }
-
+            _userManager.Update(model);
             _profileManager.Update(user);
-            return IdentityResult.Success;
         }
 
-        public IdentityResult DeleteUser(CommonModels.User user)
+        public void Delete(CommonModels.User user)
         {
             var model = _mapper.MapToDataModel(user);
-            var result = _userManager.Delete(model);
-
-            if (result.Errors.Any())
-            {
-                return IdentityResult.Failed(result.Errors.ToArray());
-            }
-
+            _userManager.Delete(model);
             _profileManager.Delete(user);
-            return IdentityResult.Success;
         }
 
         public CommonModels.User FindByEmail(string email)
@@ -84,9 +65,9 @@ namespace ServicePlace.DataProvider.Repositories
             return _mapper.MapToCommonModel(user);
         }
 
-        public CommonModels.User FindById(string id)
+        public CommonModels.User FindById(object id)
         {
-            var user = _userManager.FindById(id);
+            var user = _userManager.FindById((string)id);
             return _mapper.MapToCommonModel(user);
         }
 
@@ -112,6 +93,8 @@ namespace ServicePlace.DataProvider.Repositories
 
             return IdentityResult.Failed($"Cannot create role with name {model.Name}");
         }
+
+        public IEnumerable<CommonModels.User> GetAll() => _userManager.Users.ToList().Select(x => _mapper.MapToCommonModel(x));
 
         public void Dispose()
         {

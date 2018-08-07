@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ServicePlace.Model
+﻿namespace ServicePlace.Model.LogicModels
 {
     public class Role
     {

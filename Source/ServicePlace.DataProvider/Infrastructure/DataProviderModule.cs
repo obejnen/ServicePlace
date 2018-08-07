@@ -1,14 +1,12 @@
 ﻿using Autofac;
-using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using CommonModels = ServicePlace.Model;
-using DataModels = ServicePlace.DataProvider.Entities;
-using ServicePlace.Common.Enums;
+using ServicePlace.Model.DataModels;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Repositories;
+using ServicePlace.DataProvider.Stores;
 
 namespace ServicePlace.DataProvider.Infrastructure
 {
@@ -16,21 +14,20 @@ namespace ServicePlace.DataProvider.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ApplicationContext>().As<DbContext>().InstancePerLifetimeScope();
-            builder.RegisterType<UserStore<DataModels.User>>().As<IUserStore<DataModels.User>>();
-            builder.RegisterType<RoleStore<DataModels.Role>>().As<IRoleStore<DataModels.Role, string>>();
+            builder.RegisterType<ApplicationContext>().AsSelf();
+
+            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>();
+            builder.RegisterType<RoleStore<Role>>().As<IRoleStore<Role, string>>();
+            builder.RegisterType<ProfileManager>().As<IProfileManager>();
+
+            builder.RegisterType<UserStore>();
             builder.RegisterType<UserManager>();
             builder.RegisterType<RoleManager>();
-            builder.RegisterType<ProfileManager>().As<IProfileManager>();
+
+
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
-
-            builder.RegisterType<OrderRepository>()
-                .As<IOrderRepository<CommonModels.Order, int, ResponseType>>()
-                .WithParameter("context", new ApplicationContext());
-
-            builder.RegisterType<ExecutorRepository>()
-                .As<IExecutorRepository<CommonModels.Executor, int, ResponseType>>()
-                .WithParameter("context", new ApplicationContext());
+            builder.RegisterType<OrderRepository>().As<IOrderRepository>();
+            builder.RegisterType<ExecutorRepository>().As<IExecutorRepository>();
         }
     }
 }

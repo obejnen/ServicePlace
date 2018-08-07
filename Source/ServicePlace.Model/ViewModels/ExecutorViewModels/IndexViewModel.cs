@@ -1,9 +1,9 @@
 ﻿using System;
-using ServicePlace.Website.Models.AccountViewModels;
+using ServicePlace.Model.ViewModels.AccountViewModels;
 
 namespace ServicePlace.Website.Models.ExecutorViewModels
 {
-    public class ShowViewModel
+    public class IndexViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -11,6 +11,5 @@ namespace ServicePlace.Website.Models.ExecutorViewModels
         public decimal? Price { get; set; }
         public CreatorViewModel Creator { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
     }
 }

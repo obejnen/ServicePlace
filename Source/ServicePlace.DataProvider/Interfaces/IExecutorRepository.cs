@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using ServicePlace.Model;
+using ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IExecutorRepository<T, TId, TResult> : IRepository<T, TId, TResult> where T : class
+    public interface IExecutorRepository : IRepository<Executor>
     {
         IEnumerable<Executor> Search(string search);
 
