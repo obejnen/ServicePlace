@@ -8,7 +8,7 @@ namespace ServicePlace.DataProvider.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Executor",
+                "dbo.Provider",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -27,9 +27,9 @@ namespace ServicePlace.DataProvider.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Executor", "Creator_Id", "dbo.AspNetUsers");
-            DropIndex("dbo.Executor", new[] { "Creator_Id" });
-            DropTable("dbo.Executor");
+            DropForeignKey("dbo.Provider", "Creator_Id", "dbo.AspNetUsers");
+            DropIndex("dbo.Provider", new[] { "Creator_Id" });
+            DropTable("dbo.Provider");
         }
     }
 }

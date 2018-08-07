@@ -3,11 +3,11 @@ using DataModels = ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Mappers
 {
-    public class ExecutorMapper
+    public class ProviderMapper
     {
-        public DataModels.Executor MapToDataModel(CommonModels.Executor model, DataModels.User creator)
+        public DataModels.Provider MapToDataModel(CommonModels.Provider model, DataModels.User creator)
         {
-            return new DataModels.Executor
+            return new DataModels.Provider
             {
                 Id = model.Id,
                 Body = model.Body,
@@ -19,10 +19,10 @@ namespace ServicePlace.DataProvider.Mappers
             };
         }
 
-        public CommonModels.Executor MapToCommonModel(DataModels.Executor model)
+        public CommonModels.Provider MapToCommonModel(DataModels.Provider model)
         {
             var creator = new UserMapper().MapToCommonModel(model.Creator);
-            return new CommonModels.Executor
+            return new CommonModels.Provider
             {
                 Id = model.Id,
                 Title = model.Title,

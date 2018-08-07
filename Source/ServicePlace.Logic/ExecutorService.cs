@@ -5,26 +5,26 @@
 
 //namespace ServicePlace.Logic
 //{
-//    public class ExecutorService
+//    public class ProviderRepository
 //    {
-//        public ExecutorService(List<Executor> executors)
+//        public ProviderRepository(List<Provider> executors)
 //        {
-//            Executors = executors;
+//            Providers = executors;
 //        }
 
-//        public ExecutorService()
+//        public ProviderRepository()
 //        {
-//            Executors = new List<Executor>();
+//            Providers = new List<Provider>();
 //        }
 
-//        public List<Executor> Executors { get; }
-//        public Executor GetExecutors(int id) => Executors.FirstOrDefault(x => x.Id == id);
+//        public List<Provider> Providers { get; }
+//        public Provider GetExecutors(int id) => Providers.FirstOrDefault(x => x.Id == id);
 
-//        public void AddExecutor(Executor executor)
+//        public void AddExecutor(Provider executor)
 //        {
-//            Executors.Add(executor);
+//            Providers.Add(executor);
 //        }
 
-//        public void RemoveExecutor(int id) => Executors.Remove(Executors.FirstOrDefault(x => x.Id == id));
+//        public void RemoveExecutor(int id) => Providers.Remove(Providers.FirstOrDefault(x => x.Id == id));
 //    }
 //}

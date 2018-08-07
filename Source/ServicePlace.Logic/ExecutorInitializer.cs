@@ -6,20 +6,20 @@
 //{
 //    public static class ExecutorInitializer
 //    {
-//        private static ExecutorService _service;
-//        public static ExecutorService GetService(int count)
+//        private static ProviderRepository _service;
+//        public static ProviderRepository GetService(int count)
 //        {
 //            if (_service == null)
 //            {
-//                _service = new ExecutorService(new List<Executor>());
+//                _service = new ProviderRepository(new List<Provider>());
 
 //                for (int i = 1; i <= count; i++)
 //                {
-//                    var executor = new Executor
+//                    var executor = new Provider
 //                    {
 //                        Id = i,
-//                        Title = $"Executor title #{i}",
-//                        Body = $"Executor body #{i}"
+//                        Title = $"Provider title #{i}",
+//                        Body = $"Provider body #{i}"
 //                    };
 //                    _service.AddExecutor(executor);
 //                }

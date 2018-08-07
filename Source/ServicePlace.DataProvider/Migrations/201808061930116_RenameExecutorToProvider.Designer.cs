@@ -7,13 +7,13 @@ namespace ServicePlace.DataProvider.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class DisableLazyLoading : IMigrationMetadata
+    public sealed partial class RenameExecutorToProvider : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DisableLazyLoading));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RenameExecutorToProvider));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808061014333_DisableLazyLoading"; }
+            get { return "201808061930116_RenameExecutorToProvider"; }
         }
         
         string IMigrationMetadata.Source

@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServicePlace.Model.DataModels
 {
-    [Table(nameof(Executor))]
-    public class Executor
+    [Table(nameof(Provider))]
+    public class Provider
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

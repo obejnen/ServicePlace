@@ -66,7 +66,7 @@
   <ItemGroup>
     <Compile Include="DbContexts\ApplicationContext.cs" />
     <Compile Include="Infrastructure\DataProviderModule.cs" />
-    <Compile Include="Interfaces\IExecutorRepository.cs" />
+    <Compile Include="Interfaces\IProviderRepository.cs" />
     <Compile Include="Interfaces\IIdentityRepository.cs" />
     <Compile Include="Interfaces\IProfileManager.cs" />
     <Compile Include="Interfaces\IOrderRepository.cs" />
@@ -74,7 +74,7 @@
     <Compile Include="Managers\ProfileManager.cs" />
     <Compile Include="Managers\RoleManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
-    <Compile Include="Mappers\ExecutorMapper.cs" />
+    <Compile Include="Mappers\ProviderMapper.cs" />
     <Compile Include="Mappers\OrderMapper.cs" />
     <Compile Include="Mappers\ProfileMapper.cs" />
     <Compile Include="Mappers\RoleMapper.cs" />
@@ -87,10 +87,6 @@
     <Compile Include="Migrations\201808050915562_Create-Orders.Designer.cs">
       <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808061014333_DisableLazyLoading.cs" />
-    <Compile Include="Migrations\201808061014333_DisableLazyLoading.Designer.cs">
-      <DependentUpon>201808061014333_DisableLazyLoading.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.cs" />
     <Compile Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.Designer.cs">
       <DependentUpon>201808061022447_MakeUpdatedAtOrderFieldNullable.cs</DependentUpon>
@@ -99,9 +95,13 @@
     <Compile Include="Migrations\201808061150083_AddExecutorModel.Designer.cs">
       <DependentUpon>201808061150083_AddExecutorModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808061930116_RenameExecutorToProvider.cs" />
+    <Compile Include="Migrations\201808061930116_RenameExecutorToProvider.Designer.cs">
+      <DependentUpon>201808061930116_RenameExecutorToProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ExecutorRepository.cs" />
+    <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\IdentityRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Stores\UserStore.cs" />
@@ -127,14 +127,14 @@
     <EmbeddedResource Include="Migrations\201808050915562_Create-Orders.resx">
       <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808061014333_DisableLazyLoading.resx">
-      <DependentUpon>201808061014333_DisableLazyLoading.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.resx">
       <DependentUpon>201808061022447_MakeUpdatedAtOrderFieldNullable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808061150083_AddExecutorModel.resx">
       <DependentUpon>201808061150083_AddExecutorModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808061930116_RenameExecutorToProvider.resx">
+      <DependentUpon>201808061930116_RenameExecutorToProvider.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -27,7 +27,7 @@ namespace ServicePlace.DataProvider.Infrastructure
 
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-            builder.RegisterType<ExecutorRepository>().As<IExecutorRepository>();
+            builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
         }
     }
 }

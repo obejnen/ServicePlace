@@ -1,0 +1,7 @@
+﻿@using ServicePlace.Model.ViewModels.OrderResponseViewModels
+@model CreateViewModel
+
+@using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post))
+{
+    @Html.DropDownListFor(m => m.ProviderId, Model.Providers)
+}
