@@ -1,4 +1,4 @@
-﻿@using ServicePlace.Website.Models.ExecutorViewModels
+﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
 @model IEnumerable<IndexViewModel>
 
 <link rel="stylesheet" href="~/Content/order.css" />
@@ -9,7 +9,7 @@
         <img src="~/Content/Images/preview-background.png" alt="Avatar" class="preview-image">
         <div class="preview-content">
             <div class="preview-title">
-                @Html.ActionLink(executor.Title, "Show", "Executor", new { id = executor.Id }, new { @class = "preview-title" })
+                @Html.ActionLink(executor.Title, "Show", "Provider", new { id = executor.Id }, new { @class = "preview-title" })
             </div>
             <div class="preview-body">@executor.Body</div>
         </div>

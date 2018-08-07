@@ -1,7 +1,7 @@
-﻿@using ServicePlace.Website.Models.ExecutorViewModels
+﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
 @model CreateViewModel
 
-@using (Html.BeginForm("Create", "Executor", FormMethod.Post))
+@using (Html.BeginForm("Create", "Provider", FormMethod.Post))
 {
     @Html.LabelFor(m => m.Title)
     @Html.TextBoxFor(m => m.Title)

@@ -1,7 +1,7 @@
 ﻿using System;
 using ServicePlace.Model.ViewModels.AccountViewModels;
 
-namespace ServicePlace.Website.Models.OrderViewModels
+namespace ServicePlace.Model.ViewModels.OrderViewModels
 {
     public class IndexViewModel
     {

@@ -12,6 +12,7 @@ namespace ServicePlace.DataProvider.DbContexts
 
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Executor> Executors { get; set; }
+        public DbSet<Provider> Executors { get; set; }
+        public DbSet<OrderResponse> OrderResponses { get; set; }
     }
 }

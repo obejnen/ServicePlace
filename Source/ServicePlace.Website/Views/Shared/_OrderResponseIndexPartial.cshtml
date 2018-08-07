@@ -1,0 +1,14 @@
+﻿@using ServicePlace.Model.ViewModels.OrderResponseViewModels
+@model IEnumerable<IndexViewModel>
+
+@{
+    Layout = null;
+}
+
+@foreach (var orderResponse in Model)
+{
+    @Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new {id = orderResponse.Provider.Id})
+    @orderResponse.Comment
+    @orderResponse.Price
+    @(orderResponse.IsCompleted ? "Completed" : "Not completed")
+}

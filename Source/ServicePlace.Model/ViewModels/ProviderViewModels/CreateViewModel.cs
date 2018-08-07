@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServicePlace.Website.Models.ExecutorViewModels
+namespace ServicePlace.Model.ViewModels.ProviderViewModels
 {
     public class CreateViewModel
     {

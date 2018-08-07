@@ -5,24 +5,24 @@ using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.Model.LogicModels;
 using ServicePlace.Model.ViewModels.AccountViewModels;
-using ServicePlace.Website.Models.ExecutorViewModels;
+using ServicePlace.Model.ViewModels.ProviderViewModels;
 
 namespace ServicePlace.Website.Controllers
 {
-    public class ExecutorController : Controller
+    public class ProviderController : Controller
     {
-        private readonly IExecutorService _executorService;
+        private readonly IProviderService _providerService;
         private readonly IUserService _userService;
 
-        public ExecutorController(IExecutorService executorService, IUserService userService)
+        public ProviderController(IProviderService providerService, IUserService userService)
         {
-            _executorService = executorService;
+            _providerService = providerService;
             _userService = userService;
         }
 
         public ActionResult Index()
         {
-            var model = Mapper.Map<IEnumerable<IndexViewModel>>(_executorService.Executors);
+            var model = Mapper.Map<IEnumerable<IndexViewModel>>(_providerService.Providers);
             return View(model);
         }
 
@@ -30,7 +30,7 @@ namespace ServicePlace.Website.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return View();
-            return RedirectToAction("Index", "Executor");
+            return RedirectToAction("Index", "Provider");
         }
 
 
@@ -40,7 +40,7 @@ namespace ServicePlace.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                var executor = new Executor
+                var executor = new Provider
                 {
                     Title = model.Title,
                     Body = model.Body,
@@ -48,16 +48,16 @@ namespace ServicePlace.Website.Controllers
                     Creator = _userService.FindById(User.Identity.GetUserId())
                 };
 
-                _executorService.Create(executor);
+                _providerService.Create(executor);
             }
 
-            return RedirectToAction("Index", "Executor");
+            return RedirectToAction("Index", "Provider");
         }
 
         public ActionResult Show(int id)
         {
-            var executor = _executorService.FindById(id);
-            var creator = _userService.FindById(executor.Creator.Id);
+            var provider = _providerService.FindById(id);
+            var creator = _userService.FindById(provider.Creator.Id);
             var creatorViewModel = new CreatorViewModel
             {
                 Id = creator.Id,
@@ -66,12 +66,12 @@ namespace ServicePlace.Website.Controllers
             };
             var viewModel = new ShowViewModel
             {
-                Id = executor.Id,
-                Title = executor.Title,
-                Body = executor.Body,
-                Price = executor.Price,
-                CreatedAt = executor.CreatedAt,
-                UpdatedAt = executor.UpdatedAt,
+                Id = provider.Id,
+                Title = provider.Title,
+                Body = provider.Body,
+                Price = provider.Price,
+                CreatedAt = provider.CreatedAt,
+                UpdatedAt = provider.UpdatedAt,
                 Creator = creatorViewModel
             };
 

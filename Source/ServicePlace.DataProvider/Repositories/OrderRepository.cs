@@ -56,7 +56,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public CommonModels.Order FindById(object id)
         {
-            var order = _context.Orders.Find(id);
+            var order = _context.Orders.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == (int)id);
             return _mapper.MapToCommonModel(order);
         }
 

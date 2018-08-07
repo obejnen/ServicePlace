@@ -1,8 +1,11 @@
-﻿@using ServicePlace.Website.Models.OrderViewModels
+﻿@using ServicePlace.Model.ViewModels.OrderViewModels
 @model ShowViewModel
-    
+
 <h1>@Model.Title</h1>
 @Model.Body
 @Model.Creator.UserName
 @Model.Creator.Name
 @Model.CreatedAt
+
+@Html.Action("Create", "OrderResponse", new { orderId = Model.Id })
+@Html.Action("Index", "OrderResponse", new { orderId = Model.Id })

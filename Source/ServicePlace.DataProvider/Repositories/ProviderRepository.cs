@@ -3,7 +3,6 @@ using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using ServicePlace.Common.Enums;
 using CommonModels = ServicePlace.Model.LogicModels;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.DbContexts;
@@ -11,27 +10,27 @@ using ServicePlace.DataProvider.Interfaces;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class ExecutorRepository : IExecutorRepository
+    public class ProviderRepository : IProviderRepository
     {
         private readonly ApplicationContext _context;
-        private readonly ExecutorMapper _mapper;
+        private readonly ProviderMapper _mapper;
 
-        public ExecutorRepository(ApplicationContext context)
+        public ProviderRepository(ApplicationContext context)
         {
             _context = context;
-            _mapper = new ExecutorMapper();
+            _mapper = new ProviderMapper();
         }
 
-        public IEnumerable<CommonModels.Executor> GetAll()
+        public IEnumerable<CommonModels.Provider> GetAll()
         {
             var result = _context.Executors.Include(x => x.Creator.Profile).ToList()
                 .Select(x => _mapper.MapToCommonModel(x));
             Mapper.Reset();
-            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Executor>, IEnumerable<CommonModels.Executor>>());
-            return Mapper.Map<IEnumerable<CommonModels.Executor>>(result);
+            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Provider>, IEnumerable<CommonModels.Provider>>());
+            return Mapper.Map<IEnumerable<CommonModels.Provider>>(result);
         }
 
-        public void Create(CommonModels.Executor model)
+        public void Create(CommonModels.Provider model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var executor = _mapper.MapToDataModel(model, creator);
@@ -39,7 +38,7 @@ namespace ServicePlace.DataProvider.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(CommonModels.Executor model)
+        public void Delete(CommonModels.Provider model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var executor = _mapper.MapToDataModel(model, creator);
@@ -47,7 +46,7 @@ namespace ServicePlace.DataProvider.Repositories
             _context.SaveChanges();
         }
 
-        public void Update(CommonModels.Executor model)
+        public void Update(CommonModels.Provider model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
             var newExecutor = _mapper.MapToDataModel(model, creator);
@@ -55,26 +54,26 @@ namespace ServicePlace.DataProvider.Repositories
             _context.SaveChanges();
         }
 
-        public CommonModels.Executor FindById(object id)
+        public CommonModels.Provider FindById(object id)
         {
-            var executor = _context.Executors.Find(id);
+            var executor = _context.Executors.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == (int) id);
             return _mapper.MapToCommonModel(executor);
         }
 
-        public IEnumerable<CommonModels.Executor> Search(string search)
+        public IEnumerable<CommonModels.Provider> Search(string search)
         {
             var executors = _context.Executors.Where(x => x.Title.Contains(search) || x.Body.Contains(search));
             Mapper.Reset();
-            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Executor>, IEnumerable<CommonModels.Executor>>());
-            return Mapper.Map<IEnumerable<CommonModels.Executor>>(executors.Select(x => _mapper.MapToCommonModel(x)));
+            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Provider>, IEnumerable<CommonModels.Provider>>());
+            return Mapper.Map<IEnumerable<CommonModels.Provider>>(executors.Select(x => _mapper.MapToCommonModel(x)));
         }
 
-        public IEnumerable<CommonModels.Executor> Take(int skip, int count)
+        public IEnumerable<CommonModels.Provider> Take(int skip, int count)
         {
             var executors = _context.Executors.Skip(skip).Take(count);
             Mapper.Reset();
-            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Executor>, IEnumerable<CommonModels.Executor>>());
-            return Mapper.Map<IEnumerable<CommonModels.Executor>>(executors.Select(x => _mapper.MapToCommonModel(x)));
+            Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Provider>, IEnumerable<CommonModels.Provider>>());
+            return Mapper.Map<IEnumerable<CommonModels.Provider>>(executors.Select(x => _mapper.MapToCommonModel(x)));
         }
 
         public void Dispose()

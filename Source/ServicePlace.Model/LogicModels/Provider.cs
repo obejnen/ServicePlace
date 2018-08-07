@@ -2,7 +2,7 @@
 
 namespace ServicePlace.Model.LogicModels
 {
-    public class Executor
+    public class Provider
     {
         public int Id { get; set; }
         public string Title { get; set; }
