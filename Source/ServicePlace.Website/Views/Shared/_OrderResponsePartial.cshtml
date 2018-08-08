@@ -1,20 +1,65 @@
 ﻿@using ServicePlace.Model.ViewModels.OrderResponseViewModels
 @model CreateViewModel
 
+<link rel="stylesheet" href="~/Content/order-response.css" />
+
 @{
     Layout = null;
 }
 
-@using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post))
+@if (Model.Providers.Any())
 {
-    @Html.HiddenFor(m => m.OrderId, Model.OrderId)
-    @Html.LabelFor(m => m.ProviderId, "Provider")
-    @Html.DropDownListFor(m => m.ProviderId, Model.Providers)
+    <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">I can do it</button>
+    <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
+    <br/>
+    <br/>
+    <div class="order-response-form" id="response-form">
+        @using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+        {
+            <h2>Responde</h2>
+            @Html.HiddenFor(m => m.OrderId, Model.OrderId)
+            @Html.LabelFor(m => m.ProviderId, "Provider")
+            @Html.DropDownListFor(m => m.ProviderId, Model.Providers, new { @class = "w3-select" })
+            <br />
+            @Html.LabelFor(m => m.Price)
+            @Html.TextBoxFor(m => m.Price, new { @class = "w3-input" })
+            <br />
+            @Html.LabelFor(m => m.Comment)
+            @Html.TextAreaFor(m => m.Comment, new { @class = "w3-input" })
+            <br />
+            <br />
+            <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
+            <br />
+            <br />
+        }
+        <br />
+        <br />
 
-    @Html.LabelFor(m => m.Price)
-    @Html.TextBoxFor(m => m.Price)
+    </div>
+    <script>
+        $(function () {
+            $("#response-form").hide();
+            $("#hide-form-button").hide();
+        });
+        function openForm() {
+            $("#hide-form-button").show();
+            $("#open-form-button").hide();
+            $("#response-form").show();
+            $("#response-form").addClass("w3-animate-top");
+        }
 
-    @Html.LabelFor(m => m.Comment)
-    @Html.TextBoxFor(m => m.Comment)
-    <input type="submit" value="Response!"/>
+        function hideForm() {
+            $("#open-form-button").show();
+            $("#hide-form-button").hide();
+            $("#response-form").hide();
+            $("#response-form").removeClass("w3-animate-top");
+        }
+    </script>
+}
+else
+{
+    using (Html.BeginForm("Create", "Provider"))
+    {
+        <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
+    }
 }

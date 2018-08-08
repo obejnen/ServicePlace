@@ -1,13 +1,38 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
 @model CreateViewModel
 
-@using (Html.BeginForm("Create", "Provider", FormMethod.Post))
-{
-    @Html.LabelFor(m => m.Title)
-    @Html.TextBoxFor(m => m.Title)
-    @Html.LabelFor(m => m.Body)
-    @Html.TextBoxFor(m => m.Body)
-    @Html.LabelFor(m => m.Price)
-    @Html.TextBoxFor(m => m.Price)
-    <input type="submit" value="Submit" />
+@{
+    ViewBag.Title = "Create provider";
 }
+
+<link rel="stylesheet" href="~/Content/provider.css" />
+
+<div class="create-form">
+    @using (Html.BeginForm("Create", "Provider", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+    {
+        <h2>@ViewBag.Title</h2>
+        <br />
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input" })
+        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+
+        <br />
+        @Html.LabelFor(m => m.Body)
+        @Html.TextAreaFor(m => m.Body, new { @class = "w3-input body-text" })
+        @Html.ValidationMessageFor(m => m.Body, "", new { @class = "text-danger" })
+
+        <br />
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price, new { @class = "w3-input" })
+        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+
+        <br />
+        <br />
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="Create" />
+        <br />
+        <br />
+    }
+</div>

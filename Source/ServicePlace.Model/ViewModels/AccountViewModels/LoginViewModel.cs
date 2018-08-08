@@ -5,6 +5,7 @@ namespace ServicePlace.Model.ViewModels.AccountViewModels
     public class LoginViewModel
     {
         [Required]
+        [DataType(DataType.Text)]
         public string UserName { get; set; }
 
         [Required]

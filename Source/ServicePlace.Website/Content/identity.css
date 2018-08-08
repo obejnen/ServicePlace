@@ -1,0 +1,8 @@
+﻿.login-form {
+    max-width: 40%;
+    margin: auto;
+}
+
+.login-form textarea {
+    height: 150px;
+}

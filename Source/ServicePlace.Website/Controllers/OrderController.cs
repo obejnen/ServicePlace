@@ -28,7 +28,9 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                return View();
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]

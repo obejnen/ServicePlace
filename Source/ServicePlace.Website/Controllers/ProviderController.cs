@@ -30,10 +30,8 @@ namespace ServicePlace.Website.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return View();
-            return RedirectToAction("Index", "Provider");
+            return RedirectToAction("Login", "Account");
         }
-
-
 
         [HttpPost]
         public RedirectToRouteResult Create(CreateViewModel model)
