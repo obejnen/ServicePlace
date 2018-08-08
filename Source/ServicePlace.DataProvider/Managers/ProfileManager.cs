@@ -8,10 +8,12 @@ namespace ServicePlace.DataProvider.Managers
     public class ProfileManager : IProfileManager
     {
         private readonly ApplicationContext _context;
+        private readonly log4net.ILog _log;
 
         public ProfileManager()
         {
             _context = new ApplicationContext();
+            _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         public void Create(CommonModels.User user, string userId)
@@ -19,6 +21,7 @@ namespace ServicePlace.DataProvider.Managers
             var profile = new ProfileMapper().MapToDataModel(user, userId);
             _context.Profiles.Add(profile);
             _context.SaveChangesAsync();
+            _log.Info("Profile saved");
         }
 
         public async void Update(CommonModels.User user)
@@ -27,6 +30,7 @@ namespace ServicePlace.DataProvider.Managers
             var profile = await _context.Profiles.FindAsync(user.Id);
             profile = modifiedProfile;
             await _context.SaveChangesAsync();
+            _log.Info("Profile modified");
         }
 
         public async void Delete(CommonModels.User user)
@@ -34,6 +38,7 @@ namespace ServicePlace.DataProvider.Managers
             var profile = new ProfileMapper().MapToDataModel(user);
             _context.Profiles.Remove(profile);
             await _context.SaveChangesAsync();
+            _log.Info("Profile removed");
         }
 
         public void Dispose()

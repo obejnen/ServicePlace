@@ -17,6 +17,7 @@ namespace ServicePlace.DataProvider.Repositories
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly UserMapper _mapper;
+        private readonly log4net.ILog _log;
 
         private bool _disposed;
 
@@ -26,6 +27,7 @@ namespace ServicePlace.DataProvider.Repositories
             _roleManager = roleManager;
             _profileManager = profileManager;
             _mapper = new UserMapper();
+            _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         public void Create(CommonModels.User user)
@@ -33,8 +35,11 @@ namespace ServicePlace.DataProvider.Repositories
             var model = new UserMapper().MapToDataModel(user);
             model.Id = Guid.NewGuid().ToString();
             _userManager.Create(model, user.Password);
+            _log.Info($"Created user {model.UserName}");
             _userManager.AddToRole(model.Id, user.Role);
+            _log.Info($"User {model.UserName} added to role {user.Role}");
             _profileManager.Create(user, model.Id);
+            _log.Info($"Profile for user {model.UserName} created");
         }
 
         public void Update(CommonModels.User user)
@@ -42,6 +47,7 @@ namespace ServicePlace.DataProvider.Repositories
             var model = _mapper.MapToDataModel(user);
             _userManager.Update(model);
             _profileManager.Update(user);
+            _log.Info($"User {model.UserName} and profile updated");
         }
 
         public void Delete(CommonModels.User user)
@@ -49,6 +55,7 @@ namespace ServicePlace.DataProvider.Repositories
             var model = _mapper.MapToDataModel(user);
             _userManager.Delete(model);
             _profileManager.Delete(user);
+            _log.Info($"User ${model.UserName} and profile removed");
         }
 
         public CommonModels.User FindByEmail(string email)
