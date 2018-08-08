@@ -1,5 +1,4 @@
 ﻿using System;
-using ProviderViewModels = ServicePlace.Model.ViewModels.ProviderViewModels;
 
 namespace ServicePlace.Model.ViewModels.OrderResponseViewModels
 {

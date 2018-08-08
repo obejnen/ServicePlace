@@ -67,7 +67,8 @@ namespace ServicePlace.DataProvider.Repositories
                 .OrderResponses
                 .Include(x => x.Order.Creator.Profile)
                 .Include(x => x.Provider.Creator.Profile)
-                .Where(x => x.Order.Id == id).ToList()
+                .Where(x => x.Order.Id == id)
+                .ToList()
                 .Select(x => _mapper.MapToLogicModel(x));
         }
 

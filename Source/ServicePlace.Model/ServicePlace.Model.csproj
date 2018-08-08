@@ -94,6 +94,7 @@
     <Compile Include="ViewModels\OrderResponseViewModels\CreateViewModel.cs" />
     <Compile Include="ViewModels\OrderResponseViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\ProviderResponseViewModels\CreateViewModel.cs" />
+    <Compile Include="ViewModels\ProviderResponseViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\ProviderViewModels\CreateViewModel.cs" />
     <Compile Include="ViewModels\ProviderViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\ProviderViewModels\ListElementViewModel.cs" />

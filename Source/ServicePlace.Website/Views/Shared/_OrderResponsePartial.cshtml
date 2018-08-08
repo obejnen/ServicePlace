@@ -11,8 +11,8 @@
 {
     <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">I can do it</button>
     <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <div class="order-response-form" id="response-form">
         @using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
         {
@@ -58,8 +58,10 @@
 }
 else
 {
-    using (Html.BeginForm("Create", "Provider"))
+    using (Html.BeginForm("Create", "Provider", FormMethod.Get))
     {
-        <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
+        <button class="w3-button w3-black w3-hover-white" type="submit">Provide service</button>
+        <br />
+        <br />
     }
 }

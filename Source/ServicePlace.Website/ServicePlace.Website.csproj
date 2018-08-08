@@ -263,6 +263,7 @@
     <Content Include="Views\Shared\_OrderResponsePartial.cshtml" />
     <Content Include="Views\Shared\_OrderResponseIndexPartial.cshtml" />
     <Content Include="Views\Shared\_ProviderResponsePartial.cshtml" />
+    <Content Include="Views\Shared\_ProviderResponseIndexPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

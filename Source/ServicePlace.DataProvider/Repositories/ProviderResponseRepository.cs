@@ -60,9 +60,10 @@ namespace ServicePlace.DataProvider.Repositories
         {
             return _context
                 .ProviderResponses
-                .Include(x => x.Order)
-                .Include(x => x.Provider)
+                .Include(x => x.Order.Creator.Profile)
+                .Include(x => x.Provider.Creator.Profile)
                 .Where(x => x.Provider.Id == providerId)
+                .ToList()
                 .Select(x => _mapper.MapToCommonModel(x));
         }
 

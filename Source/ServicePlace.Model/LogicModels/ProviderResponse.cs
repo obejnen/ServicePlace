@@ -8,6 +8,6 @@ namespace ServicePlace.Model.LogicModels
         public Order Order { get; set; }
         public Provider Provider { get; set; }
         public string Comment { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

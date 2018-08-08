@@ -35,4 +35,4 @@ namespace ServicePlace.DataProvider.Infrastructure
             builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
         }
     }
-}
+}   
