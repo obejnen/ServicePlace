@@ -7,30 +7,27 @@
 
 @foreach (var orderResponse in Model)
 {
-    @(orderResponse.IsCompleted ? "Completed" : "Not completed")
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-1">
-                <div class="thumbnail">
-                    <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-                </div><!-- /thumbnail -->
-            </div><!-- /col-sm-1 -->
-
-            <div class="col-sm-5">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>
-                            @Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new { id = orderResponse.Provider.Id }, null)
-                        </strong> <span class="text-muted">@orderResponse.Price</span>
-                    </div>
-                    <div class="panel-body">
-                        @orderResponse.Comment
-                    </div><!-- /panel-body -->
-                </div><!-- /panel panel-default -->
-            </div><!-- /col-sm-5 -->
-        </div><!-- /row -->
-
-    </div><!-- /container -->
-
+<div class="order-response">
+    <div class="order-response-image">
+        <img src="~/Content/Images/preview-background.png" />
+    </div>
+    <div class="w3-card-2 order-response-content">
+        <header class="w3-container w3-light-gray">
+            <h3><strong>@Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new { id = orderResponse.Provider.Id }, null)</strong></h3>
+        </header>
+        <div class="w3-container">
+            <p>@orderResponse.Comment</p>
+        </div>
+    </div>
+    <div class="w3-card-2 w3-light-gray order-response-info">
+        <div class="w3-container">
+            <p>@orderResponse.Price</p>
+        </div>
+        <div class="w3-container">
+            <p>@orderResponse.CreatedAt</p>
+        </div>
+    </div>
+</div>
+<br />
+<br />
 }
