@@ -7,8 +7,30 @@
 
 @foreach (var orderResponse in Model)
 {
-    @Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new {id = orderResponse.Provider.Id})
-    @orderResponse.Comment
-    @orderResponse.Price
     @(orderResponse.IsCompleted ? "Completed" : "Not completed")
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1">
+                <div class="thumbnail">
+                    <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                </div><!-- /thumbnail -->
+            </div><!-- /col-sm-1 -->
+
+            <div class="col-sm-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>
+                            @Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new { id = orderResponse.Provider.Id }, null)
+                        </strong> <span class="text-muted">@orderResponse.Price</span>
+                    </div>
+                    <div class="panel-body">
+                        @orderResponse.Comment
+                    </div><!-- /panel-body -->
+                </div><!-- /panel panel-default -->
+            </div><!-- /col-sm-5 -->
+        </div><!-- /row -->
+
+    </div><!-- /container -->
+
 }

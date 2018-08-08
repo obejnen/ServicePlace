@@ -1,21 +1,26 @@
 ﻿@using ServicePlace.Model.ViewModels.OrderViewModels
 @model IEnumerable<IndexViewModel>
 
+@{
+    ViewBag.Title = "Orders";
+}
+
 <link rel="stylesheet" href="~/Content/order.css" />
 
-@foreach (var order in @Model)
-{
-    <div class="preview-container">
-        <img src="~/Content/Images/preview-background.png" alt="Avatar" class="preview-image">
-        <div class="preview-content">
-            <div class="preview-title">
-                @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "preview-title" })
+<div class="w3-row-padding w3-padding-16 w3-center" id="food">
+    
+    @foreach (var order in @Model)
+    {
+        <a href="@Url.Action("Show", "Order", new { id = order.Id })">
+            <div class="w3-quarter">
+                <img src="~/Content/Images/preview-background.png" alt="Sandwich" style="width:100%">
+                <div class="order-title">
+                    <h3>@Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, null)</h3>
+                </div>
+                <div class="preview-body">
+                    <p>@order.Body</p>
+                </div>
             </div>
-            <div class="preview-body">@order.Body</div>
-        </div>
-        <div class="preview-info">
-            <div class="preview-date">@order.CreatedAt.ToShortDateString()</div>
-            <div class="preview-creator">@order.Creator.UserName</div>
-        </div>
-    </div>
-}
+        </a>
+    }
+</div>

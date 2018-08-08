@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using System.Web.Mvc;
-using ServicePlace.Logic.Interfaces;
+﻿using System.Web.Mvc;
 
 namespace ServicePlace.Website.Controllers
 {

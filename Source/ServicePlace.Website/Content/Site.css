@@ -4,10 +4,34 @@
 }
 
 .main {
-    padding-left: 30px;
+    background-color: #dbdbdb;
+    margin-left: 8%;
+    margin-right: 8%;
+    padding-left: 37px;
+    padding-right: 37px;
     padding-top: 55px;
+    min-height: 100vh;
+    height: 100%
 }
 
 .login-link {
     float: right;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Karma", sans-serif
+}
+
+.w3-bar-block .w3-bar-item {
+    padding: 20px
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.site-title {
+    max-width: 66%;
+    margin: auto;
+    overflow: hidden;
 }

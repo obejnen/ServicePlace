@@ -208,7 +208,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\identity.css" />
     <Content Include="Content\Images\preview-background.png" />
+    <Content Include="Content\order-response.css" />
     <Content Include="Content\order.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
