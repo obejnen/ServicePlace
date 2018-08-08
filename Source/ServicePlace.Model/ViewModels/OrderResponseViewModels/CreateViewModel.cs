@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using ServicePlace.Model.ViewModels.ProviderViewModels;
 
 namespace ServicePlace.Model.ViewModels.OrderResponseViewModels
 {

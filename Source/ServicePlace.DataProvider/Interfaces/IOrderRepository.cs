@@ -9,5 +9,7 @@ namespace ServicePlace.DataProvider.Interfaces
         IEnumerable<Order> Search(string search);
 
         IEnumerable<Order> Take(int skip, int count);
+
+        Order GetOrderProvider(int providerId, int orderId);
     }
 }

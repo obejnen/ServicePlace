@@ -6,44 +6,42 @@ using LogicModels = ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Mappers
 {
-    public class OrderResponseMapper
+    public class ProviderResponseMapper
     {
         private readonly ApplicationContext _context;
 
-        public OrderResponseMapper(ApplicationContext context)
+        public ProviderResponseMapper(ApplicationContext context)
         {
             _context = context;
         }
 
-        public DataModels.OrderResponse MapToDataModel(LogicModels.OrderResponse model)
+        public DataModels.ProviderResponse MapToDataModel(LogicModels.ProviderResponse model)
         {
             var order = _context.Orders.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == model.Order.Id);
             var provider = _context.Providers.Include(x => x.Creator.Profile)
                 .FirstOrDefault(x => x.Id == model.Provider.Id);
-            return new DataModels.OrderResponse
+
+            return new DataModels.ProviderResponse
             {
                 Id = model.Id,
                 Order = order,
                 Provider = provider,
-                Price = model.Price,
                 Comment = model.Comment,
-                IsCompleted = model.IsCompleted,
                 CreatedAt = model.CreatedAt
             };
         }
 
-        public LogicModels.OrderResponse MapToLogicModel(DataModels.OrderResponse model)
+        public LogicModels.ProviderResponse MapToCommonModel(DataModels.ProviderResponse model)
         {
             var provider = new ProviderMapper().MapToCommonModel(model.Provider);
             var order = new OrderMapper().MapToCommonModel(model.Order);
-            return new LogicModels.OrderResponse
+            
+            return new LogicModels.ProviderResponse
             {
                 Id = model.Id,
                 Order = order,
                 Provider = provider,
-                Price = model.Price,
                 Comment = model.Comment,
-                IsCompleted = model.IsCompleted,
                 CreatedAt = model.CreatedAt
             };
         }
