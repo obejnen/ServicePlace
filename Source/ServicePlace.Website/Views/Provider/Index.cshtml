@@ -1,22 +1,35 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
 @model IEnumerable<IndexViewModel>
 
-<link rel="stylesheet" href="~/Content/order.css" />
-
-@foreach (var executor in @Model)
-{
-    <div class="preview-container">
-        <img src="~/Content/Images/preview-background.png" alt="Avatar" class="preview-image">
-        <div class="preview-content">
-            <div class="preview-title">
-                @Html.ActionLink(executor.Title, "Show", "Provider", new { id = executor.Id }, new { @class = "preview-title" })
-            </div>
-            <div class="preview-body">@executor.Body</div>
-        </div>
-        <div class="preview-info">
-            <div class="preview-date">@executor.CreatedAt.ToShortDateString()</div>
-            <div class="preview-creator">@executor.Creator.UserName</div>
-            <div class="preview-creator">@(executor.Price?.ToString() ?? "Contract price")</div>
-        </div>
-    </div>
+@{
+    ViewBag.Title = "Providers";
 }
+
+<link rel="stylesheet" href="~/Content/provider.css" />
+
+<div class="w3-row-padding w3-padding-16 w3-center">
+    @foreach (var provider in @Model)
+    {
+        <a href="@Url.Action("Show", "Provider", new { id = provider.Id })">
+            <div class="w3-quarter">
+                <div class="w3-display-container">
+                    <img src="~/Content/Images/preview-background.png" style="width: 100%">
+                    <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px; padding-bottom: 15px;">
+                        @(DateTime.Now.Subtract(provider.CreatedAt).Hours > 24
+                              ? $"Created {DateTime.Now.Subtract(provider.CreatedAt).Days} days ago"
+                              : $"Created {DateTime.Now.Subtract(provider.CreatedAt).Hours} hours ago")
+                    </div>
+                    <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
+                        Price: @(provider.Price?.ToString() ?? "Contract price")
+                    </div>
+                </div>
+                <div class="provider-title">
+                    <h3>@Html.ActionLink(provider.Title, "Show", "Order", new {id = provider.Id}, null)</h3>
+                </div>
+                <div class="preview-body">
+                    <p>@provider.Body</p>
+                </div>
+            </div>
+        </a>
+    }
+</div>

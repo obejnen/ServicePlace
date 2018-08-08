@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="~/Content/order.css" />
 
 <div class="w3-row-padding w3-padding-16 w3-center" id="food">
-    
     @foreach (var order in @Model)
     {
         <a href="@Url.Action("Show", "Order", new { id = order.Id })">

@@ -1,8 +1,28 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
 @model ShowViewModel
 
-<h1>@Model.Title</h1>
-@Model.Body
-@Model.Creator.UserName
-@Model.Creator.Name
-@Model.CreatedAt
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<link rel="stylesheet" href="~/Content/provider.css" />
+
+<div class="w3-card-4 order-image w3-display-container">
+    <img src="~/Content/Images/preview-background.png">
+    <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
+        @Model.Creator.Name
+    </div>
+    <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">Created by @Model.Creator.UserName</div>
+    <div class="w3-display-bottomright w3-container w3-text-white">Created at @Model.CreatedAt</div>
+</div>
+
+<br />
+<br />
+
+<div class="w3-xlarge">
+    @Model.Body
+</div>
+
+<div class="w3-xxxlarge w3-right">
+    Price: @Model.Price
+</div>
