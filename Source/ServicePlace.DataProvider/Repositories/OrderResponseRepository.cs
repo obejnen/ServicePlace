@@ -28,28 +28,7 @@ namespace ServicePlace.DataProvider.Repositories
         {
             var orderResponse = _mapper.MapToDataModel(model);
             _context.OrderResponses.Add(orderResponse);
-
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbEntityValidationException e)
-            {
-                for(int i = 0; i < 10; i++) Debug.WriteLine("");
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                for (int i = 0; i < 10; i++) Debug.WriteLine("");
-
-                throw;
-            }
+            _context.SaveChanges();
 
         }
 
@@ -74,16 +53,22 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<OrderResponse> GetAll()
         {
-            return _context.OrderResponses.Include(x => x.Order).Include(x => x.Provider).ToList()
+            return _context
+                .OrderResponses
+                .Include(x => x.Order)
+                .Include(x => x.Provider)
+                .ToList()
                 .Select(x => _mapper.MapToLogicModel(x));
         }
 
         public IEnumerable<OrderResponse> GetOrderResponses(int id)
         {
-            return _context.OrderResponses
+            return _context
+                .OrderResponses
                 .Include(x => x.Order.Creator.Profile)
                 .Include(x => x.Provider.Creator.Profile)
-                .Where(x => x.Order.Id == id).ToList()
+                .Where(x => x.Order.Id == id)
+                .ToList()
                 .Select(x => _mapper.MapToLogicModel(x));
         }
 

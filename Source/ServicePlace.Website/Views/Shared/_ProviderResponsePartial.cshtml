@@ -1,4 +1,4 @@
-﻿@using ServicePlace.Model.ViewModels.OrderResponseViewModels
+﻿@using ServicePlace.Model.ViewModels.ProviderResponseViewModels
 @model CreateViewModel
 
 <link rel="stylesheet" href="~/Content/order-response.css" />
@@ -7,22 +7,19 @@
     Layout = null;
 }
 
-@if (Model.Providers.Any())
+@if (Model.Orders.Any())
 {
-    <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">I can do it</button>
+    <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">Write comment</button>
     <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
     <br />
     <br />
     <div class="order-response-form" id="response-form">
-        @using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+        @using (Html.BeginForm("Create", "ProviderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
         {
             <h2>Responde</h2>
-            @Html.HiddenFor(m => m.OrderId, Model.OrderId)
-            @Html.LabelFor(m => m.ProviderId, "Provider")
-            @Html.DropDownListFor(m => m.ProviderId, Model.Providers, new { @class = "w3-select" })
-            <br />
-            @Html.LabelFor(m => m.Price)
-            @Html.TextBoxFor(m => m.Price, new { @class = "w3-input" })
+            @Html.HiddenFor(m => m.ProviderId, Model.ProviderId)
+            @Html.LabelFor(m => m.OrderId, "Provider")
+            @Html.DropDownListFor(m => m.OrderId, Model.Orders, new { @class = "w3-select" })
             <br />
             @Html.LabelFor(m => m.Comment)
             @Html.TextAreaFor(m => m.Comment, new { @class = "w3-input" })
@@ -56,12 +53,10 @@
         }
     </script>
 }
-else
+@*else
 {
-    using (Html.BeginForm("Create", "Provider", FormMethod.Get))
+    using (Html.BeginForm("Create", "Provider"))
     {
-        <button class="w3-button w3-black w3-hover-white" type="submit">Provide service</button>
-        <br />
-        <br />
+        <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
     }
-}
+}*@

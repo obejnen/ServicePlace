@@ -20,5 +20,9 @@ namespace ServicePlace.Logic.Interfaces
         IEnumerable<Provider> Take(int skip, int count);
 
         IEnumerable<Provider> GetUserProviders(User user);
+
+        void CreateResponse(ProviderResponse response);
+
+        IEnumerable<ProviderResponse> GetProviderResponses(int providerId);
     }
 }

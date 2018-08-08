@@ -17,6 +17,7 @@ namespace ServicePlace.DataProvider.Infrastructure
         {
             builder.RegisterType<ApplicationContext>().AsSelf();
             builder.RegisterType<OrderResponseMapper>().AsSelf();
+            builder.RegisterType<ProviderResponseMapper>().AsSelf();
 
             builder.RegisterType<UserStore<User>>().As<IUserStore<User>>();
             builder.RegisterType<RoleStore<Role>>().As<IRoleStore<Role, string>>();
@@ -29,8 +30,9 @@ namespace ServicePlace.DataProvider.Infrastructure
 
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-            builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>();
             builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
+            builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>();
+            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
         }
     }
-}
+}   

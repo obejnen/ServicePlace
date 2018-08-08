@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IProviderResponseRepository.cs" />
+    <Compile Include="Mappers\ProviderResponseMapper.cs" />
     <Compile Include="Migrations\201808070850098_AddOrderResponseModel.cs" />
     <Compile Include="Migrations\201808070850098_AddOrderResponseModel.Designer.cs">
       <DependentUpon>201808070850098_AddOrderResponseModel.cs</DependentUpon>
@@ -105,12 +107,17 @@
     <Compile Include="Migrations\201808061930116_RenameExecutorToProvider.Designer.cs">
       <DependentUpon>201808061930116_RenameExecutorToProvider.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808081126145_AddProviderResponse.cs" />
+    <Compile Include="Migrations\201808081126145_AddProviderResponse.Designer.cs">
+      <DependentUpon>201808081126145_AddProviderResponse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OrderResponseRepository.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\IdentityRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\ProviderResponseRepository.cs" />
     <Compile Include="Stores\UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808061930116_RenameExecutorToProvider.resx">
       <DependentUpon>201808061930116_RenameExecutorToProvider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808081126145_AddProviderResponse.resx">
+      <DependentUpon>201808081126145_AddProviderResponse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

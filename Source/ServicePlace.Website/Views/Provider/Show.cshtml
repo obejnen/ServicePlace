@@ -26,3 +26,11 @@
 <div class="w3-xxxlarge w3-right">
     Price: @Model.Price
 </div>
+
+<div class="response-container">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.Action("Create", "ProviderResponse", new { providerId = Model.Id })
+    }
+    @Html.Action("Index", "ProviderResponse", new { providerId = Model.Id })
+</div>

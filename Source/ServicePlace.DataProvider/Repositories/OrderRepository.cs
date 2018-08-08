@@ -76,6 +76,17 @@ namespace ServicePlace.DataProvider.Repositories
             return Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));
         }
 
+        public CommonModels.Order GetOrderProvider(int providerId, int orderId)
+        {
+            var list = _context.OrderResponses
+                .Include(x => x.Order)
+                .Include(x => x.Provider)
+                .FirstOrDefault(x => x.Order.Id == orderId && x.Provider.Id == providerId);
+            return list == null
+                ? null
+                : _mapper.MapToCommonModel(list.Order);
+        }
+
         public void Dispose()
         {
             _context.Dispose();

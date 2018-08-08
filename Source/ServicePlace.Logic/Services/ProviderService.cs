@@ -7,13 +7,20 @@ using ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.Logic.Services
 {
-    public class ProviderService : Interfaces.IProviderService
+    public class ProviderService : IProviderService
     {
         private readonly IProviderRepository _providerRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IProviderResponseRepository _responseRepository;
 
-        public ProviderService(IProviderRepository providerRepository)
+        public ProviderService(
+            IProviderRepository providerRepository,
+            IProviderResponseRepository providerResponseRepository,
+            IOrderRepository orderRepository)
         {
             _providerRepository = providerRepository;
+            _responseRepository = providerResponseRepository;
+            _orderRepository = orderRepository;
         }
 
         public IEnumerable<Provider> Providers => _providerRepository.GetAll();
@@ -52,6 +59,29 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<Provider> GetUserProviders(User user)
         {
             return _providerRepository.GetAll().Where(x => user.Id == x.Creator.Id);
+        }
+
+        public void CreateResponse(ProviderResponse response)
+        {
+            response.CreatedAt = DateTime.Now;
+            _responseRepository.Create(response);
+        }
+
+        public IEnumerable<ProviderResponse> GetProviderResponses(int providerId)
+        {
+            return _responseRepository.GetProviderResponses(providerId);
+        }
+
+        public IEnumerable<Order> GetProviderResponse(int providerId, IEnumerable<int> ordersId)
+        {
+            List<Order> responses = new List<Order>();
+
+            foreach (var orderId in ordersId)
+            {
+                responses.Add(_orderRepository.GetOrderProvider(providerId, orderId));
+            }
+
+            return responses;
         }
     }
 }
