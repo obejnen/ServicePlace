@@ -5,6 +5,7 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IOrderRepository : IRepository<Order>
     {
+        int GetOrdersCount();
 
         IEnumerable<Order> Search(string search);
 

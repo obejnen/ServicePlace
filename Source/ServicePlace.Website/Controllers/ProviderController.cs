@@ -2,6 +2,7 @@
 using AutoMapper;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.Model.LogicModels;
 using ServicePlace.Model.ViewModels.AccountViewModels;
@@ -20,9 +21,12 @@ namespace ServicePlace.Website.Controllers
             _userService = userService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var model = Mapper.Map<IEnumerable<IndexViewModel>>(_providerService.Providers);
+            var helper = new PageHelper();
+            ViewBag.CurrentPage = page;
+            ViewBag.PageRange = helper.GetPageRange(page, _providerService.GetPagesCount(8));
+            var model = Mapper.Map<IEnumerable<IndexViewModel>>(_providerService.GetPage(page, 8));
             return View(model);
         }
 

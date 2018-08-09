@@ -21,6 +21,8 @@ namespace ServicePlace.DataProvider.Repositories
             _mapper = new OrderMapper();
         }
 
+        public int GetOrdersCount() => _context.Orders.Count();
+
         public IEnumerable<CommonModels.Order> GetAll()
         {
             var result = _context.Orders.Include(x => x.Creator.Profile).ToList()
@@ -70,7 +72,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<CommonModels.Order> Take(int skip, int count)
         {
-            var orders = _context.Orders.Skip(skip).Take(count);
+            var orders = _context.Orders.Include(x => x.Creator.Profile).OrderBy(x => x.CreatedAt).Skip(skip).Take(count).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Order>, IEnumerable<CommonModels.Order>>());
             return Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));

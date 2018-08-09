@@ -19,6 +19,10 @@ namespace ServicePlace.Logic.Interfaces
 
         IEnumerable<Order> Take(int skip, int count);
 
+        IEnumerable<Order> GetPage(int page, int perPage);
+
+        int GetPagesCount(int perPage);
+
         void CreateResponse(OrderResponse response);
 
         IEnumerable<OrderResponse> GetOrderResponses(int orderId);

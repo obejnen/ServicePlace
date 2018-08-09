@@ -70,11 +70,13 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<CommonModels.Provider> Take(int skip, int count)
         {
-            var executors = _context.Providers.Skip(skip).Take(count);
+            var executors = _context.Providers.Include(x => x.Creator.Profile).OrderBy(x => x.CreatedAt).Skip(skip).Take(count).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Provider>, IEnumerable<CommonModels.Provider>>());
             return Mapper.Map<IEnumerable<CommonModels.Provider>>(executors.Select(x => _mapper.MapToCommonModel(x)));
         }
+
+        public int GetProvidersCount() => _context.Providers.Count();
 
         public void Dispose()
         {

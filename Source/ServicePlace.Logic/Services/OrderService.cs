@@ -50,6 +50,22 @@ namespace ServicePlace.Logic.Services
             return _orderRepository.Take(skip, count);
         }
 
+        public IEnumerable<Order> GetPage(int page, int perPage)
+        {
+            int ordersCount = _orderRepository.GetOrdersCount();
+            int skip = (page - 1) * perPage;
+            return skip + perPage > ordersCount
+                ? Take((page - 1) * perPage, ordersCount % perPage)
+                : Take((page - 1) * perPage, perPage);
+        }
+
+        public int GetPagesCount(int perPage)
+        {
+            var ordersCount = _orderRepository.GetOrdersCount();
+            int count = ordersCount / perPage;
+            return count * perPage == ordersCount ? count : count + 1;
+        }
+
         public void CreateResponse(OrderResponse response)
         {
             response.IsCompleted = false;
