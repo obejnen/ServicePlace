@@ -64,7 +64,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<CommonModels.Order> Search(string search)
         {
-            var orders = _context.Orders.Where(x => x.Title.Contains(search) || x.Body.Contains(search));
+            var orders = _context.Orders.Include(x => x.Creator.Profile).Where(x => x.Title.Contains(search) || x.Body.Contains(search)).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Order>, IEnumerable<CommonModels.Order>>());
             return Mapper.Map<IEnumerable<CommonModels.Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));
