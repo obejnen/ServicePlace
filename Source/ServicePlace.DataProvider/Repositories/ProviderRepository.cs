@@ -62,10 +62,10 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<CommonModels.Provider> Search(string search)
         {
-            var executors = _context.Providers.Where(x => x.Title.Contains(search) || x.Body.Contains(search));
+            var providers = _context.Providers.Include(x => x.Creator.Profile).Where(x => x.Title.Contains(search) || x.Body.Contains(search)).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<CommonModels.Provider>, IEnumerable<CommonModels.Provider>>());
-            return Mapper.Map<IEnumerable<CommonModels.Provider>>(executors.Select(x => _mapper.MapToCommonModel(x)));
+            return Mapper.Map<IEnumerable<CommonModels.Provider>>(providers.Select(x => _mapper.MapToCommonModel(x)));
         }
 
         public IEnumerable<CommonModels.Provider> Take(int skip, int count)
