@@ -61,6 +61,22 @@ namespace ServicePlace.Logic.Services
             return _providerRepository.GetAll().Where(x => user.Id == x.Creator.Id);
         }
 
+        public IEnumerable<Provider> GetPage(int page, int perPage)
+        {
+            int providersCount = _providerRepository.GetProvidersCount();
+            int skip = (page - 1) * perPage;
+            return skip + perPage > providersCount
+                ? Take((page - 1) * perPage, providersCount % perPage)
+                : Take((page - 1) * perPage, perPage);
+        }
+
+        public int GetPagesCount(int perPage)
+        {
+            var providersCount = _providerRepository.GetProvidersCount();
+            int count = providersCount / perPage;
+            return count * perPage == providersCount ? count : count + 1;
+        }
+
         public void CreateResponse(ProviderResponse response)
         {
             response.CreatedAt = DateTime.Now;

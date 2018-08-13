@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Interfaces;
-using CommonModels = ServicePlace.Model.LogicModels;
+using ServicePlace.Model.LogicModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {
@@ -30,7 +29,7 @@ namespace ServicePlace.DataProvider.Repositories
             _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         }
 
-        public void Create(CommonModels.User user)
+        public void Create(User user)
         {
             var model = new UserMapper().MapToDataModel(user);
             model.Id = Guid.NewGuid().ToString();
@@ -42,7 +41,7 @@ namespace ServicePlace.DataProvider.Repositories
             _log.Info($"Profile for user {model.UserName} created");
         }
 
-        public void Update(CommonModels.User user)
+        public void Update(User user)
         {
             var model = _mapper.MapToDataModel(user);
             _userManager.Update(model);
@@ -50,7 +49,7 @@ namespace ServicePlace.DataProvider.Repositories
             _log.Info($"User {model.UserName} and profile updated");
         }
 
-        public void Delete(CommonModels.User user)
+        public void Delete(User user)
         {
             var model = _mapper.MapToDataModel(user);
             _userManager.Delete(model);
@@ -58,7 +57,7 @@ namespace ServicePlace.DataProvider.Repositories
             _log.Info($"User ${model.UserName} and profile removed");
         }
 
-        public CommonModels.User FindByEmail(string email)
+        public User FindByEmail(string email)
         {
             var user = _userManager.FindByEmail(email);
             return user == null
@@ -66,19 +65,19 @@ namespace ServicePlace.DataProvider.Repositories
                 : _mapper.MapToCommonModel(user);
         }
 
-        public CommonModels.User FindByUserName(string username)
+        public User FindByUserName(string username)
         {
             var user = _userManager.FindByName(username);
             return _mapper.MapToCommonModel(user);
         }
 
-        public CommonModels.User FindById(object id)
+        public User FindById(object id)
         {
             var user = _userManager.FindById((string)id);
             return _mapper.MapToCommonModel(user);
         }
 
-        public ClaimsIdentity Authenticate(CommonModels.User user)
+        public ClaimsIdentity Authenticate(User user)
         {
             var result = _userManager.Find(user.UserName, user.Password);
             return result == null
@@ -86,7 +85,7 @@ namespace ServicePlace.DataProvider.Repositories
                 : _userManager.CreateIdentity(result, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
-        public IdentityResult CreateRole(CommonModels.Role role)
+        public IdentityResult CreateRole(Role role)
         {
             var model = new RoleMapper().MapToDataModel(role);
             var result = _roleManager.FindByName(model.Name);
@@ -101,7 +100,7 @@ namespace ServicePlace.DataProvider.Repositories
             return IdentityResult.Failed($"Cannot create role with name {model.Name}");
         }
 
-        public IEnumerable<CommonModels.User> GetAll() => _userManager.Users.ToList().Select(x => _mapper.MapToCommonModel(x));
+        public IEnumerable<User> GetAll() => _userManager.Users.ToList().Select(x => _mapper.MapToCommonModel(x));
 
         public void Dispose()
         {

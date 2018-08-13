@@ -5,6 +5,8 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IProviderRepository : IRepository<Provider>
     {
+        int GetProvidersCount();
+
         IEnumerable<Provider> Search(string search);
 
         IEnumerable<Provider> Take(int skip, int count);
