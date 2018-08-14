@@ -16,6 +16,8 @@ namespace ServicePlace.Model.DataModels
         [Required]
         public virtual Provider Provider { get; set; }
 
+        public virtual User Creator { get; set; }
+
         public decimal? Price { get; set; }
 
         public string Comment { get; set; }

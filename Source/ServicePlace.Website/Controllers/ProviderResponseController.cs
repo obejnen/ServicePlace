@@ -32,13 +32,14 @@ namespace ServicePlace.Website.Controllers
             foreach (var order in orders)
             {
                 var item = _orderService.GetOrderProvider(providerId, order.Id);
-                if (item == null)
-                    break;
-                ordersListModel.Add(new SelectListItem
+                if (item != null)
                 {
-                    Value = item.Id.ToString(),
-                    Text = item.Title
-                });
+                    ordersListModel.Add(new SelectListItem
+                    {
+                        Value = item.Id.ToString(),
+                        Text = item.Title
+                    });
+                }
             }
 
             var model = new CreateViewModel
@@ -56,6 +57,7 @@ namespace ServicePlace.Website.Controllers
             {
                 Order = _orderService.FindById(model.OrderId),
                 Provider = _providerService.FindById(model.ProviderId),
+                Creator = _userService.FindByUserName(User.Identity.Name),
                 Comment = model.Comment
             };
 

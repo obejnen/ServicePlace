@@ -6,5 +6,7 @@ namespace ServicePlace.DataProvider.Interfaces
     public interface IProviderResponseRepository : IRepository<ProviderResponse>
     {
         IEnumerable<ProviderResponse> GetProviderResponses(int providerId);
+
+        IEnumerable<ProviderResponse> GetUserResponses(string userId);
     }
 }

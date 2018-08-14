@@ -28,5 +28,9 @@ namespace ServicePlace.Logic.Interfaces
         void CreateResponse(ProviderResponse response);
 
         IEnumerable<ProviderResponse> GetProviderResponses(int providerId);
+
+        IEnumerable<Provider> GetUserProviders(string userId);
+
+        IEnumerable<ProviderResponse> GetUserResponses(string userId);
     }
 }

@@ -15,7 +15,7 @@ namespace ServicePlace.DataProvider.Mappers
             _context = context;
         }
 
-        public DataModels.OrderResponse MapToDataModel(LogicModels.OrderResponse model)
+        public DataModels.OrderResponse MapToDataModel(LogicModels.OrderResponse model, DataModels.User creator)
         {
             var order = _context.Orders.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == model.Order.Id);
             var provider = _context.Providers.Include(x => x.Creator.Profile)
@@ -25,6 +25,7 @@ namespace ServicePlace.DataProvider.Mappers
                 Id = model.Id,
                 Order = order,
                 Provider = provider,
+                Creator = creator,
                 Price = model.Price,
                 Comment = model.Comment,
                 IsCompleted = model.IsCompleted,
@@ -36,11 +37,13 @@ namespace ServicePlace.DataProvider.Mappers
         {
             var provider = new ProviderMapper().MapToCommonModel(model.Provider);
             var order = new OrderMapper().MapToCommonModel(model.Order);
+            var creator = new UserMapper().MapToCommonModel(model.Creator);
             return new LogicModels.OrderResponse
             {
                 Id = model.Id,
                 Order = order,
                 Provider = provider,
+                Creator = creator,
                 Price = model.Price,
                 Comment = model.Comment,
                 IsCompleted = model.IsCompleted,

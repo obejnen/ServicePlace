@@ -28,5 +28,9 @@ namespace ServicePlace.Logic.Interfaces
         IEnumerable<OrderResponse> GetOrderResponses(int orderId);
 
         Order GetOrderProvider(int providerId, int orderId);
+
+        IEnumerable<Order> GetUserOrders(string userId);
+
+        IEnumerable<OrderResponse> GetUserResponses(string userId);
     }
 }

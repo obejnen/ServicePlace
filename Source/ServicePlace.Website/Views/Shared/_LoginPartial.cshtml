@@ -5,7 +5,7 @@
     {
         @Html.AntiForgeryToken()
         <input class="w3-button w3-padding-16 w3-right" type="submit" value="Sign out" />
-        <a class="w3-button w3-padding-16 w3-right">@User.Identity.GetUserName()</a>
+        @Html.ActionLink(@User.Identity.GetUserName(), "Profile", "Account", null, new { @class = "w3-button w3-padding-16 w3-right" })
     }
 }
 else

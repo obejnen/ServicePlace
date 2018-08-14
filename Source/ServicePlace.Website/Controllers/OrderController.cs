@@ -78,7 +78,6 @@ namespace ServicePlace.Website.Controllers
             return View(viewModel);
         }
 
-
         public ActionResult Search(string searchString)
         {
             return View("Index", Mapper.Map<IEnumerable<IndexViewModel>>(_orderService.Search(searchString)));

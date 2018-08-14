@@ -15,7 +15,7 @@ namespace ServicePlace.DataProvider.Mappers
             _context = context;
         }
 
-        public DataModels.ProviderResponse MapToDataModel(LogicModels.ProviderResponse model)
+        public DataModels.ProviderResponse MapToDataModel(LogicModels.ProviderResponse model, DataModels.User creator)
         {
             var order = _context.Orders.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == model.Order.Id);
             var provider = _context.Providers.Include(x => x.Creator.Profile)
@@ -26,6 +26,7 @@ namespace ServicePlace.DataProvider.Mappers
                 Id = model.Id,
                 Order = order,
                 Provider = provider,
+                Creator = creator,
                 Comment = model.Comment,
                 CreatedAt = model.CreatedAt
             };
@@ -35,12 +36,14 @@ namespace ServicePlace.DataProvider.Mappers
         {
             var provider = new ProviderMapper().MapToCommonModel(model.Provider);
             var order = new OrderMapper().MapToCommonModel(model.Order);
+            var creator = new UserMapper().MapToCommonModel(model.Creator);
             
             return new LogicModels.ProviderResponse
             {
                 Id = model.Id,
                 Order = order,
                 Provider = provider,
+                Creator = creator,
                 Comment = model.Comment,
                 CreatedAt = model.CreatedAt
             };

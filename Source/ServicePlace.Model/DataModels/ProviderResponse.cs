@@ -16,6 +16,8 @@ namespace ServicePlace.Model.DataModels
         [Required]
         public Provider Provider { get; set; }
 
+        public virtual User Creator { get; set; }
+
         [Required]
         public string Comment { get; set; }
 

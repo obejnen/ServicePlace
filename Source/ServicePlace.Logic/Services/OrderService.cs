@@ -82,5 +82,15 @@ namespace ServicePlace.Logic.Services
         {
             return _orderRepository.GetOrderProvider(providerId, orderId);
         }
+
+        public IEnumerable<Order> GetUserOrders(string userId)
+        {
+            return _orderRepository.GetUserOrders(userId);
+        }
+
+        public IEnumerable<OrderResponse> GetUserResponses(string userId)
+        {
+            return _responseRepository.GetUserResponses(userId);
+        }
     }
 }

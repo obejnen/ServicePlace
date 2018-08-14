@@ -1,0 +1,95 @@
+﻿@using ServicePlace.Model.ViewModels
+@model ProfileViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+
+<link rel="stylesheet" href="~/Content/account.css" />
+
+<div class="profile-container">
+    <div class="w3-card-4 profile-image w3-display-container">
+        <img src="~/Content/Images/preview-background.png">
+    </div>
+    <div class="profile-info">
+        <h1>@Model.UserName</h1>
+        <h2>@Model.Name</h2>
+        <h2>Register date: 12.12.2018</h2>
+    </div>
+    <div class="profile-stats">
+        <h4>Orders count: 3</h4>
+        <h4>Providers count: 3</h4>
+        <h4>Order responses count: 3</h4>
+        <h4>Provider responses count: 3</h4>
+    </div>
+</div>
+<br />
+<br />
+<div class="profile-items">
+    <div class="profile-items-buttons">
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')">Orders</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('providers')">Providers</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-responses')">Order responses</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')">Provider responses</button>
+    </div>
+    <div class="profile-items-content">
+        <div id="orders" class="w3-animate-top">
+            <h3><strong>Orders</strong></h3>
+            @foreach (var order in Model.Orders)
+            {
+                @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                <br />
+            }
+        </div>
+        <div id="providers" class="w3-animate-top">
+            <h3><strong>Providers</strong></h3>
+            @foreach (var provider in Model.Providers)
+            {
+                @Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                <br />
+            }
+        </div>
+        <div id="order-responses" class="w3-animate-top">
+            <h3><strong>Order responses</strong></h3>
+            @foreach (var orderResponse in Model.OrderResponses)
+            {
+                @Html.ActionLink($"Response on {orderResponse.Order.Title}", "Show", "Order", new { id = orderResponse.Order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                <br />
+            }
+        </div>
+        <div id="provider-responses" class="w3-animate-top">
+            <h3><strong>Provider responses</strong></h3>
+            @foreach (var providerResponse in Model.ProviderResponses)
+            {
+                <button class="w3-button w3-white w3-hover-black">
+                <text>Response on </text>
+                <strong>@Html.ActionLink(providerResponse.Provider.Title
+                            , "Show", "Provider", new { id = providerResponse.Provider.Id }
+                            , new { @class = "w3-button w3-hover-white" })</strong>
+                <text> about </text>
+                <strong>@Html.ActionLink(providerResponse.Order.Title
+                            , "Show", "Order", new { id = providerResponse.Order.Id }
+                            , new { @class = "w3-button w3-hover-white" })</strong>
+                </button>
+                <br />
+                <br />
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $("#providers").hide();
+        $("#order-responses").hide();
+        $("#provider-responses").hide();
+    });
+    function openContent(id) {
+        $("#orders").hide();
+        $("#providers").hide();
+        $("#order-responses").hide();
+        $("#provider-responses").hide();
+        var selector = "#" + id;
+        $(selector).show();
+        //$(selector).addClass("w3-animate-top");
+    };
+</script>

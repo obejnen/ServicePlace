@@ -48,6 +48,7 @@ namespace ServicePlace.Website.Controllers
             {
                 Order = _orderService.FindById(model.OrderId),
                 Provider = _providerService.FindById(model.ProviderId),
+                Creator = _userService.FindByUserName(User.Identity.Name),
                 Price = model.Price,
                 Comment = model.Comment
             };

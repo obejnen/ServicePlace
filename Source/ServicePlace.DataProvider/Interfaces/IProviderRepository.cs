@@ -10,5 +10,7 @@ namespace ServicePlace.DataProvider.Interfaces
         IEnumerable<Provider> Search(string search);
 
         IEnumerable<Provider> Take(int skip, int count);
+
+        IEnumerable<Provider> GetUserProviders(string userId);
     }
 }

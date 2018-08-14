@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201808081126145_AddProviderResponse.Designer.cs">
       <DependentUpon>201808081126145_AddProviderResponse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808131659063_AddCreatorToOrderAndProviderResponses.cs" />
+    <Compile Include="Migrations\201808131659063_AddCreatorToOrderAndProviderResponses.Designer.cs">
+      <DependentUpon>201808131659063_AddCreatorToOrderAndProviderResponses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OrderResponseRepository.cs" />
@@ -159,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808081126145_AddProviderResponse.resx">
       <DependentUpon>201808081126145_AddProviderResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808131659063_AddCreatorToOrderAndProviderResponses.resx">
+      <DependentUpon>201808131659063_AddCreatorToOrderAndProviderResponses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

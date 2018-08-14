@@ -99,5 +99,15 @@ namespace ServicePlace.Logic.Services
 
             return responses;
         }
+
+        public IEnumerable<Provider> GetUserProviders(string userId)
+        {
+            return _providerRepository.GetUserProviders(userId);
+        }
+
+        public IEnumerable<ProviderResponse> GetUserResponses(string userId)
+        {
+            return _responseRepository.GetUserResponses(userId);
+        }
     }
 }
