@@ -16,15 +16,39 @@
     <div class="w3-display-bottomright w3-container w3-text-white">Created at @Model.CreatedAt</div>
 </div>
 
+<div class="status-actions">
+    @if (User.Identity.Name == Model.Creator.Name || !Model.Closed)
+    {
+        using (Html.BeginForm("Close", "Order", FormMethod.Post))
+        {
+             @Html.Hidden("orderId", Model.Id)
+             <input type="submit" class="w3-button w3-black w3-hover-white w3-right w3-xlarge" value="Close Order"/>
+        }
+    }
+    <strong>
+        <div class="w3-right status">
+            Status:
+            <text class="status-open">
+                @(Model.Closed ? "Closed" : "Open")
+            </text>
+        </div>
+    </strong>
+</div>
+
 <br />
+<br />
+<hr />
 <br />
 
 <div class="w3-xlarge">
     @Model.Body
 </div>
 
+<br/>
+<hr/>
+
 <div class="response-container">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && !Model.Closed)
     {
         @Html.Action("Create", "OrderResponse", new { orderId = Model.Id })
     }

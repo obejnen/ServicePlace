@@ -13,6 +13,10 @@ namespace ServicePlace.Logic.Interfaces
 
         void Update(Order order);
 
+        void Close(int id);
+
+        void Complete(int orderId, int orderResponseId);
+
         Order FindById(object id);
 
         IEnumerable<Order> Search(string query);

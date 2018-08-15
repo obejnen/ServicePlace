@@ -35,6 +35,17 @@ namespace ServicePlace.Logic.Services
             _orderRepository.Update(order);
         }
 
+        public void Close(int id)
+        {
+            _orderRepository.Close(id);
+        }
+
+        public void Complete(int orderId, int orderResponseId)
+        {
+            _orderRepository.Close(orderId);
+            _responseRepository.Complete(orderResponseId);
+        }
+
         public Order FindById(object id)
         {
             return _orderRepository.FindById(id);
@@ -68,7 +79,7 @@ namespace ServicePlace.Logic.Services
 
         public void CreateResponse(OrderResponse response)
         {
-            response.IsCompleted = false;
+            response.Completed = false;
             response.CreatedAt = DateTime.Now;
             _responseRepository.Create(response);
         }

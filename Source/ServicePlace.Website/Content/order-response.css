@@ -63,3 +63,27 @@
 .order-response-info {
     margin-left: 15px;
 }
+
+.completed {
+    position: absolute;
+}
+
+.status-actions {
+    display: flex;
+}
+
+.status-icon-completed {
+    color: yellowgreen;
+}
+
+.status-icon {
+    margin-left: 10px;
+}
+
+.complete-icon {
+    cursor: pointer;
+}
+
+.complete-icon:hover {
+    color: yellowgreen;
+}

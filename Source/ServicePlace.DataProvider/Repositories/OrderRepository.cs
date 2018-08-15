@@ -56,6 +56,17 @@ namespace ServicePlace.DataProvider.Repositories
             _context.SaveChanges();
         }
 
+        public void Close(int id)
+        {
+            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
+            if(order != null)
+            {
+                order.Closed = true;
+                _context.Orders.AddOrUpdate(order);
+                _context.SaveChanges();
+            }
+        }
+
         public Order FindById(object id)
         {
             var order = _context.Orders.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == (int)id);

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Model.LogicModels;
 
@@ -22,5 +24,7 @@ namespace ServicePlace.Logic.Interfaces
         ClaimsIdentity Authenticate(User user);
 
         IdentityResult CreateRole(Role role);
+
+        void SetInitialData(User adminDto, List<string> roles);
     }
 }

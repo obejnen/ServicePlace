@@ -148,3 +148,17 @@
 .search-field {
     width: 100%;
 }
+
+.status {
+    font-size: 30px;
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+.status-open {
+    color: #0fed00
+}
+
+.status-closed {
+    color: #ff0000;
+}

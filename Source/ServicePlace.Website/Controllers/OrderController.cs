@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -23,7 +24,6 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Index(int page = 1)
         {
-            _userService.CreateRole(new Role {Name = "user"});
             var helper = new PageHelper();
             ViewBag.CurrentPage = page;
             ViewBag.PageRange = helper.GetPageRange(page, _orderService.GetPagesCount(8));
@@ -47,6 +47,7 @@ namespace ServicePlace.Website.Controllers
                 {
                     Title = model.Title,
                     Body = model.Body,
+                    Closed = false,
                     Creator = _userService.FindById(User.Identity.GetUserId())
                 };
 
@@ -54,6 +55,16 @@ namespace ServicePlace.Website.Controllers
             }
 
             return RedirectToAction("Index", "Order");
+        }
+
+        [HttpPost]
+        public ActionResult Close(int orderId)
+        {
+            if (User.Identity.GetUserId() == _orderService.FindById(orderId).Creator.Id)
+            {
+                _orderService.Close(orderId);
+            }
+            return RedirectToAction("Show", "Order", new { id = orderId });
         }
 
         public ActionResult Show(int id)
@@ -71,6 +82,7 @@ namespace ServicePlace.Website.Controllers
                 Id = order.Id,
                 Title = order.Title,
                 Body = order.Body,
+                Closed = order.Closed,
                 CreatedAt = order.CreatedAt,
                 UpdatedAt = order.UpdatedAt,
                 Creator = creatorViewModel

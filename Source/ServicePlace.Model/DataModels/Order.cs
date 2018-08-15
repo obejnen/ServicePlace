@@ -8,8 +8,6 @@ namespace ServicePlace.Model.DataModels
     public class Order
     {
         [Key]
-        //[Required]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -17,6 +15,8 @@ namespace ServicePlace.Model.DataModels
 
         [Required]
         public string Body { get; set; }
+
+        public bool Closed { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }
