@@ -27,8 +27,13 @@ namespace ServicePlace.Website.Controllers
             var helper = new PageHelper();
             ViewBag.CurrentPage = page;
             ViewBag.PageRange = helper.GetPageRange(page, _orderService.GetPagesCount(8));
-            var model = Mapper.Map<IEnumerable<IndexViewModel>>(_orderService.GetPage(page, 8));
-            return View(model);
+            var model = Mapper.Map<List<ItemViewModel>>(_orderService.GetPage(page, 8));
+            var viewModel = new IndexViewModel
+            {
+                FirstPart = model.Count() > 4 ? model.Take(4) : model.Take(model.Count()),
+                SecondPart = model.Count > 4 ? model.Skip(4) : null
+            };
+            return View(viewModel);
         }
 
         public ActionResult Create()

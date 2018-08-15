@@ -75,7 +75,7 @@ namespace ServicePlace.Website.Controllers
                 list.Add(new IndexViewModel
                 {
                     Id = orderResponse.Id,
-                    Order = new Model.ViewModels.OrderViewModels.IndexViewModel
+                    Order = new Model.ViewModels.OrderViewModels.ItemViewModel
                     {
                         Id = order.Id,
                         Closed = order.Closed,

@@ -6,7 +6,7 @@ namespace ServicePlace.Model.ViewModels.OrderResponseViewModels
     {
         public int Id { get; set; }
         public ProviderViewModels.IndexViewModel Provider { get; set; }
-        public OrderViewModels.IndexViewModel Order { get; set; }
+        public OrderViewModels.ItemViewModel Order { get; set; }
         public decimal? Price { get; set; }
         public string Comment { get; set; }
         public DateTime CreatedAt { get; set; }

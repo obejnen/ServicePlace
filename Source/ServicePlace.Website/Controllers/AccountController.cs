@@ -105,11 +105,11 @@ namespace ServicePlace.Website.Controllers
             var orderResponses = _orderService.GetUserResponses(user.Id);
             var providerResponses = _providerService.GetUserResponses(user.Id);
 
-            var orderViewModels = new List<IndexViewModel>();
+            var orderViewModels = new List<ItemViewModel>();
 
             foreach (var order in orders)               //move to mapper
             {
-                orderViewModels.Add(new IndexViewModel
+                orderViewModels.Add(new ItemViewModel
                 {
                     Id = order.Id,
                     Body = order.Body,
@@ -135,7 +135,7 @@ namespace ServicePlace.Website.Controllers
             {
                 orderResponseViewModels.Add(new Model.ViewModels.OrderResponseViewModels.IndexViewModel
                 {
-                    Order = new IndexViewModel
+                    Order = new ItemViewModel
                     {
                         Id = orderResponse.Order.Id,
                         Title = orderResponse.Order.Title
@@ -154,7 +154,7 @@ namespace ServicePlace.Website.Controllers
                         Id = providerResponse.Provider.Id,
                         Title = providerResponse.Provider.Title
                     },
-                    Order = new IndexViewModel
+                    Order = new ItemViewModel
                     {
                         Id = providerResponse.Order.Id,
                         Title = providerResponse.Order.Title
