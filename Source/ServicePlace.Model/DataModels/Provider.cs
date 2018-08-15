@@ -9,7 +9,7 @@ namespace ServicePlace.Model.DataModels
     public class Provider
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

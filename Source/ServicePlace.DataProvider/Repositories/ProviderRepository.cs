@@ -33,31 +33,31 @@ namespace ServicePlace.DataProvider.Repositories
         public void Create(Provider model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var executor = _mapper.MapToDataModel(model, creator);
-            _context.Providers.Add(executor);
+            var provider = _mapper.MapToDataModel(model, creator);
+            _context.Providers.Add(provider);
             _context.SaveChanges();
         }
 
         public void Delete(Provider model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var executor = _mapper.MapToDataModel(model, creator);
-            _context.Providers.Remove(executor);
+            var provider = _mapper.MapToDataModel(model, creator);
+            _context.Providers.Remove(provider);
             _context.SaveChanges();
         }
 
         public void Update(Provider model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var newExecutor = _mapper.MapToDataModel(model, creator);
-            _context.Providers.AddOrUpdate(newExecutor);
+            var newProvider = _mapper.MapToDataModel(model, creator);
+            _context.Providers.AddOrUpdate(newProvider);
             _context.SaveChanges();
         }
 
         public Provider FindById(object id)
         {
-            var executor = _context.Providers.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == (int) id);
-            return _mapper.MapToCommonModel(executor);
+            var provider = _context.Providers.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == (int) id);
+            return _mapper.MapToCommonModel(provider);
         }
 
         public IEnumerable<Provider> Search(string search)
@@ -70,10 +70,10 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<Provider> Take(int skip, int count)
         {
-            var executors = _context.Providers.Include(x => x.Creator.Profile).OrderBy(x => x.CreatedAt).Skip(skip).Take(count).ToList();
+            var providers = _context.Providers.Include(x => x.Creator.Profile).OrderBy(x => x.CreatedAt).Skip(skip).Take(count).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<Provider>, IEnumerable<Provider>>());
-            return Mapper.Map<IEnumerable<Provider>>(executors.Select(x => _mapper.MapToCommonModel(x)));
+            return Mapper.Map<IEnumerable<Provider>>(providers.Select(x => _mapper.MapToCommonModel(x)));
         }
 
         public int GetProvidersCount() => _context.Providers.Count();

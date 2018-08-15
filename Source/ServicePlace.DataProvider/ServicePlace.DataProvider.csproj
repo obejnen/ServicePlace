@@ -69,10 +69,6 @@
   <ItemGroup>
     <Compile Include="Interfaces\IProviderResponseRepository.cs" />
     <Compile Include="Mappers\ProviderResponseMapper.cs" />
-    <Compile Include="Migrations\201808070850098_AddOrderResponseModel.cs" />
-    <Compile Include="Migrations\201808070850098_AddOrderResponseModel.Designer.cs">
-      <DependentUpon>201808070850098_AddOrderResponseModel.cs</DependentUpon>
-    </Compile>
     <Compile Include="DbContexts\ApplicationContext.cs" />
     <Compile Include="Infrastructure\DataProviderModule.cs" />
     <Compile Include="Interfaces\IOrderResponseRepository.cs" />
@@ -90,33 +86,13 @@
     <Compile Include="Mappers\ProfileMapper.cs" />
     <Compile Include="Mappers\RoleMapper.cs" />
     <Compile Include="Mappers\UserMapper.cs" />
-    <Compile Include="Migrations\201808041937350_Initial.cs" />
-    <Compile Include="Migrations\201808041937350_Initial.Designer.cs">
-      <DependentUpon>201808041937350_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201808141201398_InitialMigration.cs" />
+    <Compile Include="Migrations\201808141201398_InitialMigration.Designer.cs">
+      <DependentUpon>201808141201398_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808050915562_Create-Orders.cs" />
-    <Compile Include="Migrations\201808050915562_Create-Orders.Designer.cs">
-      <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.cs" />
-    <Compile Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.Designer.cs">
-      <DependentUpon>201808061022447_MakeUpdatedAtOrderFieldNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808061150083_AddExecutorModel.cs" />
-    <Compile Include="Migrations\201808061150083_AddExecutorModel.Designer.cs">
-      <DependentUpon>201808061150083_AddExecutorModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808061930116_RenameExecutorToProvider.cs" />
-    <Compile Include="Migrations\201808061930116_RenameExecutorToProvider.Designer.cs">
-      <DependentUpon>201808061930116_RenameExecutorToProvider.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808081126145_AddProviderResponse.cs" />
-    <Compile Include="Migrations\201808081126145_AddProviderResponse.Designer.cs">
-      <DependentUpon>201808081126145_AddProviderResponse.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808131659063_AddCreatorToOrderAndProviderResponses.cs" />
-    <Compile Include="Migrations\201808131659063_AddCreatorToOrderAndProviderResponses.Designer.cs">
-      <DependentUpon>201808131659063_AddCreatorToOrderAndProviderResponses.cs</DependentUpon>
+    <Compile Include="Migrations\201808141306118_ChangedApplicationContext.cs" />
+    <Compile Include="Migrations\201808141306118_ChangedApplicationContext.Designer.cs">
+      <DependentUpon>201808141306118_ChangedApplicationContext.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,6 +101,7 @@
     <Compile Include="Repositories\IdentityRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\ProviderResponseRepository.cs" />
+    <Compile Include="Stores\RoleStore.cs" />
     <Compile Include="Stores\UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,29 +120,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808070850098_AddOrderResponseModel.resx">
-      <DependentUpon>201808070850098_AddOrderResponseModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808141201398_InitialMigration.resx">
+      <DependentUpon>201808141201398_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808041937350_Initial.resx">
-      <DependentUpon>201808041937350_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808050915562_Create-Orders.resx">
-      <DependentUpon>201808050915562_Create-Orders.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808061022447_MakeUpdatedAtOrderFieldNullable.resx">
-      <DependentUpon>201808061022447_MakeUpdatedAtOrderFieldNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808061150083_AddExecutorModel.resx">
-      <DependentUpon>201808061150083_AddExecutorModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808061930116_RenameExecutorToProvider.resx">
-      <DependentUpon>201808061930116_RenameExecutorToProvider.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808081126145_AddProviderResponse.resx">
-      <DependentUpon>201808081126145_AddProviderResponse.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808131659063_AddCreatorToOrderAndProviderResponses.resx">
-      <DependentUpon>201808131659063_AddCreatorToOrderAndProviderResponses.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808141306118_ChangedApplicationContext.resx">
+      <DependentUpon>201808141306118_ChangedApplicationContext.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Model.LogicModels;
 using ServicePlace.Logic.Interfaces;

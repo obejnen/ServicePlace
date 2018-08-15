@@ -3,16 +3,16 @@ namespace ServicePlace.DataProvider.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MakeUpdatedAtOrderFieldNullable : DbMigration
+    public partial class ChangedApplicationContext : DbMigration
     {
         public override void Up()
         {
-            AlterColumn("dbo.Order", "UpdatedAt", c => c.DateTime());
+            DropColumn("dbo.AspNetRoles", "Discriminator");
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.Order", "UpdatedAt", c => c.DateTime(nullable: false));
+            AddColumn("dbo.AspNetRoles", "Discriminator", c => c.String(nullable: false, maxLength: 128));
         }
     }
 }

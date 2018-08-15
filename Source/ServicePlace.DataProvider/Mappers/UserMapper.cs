@@ -18,14 +18,13 @@ namespace ServicePlace.DataProvider.Mappers
 
         public CommonModels.User MapToCommonModel(DataModels.User model)
         {
-            return new CommonModels.User
-            {
-                Id = model.Id,
-                UserName = model.UserName,
-                Email = model.Email,
-                Password = model.PasswordHash,
-                Name = model.Profile.Name
-            };
+            var user = new CommonModels.User();
+            user.Id = model.Id;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.Password = model.PasswordHash;
+            user.Name = model.Profile.Name;
+            return user;
         }
     }
 }

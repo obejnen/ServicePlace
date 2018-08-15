@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Interfaces;
@@ -31,7 +32,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public void Create(User user)
         {
-            var model = new UserMapper().MapToDataModel(user);
+            var model = _mapper.MapToDataModel(user);
             model.Id = Guid.NewGuid().ToString();
             _userManager.Create(model, user.Password);
             _log.Info($"Created user {model.UserName}");
@@ -73,7 +74,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public User FindById(object id)
         {
-            var user = _userManager.FindById((string)id);
+            var user = _userManager.FindByIdAsync((string)id).Result;
             return _mapper.MapToCommonModel(user);
         }
 
@@ -87,6 +88,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IdentityResult CreateRole(Role role)
         {
+
             var model = new RoleMapper().MapToDataModel(role);
             var result = _roleManager.FindByName(model.Name);
 

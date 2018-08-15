@@ -42,7 +42,7 @@ namespace ServicePlace.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                var executor = new Provider
+                var provider = new Provider
                 {
                     Title = model.Title,
                     Body = model.Body,
@@ -50,7 +50,7 @@ namespace ServicePlace.Website.Controllers
                     Creator = _userService.FindById(User.Identity.GetUserId())
                 };
 
-                _providerService.Create(executor);
+                _providerService.Create(provider);
             }
 
             return RedirectToAction("Index", "Provider");
