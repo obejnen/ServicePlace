@@ -23,6 +23,7 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Index(int page = 1)
         {
+            _userService.CreateRole(new Role {Name = "user"});
             var helper = new PageHelper();
             ViewBag.CurrentPage = page;
             ViewBag.PageRange = helper.GetPageRange(page, _orderService.GetPagesCount(8));
@@ -77,7 +78,6 @@ namespace ServicePlace.Website.Controllers
 
             return View(viewModel);
         }
-
 
         public ActionResult Search(string searchString)
         {

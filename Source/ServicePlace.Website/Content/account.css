@@ -1,0 +1,40 @@
+﻿.profile-image {
+    margin-right: 30px;
+    position: relative;
+    height: 200px;
+    width: 200px;
+    overflow: hidden;
+}
+
+.profile-image img {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+}
+
+.profile-container {
+    display: flex;
+}
+
+.profile-info {
+    padding-right: 30px;
+}
+
+.profile-items {
+
+}
+
+.profile-items-buttons {
+    display: flex;
+}
+
+.profile-items-content {
+
+}
+
+.profile-button {
+    margin-right: 10px;
+}

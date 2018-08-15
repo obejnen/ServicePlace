@@ -12,5 +12,7 @@ namespace ServicePlace.DataProvider.Interfaces
         IEnumerable<Order> Take(int skip, int count);
 
         Order GetOrderProvider(int providerId, int orderId);
+
+        IEnumerable<Order> GetUserOrders(string userId);
     }
 }

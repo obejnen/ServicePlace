@@ -24,6 +24,7 @@ namespace ServicePlace.DataProvider.Infrastructure
             builder.RegisterType<ProfileManager>().As<IProfileManager>();
 
             builder.RegisterType<UserStore>();
+            builder.RegisterType<RoleStore>();
             builder.RegisterType<UserManager>();
             builder.RegisterType<RoleManager>();
 

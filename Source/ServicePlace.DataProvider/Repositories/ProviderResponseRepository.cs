@@ -22,21 +22,24 @@ namespace ServicePlace.DataProvider.Repositories
 
         public void Create(ProviderResponse model)
         {
-            var providerResponse = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var providerResponse = _mapper.MapToDataModel(model, creator);
             _context.ProviderResponses.Add(providerResponse);
             _context.SaveChanges();
         }
 
         public void Update(ProviderResponse model)
         {
-            var providerResponse = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var providerResponse = _mapper.MapToDataModel(model, creator);
             _context.ProviderResponses.AddOrUpdate(providerResponse);
             _context.SaveChanges();
         }
 
         public void Delete(ProviderResponse model)
         {
-            var providerResponse = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var providerResponse = _mapper.MapToDataModel(model, creator);
             _context.ProviderResponses.Remove(providerResponse);
             _context.SaveChanges();
         }
@@ -63,6 +66,18 @@ namespace ServicePlace.DataProvider.Repositories
                 .Include(x => x.Order.Creator.Profile)
                 .Include(x => x.Provider.Creator.Profile)
                 .Where(x => x.Provider.Id == providerId)
+                .ToList()
+                .Select(x => _mapper.MapToCommonModel(x));
+        }
+
+        public IEnumerable<ProviderResponse> GetUserResponses(string userId)
+        {
+            return _context
+                .ProviderResponses
+                .Include(x => x.Provider.Creator.Profile)
+                .Include(x => x.Order.Creator.Profile)
+                .Include(x => x.Creator.Profile)
+                .Where(x => x.Creator.Id == userId)
                 .ToList()
                 .Select(x => _mapper.MapToCommonModel(x));
         }

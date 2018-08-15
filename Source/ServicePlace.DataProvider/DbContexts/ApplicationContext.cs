@@ -1,10 +1,11 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using ServicePlace.DataProvider.Managers;
 using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.DbContexts
 {
-    public class ApplicationContext : IdentityDbContext<User>
+    public class ApplicationContext : IdentityDbContext<User, Role, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
     {
         public ApplicationContext() : base("name = DefaultConnection")
         {

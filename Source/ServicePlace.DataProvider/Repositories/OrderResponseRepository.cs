@@ -26,7 +26,8 @@ namespace ServicePlace.DataProvider.Repositories
 
         public void Create(OrderResponse model)
         {
-            var orderResponse = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var orderResponse = _mapper.MapToDataModel(model, creator);
             _context.OrderResponses.Add(orderResponse);
             _context.SaveChanges();
 
@@ -34,14 +35,16 @@ namespace ServicePlace.DataProvider.Repositories
 
         public void Update(OrderResponse model)
         {
-            var orderResponse = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var orderResponse = _mapper.MapToDataModel(model, creator);
             _context.OrderResponses.AddOrUpdate(orderResponse);
             _context.SaveChanges();
         }
 
         public void Delete(OrderResponse model)
         {
-            var orderResponse = _mapper.MapToDataModel(model);
+            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
+            var orderResponse = _mapper.MapToDataModel(model, creator);
             _context.OrderResponses.Remove(orderResponse);
             _context.SaveChanges();
         }
@@ -68,6 +71,17 @@ namespace ServicePlace.DataProvider.Repositories
                 .Include(x => x.Order.Creator.Profile)
                 .Include(x => x.Provider.Creator.Profile)
                 .Where(x => x.Order.Id == id)
+                .ToList()
+                .Select(x => _mapper.MapToLogicModel(x));
+        }
+
+        public IEnumerable<OrderResponse> GetUserResponses(string userId)
+        {
+            return _context
+                .OrderResponses
+                .Include(x => x.Order.Creator.Profile)
+                .Include(x => x.Creator.Profile)
+                .Where(x => x.Creator.Id == userId)
                 .ToList()
                 .Select(x => _mapper.MapToLogicModel(x));
         }
