@@ -5,7 +5,7 @@ using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.DbContexts
 {
-    public class ApplicationContext : IdentityDbContext<User, Role, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    public class ApplicationContext : IdentityDbContext<User>
     {
         public ApplicationContext() : base("name = DefaultConnection")
         {

@@ -1,5 +1,5 @@
 ﻿@using ServicePlace.Model.ViewModels.OrderViewModels
-@model IEnumerable<IndexViewModel>
+@model IndexViewModel
 
 @{
     ViewBag.Title = "Orders";
@@ -20,13 +20,27 @@
 <br />
 <hr />
 <br />
-
-<div class="w3-row-padding w3-padding-16 w3-center" id="food">
-    @foreach (var order in @Model)
+<div class="w3-row-padding w3-col w3-padding-16 w3-center w3-rest">
+    @foreach (var order in @Model.FirstPart)
     {
-        <a href="@Url.Action("Show", "Order", new { id = order.Id })">
+        <div class="w3-quarter">
+            <img src="~/Content/Images/preview-background.png" style="width: 100%">
+            <div class="order-title">
+                <h3>@Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, null)</h3>
+            </div>
+            <div class="preview-body">
+                <p>@order.Body</p>
+            </div>
+        </div>
+    }
+</div>
+@if (Model.SecondPart != null)
+{
+    <div class="w3-row-padding w3-col w3-padding-16 w3-center w3-rest">
+        @foreach (var order in @Model.SecondPart)
+        {
             <div class="w3-quarter">
-                <img src="~/Content/Images/preview-background.png" alt="Sandwich" style="width:100%">
+                <img src="~/Content/Images/preview-background.png" style="width: 100%">
                 <div class="order-title">
                     <h3>@Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, null)</h3>
                 </div>
@@ -34,27 +48,27 @@
                     <p>@order.Body</p>
                 </div>
             </div>
-        </a>
-    }
-</div>
+        }
+    </div>
+}
 @if (ViewBag.CurrentPage != null)
 {
     <div class="w3-center w3-padding-32">
         <div class="w3-bar">
             @(ViewBag.CurrentPage == 1 || ViewBag.PageRange[0] == 1
-                          ? (object)""
-                          : Html.ActionLink("1", "Index", "Order", new { page = 1 }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
+                                                          ? (object)""
+                                                          : Html.ActionLink("1", "Index", "Order", new { page = 1 }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
             @for (int i = ViewBag.PageRange[0]; i <= ViewBag.PageRange[1]; i++)
             {
                 @(i == ViewBag.CurrentPage
-                              ? Html.ActionLink(i.ToString(), "Index", "Order", new { page = i }, new { @class = "w3-bar-item w3-black w3-button" })
-                              : Html.ActionLink(i.ToString(), "Index", "Order", new { page = i }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
+                                                              ? Html.ActionLink(i.ToString(), "Index", "Order", new { page = i }, new { @class = "w3-bar-item w3-black w3-button" })
+                                                              : Html.ActionLink(i.ToString(), "Index", "Order", new { page = i }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
             }
             @(ViewBag.CurrentPage == ViewBag.PageRange[1]
-                          ? (object)""
-                          : Html.ActionLink("Last", "Index", "Order"
-                              , new { page = ViewBag.PageRange[1] }
-                              , new { @class = "w3-bar-item w3-hover-black w3-button" }))
+                                                          ? (object)""
+                                                          : Html.ActionLink("Last", "Index", "Order"
+                                                              , new { page = ViewBag.PageRange[1] }
+                                                              , new { @class = "w3-bar-item w3-hover-black w3-button" }))
         </div>
     </div>
 }

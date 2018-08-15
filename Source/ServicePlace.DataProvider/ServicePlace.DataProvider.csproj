@@ -94,6 +94,22 @@
     <Compile Include="Migrations\201808141306118_ChangedApplicationContext.Designer.cs">
       <DependentUpon>201808141306118_ChangedApplicationContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808150902065_AddClosedFieldToOrder.cs" />
+    <Compile Include="Migrations\201808150902065_AddClosedFieldToOrder.Designer.cs">
+      <DependentUpon>201808150902065_AddClosedFieldToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808150918311_ChangedApplicationContext1.cs" />
+    <Compile Include="Migrations\201808150918311_ChangedApplicationContext1.Designer.cs">
+      <DependentUpon>201808150918311_ChangedApplicationContext1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808151022522_AddCompletedFieldToOrderResponse.cs" />
+    <Compile Include="Migrations\201808151022522_AddCompletedFieldToOrderResponse.Designer.cs">
+      <DependentUpon>201808151022522_AddCompletedFieldToOrderResponse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808151041015_RemoveIsCompletedFieldFromOrderResponse.cs" />
+    <Compile Include="Migrations\201808151041015_RemoveIsCompletedFieldFromOrderResponse.Designer.cs">
+      <DependentUpon>201808151041015_RemoveIsCompletedFieldFromOrderResponse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OrderResponseRepository.cs" />
@@ -125,6 +141,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808141306118_ChangedApplicationContext.resx">
       <DependentUpon>201808141306118_ChangedApplicationContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808150902065_AddClosedFieldToOrder.resx">
+      <DependentUpon>201808150902065_AddClosedFieldToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808150918311_ChangedApplicationContext1.resx">
+      <DependentUpon>201808150918311_ChangedApplicationContext1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808151022522_AddCompletedFieldToOrderResponse.resx">
+      <DependentUpon>201808151022522_AddCompletedFieldToOrderResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808151041015_RemoveIsCompletedFieldFromOrderResponse.resx">
+      <DependentUpon>201808151041015_RemoveIsCompletedFieldFromOrderResponse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

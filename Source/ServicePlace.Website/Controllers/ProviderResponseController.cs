@@ -73,7 +73,7 @@ namespace ServicePlace.Website.Controllers
             {
                 list.Add(new IndexViewModel
                 {
-                    Order = new Model.ViewModels.OrderViewModels.IndexViewModel
+                    Order = new Model.ViewModels.OrderViewModels.ItemViewModel
                     {
                         Id = orderResponse.Order.Id,
                         Title = orderResponse.Order.Title,

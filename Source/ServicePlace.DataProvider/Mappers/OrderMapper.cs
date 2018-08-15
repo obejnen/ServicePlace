@@ -12,6 +12,7 @@ namespace ServicePlace.DataProvider.Mappers
                 Id = model.Id,
                 Body = model.Body,
                 Title = model.Title,
+                Closed = model.Closed,
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
                 Creator = creator
@@ -26,6 +27,7 @@ namespace ServicePlace.DataProvider.Mappers
                 Id = model.Id,
                 Title = model.Title,
                 Body = model.Body,
+                Closed = model.Closed,
                 Creator = creator,
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt

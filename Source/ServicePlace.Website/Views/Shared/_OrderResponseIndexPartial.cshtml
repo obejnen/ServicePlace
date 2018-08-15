@@ -1,5 +1,11 @@
-﻿@using ServicePlace.Model.ViewModels.OrderResponseViewModels
+﻿@using Microsoft.AspNet.Identity
+@using ServicePlace.Model.ViewModels.OrderResponseViewModels
 @model IEnumerable<IndexViewModel>
+
+<link rel="stylesheet" href="~/Content/order-response.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 
 @{
     Layout = null;
@@ -7,27 +13,46 @@
 
 @foreach (var orderResponse in Model)
 {
-<div class="order-response">
-    <div class="order-response-image">
-        <img src="~/Content/Images/preview-background.png" />
-    </div>
-    <div class="w3-card-2 order-response-content">
-        <header class="w3-container w3-light-gray">
-            <h3><strong>@Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new { id = orderResponse.Provider.Id }, null)</strong></h3>
-        </header>
-        <div class="w3-container">
-            <p>@orderResponse.Comment</p>
+    <div class="order-response">
+        <div class="order-response-image">
+            <img src="~/Content/Images/preview-background.png" />
+        </div>
+        <div class="w3-card-2 order-response-content">
+            <header class="w3-container w3-light-gray">
+                <h3>
+                    <strong>
+                        <div class="status-actions">
+                            @Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new { id = orderResponse.Provider.Id }, null)
+                            @if (orderResponse.Completed)
+                            {
+                                <i class="far fa-check-circle status-icon status-icon-completed"></i>
+                            }
+                            @if (User.Identity.GetUserId() == orderResponse.Order.Creator.Id && !orderResponse.Order.Closed)
+                            {
+                                using (Html.BeginForm("Complete", "OrderResponse", FormMethod.Post, new { @id = $"complete-form-{orderResponse.Id}" }))
+                                {
+                                    @Html.Hidden("orderId", orderResponse.Order.Id)
+                                    @Html.Hidden("orderResponseId", orderResponse.Id)
+                                    <i class="far fa-check-circle status-icon complete-icon" onclick=@($"$('#complete-form-{orderResponse.Id}').submit()")></i>
+                                }
+                            }
+                        </div>
+                    </strong>
+                </h3>
+            </header>
+            <div class="w3-container">
+                <p>@orderResponse.Comment</p>
+            </div>
+        </div>
+        <div class="w3-card-2 w3-light-gray order-response-info">
+            <div class="w3-container">
+                <p>@orderResponse.Price</p>
+            </div>
+            <div class="w3-container">
+                <p>@orderResponse.CreatedAt</p>
+            </div>
         </div>
     </div>
-    <div class="w3-card-2 w3-light-gray order-response-info">
-        <div class="w3-container">
-            <p>@orderResponse.Price</p>
-        </div>
-        <div class="w3-container">
-            <p>@orderResponse.CreatedAt</p>
-        </div>
-    </div>
-</div>
-<br />
-<br />
+    <br />
+    <br />
 }

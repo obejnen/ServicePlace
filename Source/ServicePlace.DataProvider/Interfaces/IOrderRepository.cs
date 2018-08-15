@@ -7,6 +7,8 @@ namespace ServicePlace.DataProvider.Interfaces
     {
         int GetOrdersCount();
 
+        void Close(int id);
+
         IEnumerable<Order> Search(string search);
 
         IEnumerable<Order> Take(int skip, int count);

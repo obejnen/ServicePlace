@@ -5,6 +5,8 @@ namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IOrderResponseRepository : IRepository<OrderResponse>
     {
+        void Complete(int orderResponseId);
+
         IEnumerable<OrderResponse> GetOrderResponses(int orderId);
 
         IEnumerable<OrderResponse> GetUserResponses(string userId);

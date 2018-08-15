@@ -9,6 +9,7 @@ using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.DataProvider.Mappers;
 using ServicePlace.Model.LogicModels;
+using Order = ServicePlace.Model.DataModels.Order;
 
 
 namespace ServicePlace.DataProvider.Repositories
@@ -84,6 +85,17 @@ namespace ServicePlace.DataProvider.Repositories
                 .Where(x => x.Creator.Id == userId)
                 .ToList()
                 .Select(x => _mapper.MapToLogicModel(x));
+        }
+
+        public void Complete(int orderResponseId)
+        {
+            var orderResponse = _context.OrderResponses.FirstOrDefault(x => x.Id == orderResponseId);
+            if (orderResponse != null)
+            {
+                orderResponse.Completed = true;
+                _context.OrderResponses.AddOrUpdate(orderResponse);
+                _context.SaveChanges();
+            }
         }
 
         public void Dispose()

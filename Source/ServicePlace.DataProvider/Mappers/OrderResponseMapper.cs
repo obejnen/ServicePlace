@@ -26,9 +26,9 @@ namespace ServicePlace.DataProvider.Mappers
                 Order = order,
                 Provider = provider,
                 Creator = creator,
+                Completed = model.Completed,
                 Price = model.Price,
                 Comment = model.Comment,
-                IsCompleted = model.IsCompleted,
                 CreatedAt = model.CreatedAt
             };
         }
@@ -44,9 +44,9 @@ namespace ServicePlace.DataProvider.Mappers
                 Order = order,
                 Provider = provider,
                 Creator = creator,
+                Completed = model.Completed,
                 Price = model.Price,
                 Comment = model.Comment,
-                IsCompleted = model.IsCompleted,
                 CreatedAt = model.CreatedAt
             };
         }

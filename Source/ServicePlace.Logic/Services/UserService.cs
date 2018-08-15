@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Model.LogicModels;
 using ServicePlace.Logic.Interfaces;
@@ -54,6 +57,17 @@ namespace ServicePlace.Logic.Services
         {
             return _repository.CreateRole(role);
         }
+
+        public void SetInitialData(User adminDto, List<string> roles)
+        {
+            foreach (string roleName in roles)
+            {
+                var role = new Role { Name = roleName };
+                _repository.CreateRole(role);
+            }
+            Create(adminDto);
+        }
+
 
         public void Dispose()
         {

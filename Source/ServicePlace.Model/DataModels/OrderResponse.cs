@@ -16,13 +16,13 @@ namespace ServicePlace.Model.DataModels
         [Required]
         public virtual Provider Provider { get; set; }
 
+        public bool Completed { get; set; }
+
         public virtual User Creator { get; set; }
 
         public decimal? Price { get; set; }
 
         public string Comment { get; set; }
-
-        public bool IsCompleted { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }
