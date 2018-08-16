@@ -42,5 +42,7 @@ namespace ServicePlace.Logic.Interfaces
         IEnumerable<OrderCategory> GetCategories();
 
         OrderCategory FindCategoryById(int id);
+
+        IEnumerable<Order> GetByCategory(int id);
     }
 }

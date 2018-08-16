@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\OrderCategoryController.cs" />
     <Compile Include="Controllers\OrderResponseController.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,6 +215,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\category.css" />
     <Content Include="Content\identity.css" />
     <Content Include="Content\imagedropzone.css" />
     <Content Include="Content\Images\preview-background.png" />
@@ -282,6 +284,7 @@
     <Content Include="Views\Shared\_OrderResponseIndexPartial.cshtml" />
     <Content Include="Views\Shared\_ProviderResponsePartial.cshtml" />
     <Content Include="Views\Shared\_ProviderResponseIndexPartial.cshtml" />
+    <Content Include="Views\Shared\_OrderCategoryIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,7 +1,6 @@
 ﻿using ServicePlace.Logic.Interfaces;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Newtonsoft.Json.Linq;
 
 namespace ServicePlace.Logic.Services
 {

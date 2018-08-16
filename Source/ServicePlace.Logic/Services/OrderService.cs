@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.Model.DataModels;
@@ -118,6 +119,11 @@ namespace ServicePlace.Logic.Services
         public OrderCategory FindCategoryById(int id)
         {
             return _categoryRepository.FindById(id);
+        }
+
+        public IEnumerable<Order> GetByCategory(int id)
+        {
+            return _orderRepository.GetByCategory(id);
         }
     }
 }
