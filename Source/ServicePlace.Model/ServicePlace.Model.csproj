@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\Image.cs" />
     <Compile Include="DataModels\OrderResponse.cs" />
     <Compile Include="DataModels\Provider.cs" />
     <Compile Include="DataModels\Order.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="DataModels\ProviderResponse.cs" />
     <Compile Include="DataModels\Role.cs" />
     <Compile Include="DataModels\User.cs" />
+    <Compile Include="LogicModels\Image.cs" />
     <Compile Include="LogicModels\OrderResponse.cs" />
     <Compile Include="LogicModels\Provider.cs" />
     <Compile Include="LogicModels\Order.cs" />

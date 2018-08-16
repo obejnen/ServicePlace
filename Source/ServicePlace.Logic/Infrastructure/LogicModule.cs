@@ -12,6 +12,7 @@ namespace ServicePlace.Logic.Infrastructure
             builder.RegisterModule(new DataProviderModule());
 
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+            builder.RegisterType<ImageService>().As<IImageService>();
             builder.RegisterType<OrderService>().As<IOrderService>();
             builder.RegisterType<ProviderService>().As<IProviderService>();
         }

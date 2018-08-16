@@ -6,6 +6,8 @@
 }
 
 <link rel="stylesheet" href="~/Content/order.css" />
+<script src="~/Scripts/dropzone.js"></script>
+@Styles.Render("~/Content/dropzonecss")
 
 <div class="create-form">
     @using (Html.BeginForm("Create", "Order", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
@@ -24,10 +26,59 @@
         @Html.TextAreaFor(m => m.Body, new { @class = "w3-input" })
         @Html.ValidationMessageFor(m => m.Body, "", new { @class = "text-danger" })
 
+
         <br />
+        <form action="~/Image/Upload" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" style="width: 50px; height: 50px; background: black; border: none;">
+            <input name="file" type="file" multiple style="display:none"/>
+        </form>
         <br />
         <input type="submit" class="w3-button w3-black w3-hover-white" value="Create" />
         <br />
         <br />
     }
 </div>
+
+<script>
+    $(document).ready(function () {
+        //initializeFileList();
+        // Dropzone.autoDiscover = false;
+        Dropzone.options.dropzoneForm = {
+            init: function () {
+                this.on("complete", function (data) {
+                    //var res = eval('(' + data.xhr.responseText + ')');
+                    var res = JSON.parse(data.xhr.responseText);
+                });
+            }
+        };
+        //Dropzone.options.itemDropzone = {
+        //    autoProcessQueue: false,
+        //    parallelUploads: 8,
+        //    addRemoveLinks: true,
+
+        //    init: function() {
+        //        dropzone = Dropzone.forElement("#itemDropzone");
+        //        dropzone.on("addedfile", function(file) {
+        //            $("#submit_upload_btn").click(function() { startUpload() });
+        //            var filename = file.name;
+        //            activateButton();
+        //        });
+        //        dropzone.on("complete",
+        //            function() {
+        //                var res = JSON.parse(data.xhr.responseText);
+        //                dropzone.processQueue();
+        //            });
+        //        dropzone.on("queuecomplete",
+        //            function() {
+        //                dropzone.removeAllFiles();
+        //            });
+        //    }
+        //};
+    });
+    function startUpload() {
+        if (dropzone.files.length == 1) {
+            dropzone.processFile(dropzone.files[0]);
+        } else {
+            dropzone.processQueue();
+        }
+    }
+</script>
