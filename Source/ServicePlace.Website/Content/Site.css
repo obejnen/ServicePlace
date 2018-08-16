@@ -35,3 +35,6 @@ a {
     margin: auto;
     overflow: hidden;
 }
+.navbar-transparent {
+    opacity: 0.9;
+}

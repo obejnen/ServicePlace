@@ -116,5 +116,17 @@ namespace ServicePlace.DataProvider.Repositories
         {
             _context.Dispose();
         }
+
+        public IEnumerable<Order> GetByCategory(int categoryId)
+        {
+            return _context
+                .Orders
+                .Include(x => x.Creator.Profile)
+                .Include(x => x.Photos)
+                .Include(x => x.Category)
+                .Where(x => x.Category.Id == categoryId)
+                .ToList()
+                .Select(x => _mapper.MapToCommonModel(x));
+        }
     }
 }

@@ -16,5 +16,7 @@ namespace ServicePlace.DataProvider.Interfaces
         Order GetOrderProvider(int providerId, int orderId);
 
         IEnumerable<Order> GetUserOrders(string userId);
+
+        IEnumerable<Order> GetByCategory(int categoryId);
     }
 }
