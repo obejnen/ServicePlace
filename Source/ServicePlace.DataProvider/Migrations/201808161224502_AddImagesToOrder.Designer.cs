@@ -7,13 +7,13 @@ namespace ServicePlace.DataProvider.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddImage : IMigrationMetadata
+    public sealed partial class AddImagesToOrder : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddImage));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddImagesToOrder));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808151156083_AddImage"; }
+            get { return "201808161224502_AddImagesToOrder"; }
         }
         
         string IMigrationMetadata.Source

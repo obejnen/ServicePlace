@@ -14,13 +14,13 @@ namespace ServicePlace.Logic.Services
             account = new Account("railsimagecloud", "984753989472299", "x3Qi_omT-_dYS4ydUce7zfu2Qw0");
             cloudinary = new Cloudinary(account);
         }
-        public JToken Upload(string filePath)
+        public string Upload(string filePath)
         {
             var uploadParams = new ImageUploadParams
             {
                 File = new FileDescription(filePath)
             };
-            return cloudinary.Upload(uploadParams).JsonObj;
+            return cloudinary.Upload(uploadParams).Uri.ToString();
         }
     }
 }

@@ -162,3 +162,7 @@
 .status-closed {
     color: #ff0000;
 }
+
+.content-image {
+    width: 200px;
+}

@@ -20,22 +20,20 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(/*HttpPostedFileBase file*/)
+        public JsonResult Upload()
         {
             foreach (string fileName in Request.Files)
             {
                 var file = Request.Files[fileName];
-                //Save file content goes here
-                var fName = file?.FileName;
                 if (file == null || file.ContentLength <= 0) continue;
                 var path = Path.Combine(Server.MapPath("~/Images"),
                     Path.GetFileName(file.FileName) ?? throw new InvalidOperationException());
                 file.SaveAs(path);
-                _imageService.Upload(path);
-                return Json(new {Message = fName});
+                var uploadResult = _imageService.Upload(path);
+                return Json(new { url = uploadResult }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new {Message = "Error"});
+            return null;
         }
     }
 }

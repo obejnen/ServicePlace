@@ -5,6 +5,6 @@ namespace ServicePlace.Logic.Interfaces
 {
     public interface IImageService
     {
-        JToken Upload(string filePath);
+        string Upload(string filePath);
     }
 }

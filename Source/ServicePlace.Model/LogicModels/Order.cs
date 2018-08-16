@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ServicePlace.Model.LogicModels
 {
@@ -8,6 +9,7 @@ namespace ServicePlace.Model.LogicModels
         public string Title { get; set; }
         public string Body { get; set; }
         public User Creator { get; set; }
+        public IEnumerable<Image> Images { get; set; }
         public bool Closed { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
