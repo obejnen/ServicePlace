@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using ServicePlace.Model.LogicModels;
+using ServicePlace.Model.DataModels;
+using Order = ServicePlace.Model.LogicModels.Order;
+using OrderResponse = ServicePlace.Model.LogicModels.OrderResponse;
 
 namespace ServicePlace.Logic.Interfaces
 {
@@ -36,5 +38,9 @@ namespace ServicePlace.Logic.Interfaces
         IEnumerable<Order> GetUserOrders(string userId);
 
         IEnumerable<OrderResponse> GetUserResponses(string userId);
+
+        IEnumerable<OrderCategory> GetCategories();
+
+        OrderCategory FindCategoryById(int id);
     }
 }

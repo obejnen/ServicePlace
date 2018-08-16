@@ -74,11 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\OrderCategory.cs" />
     <Compile Include="DataModels\Image.cs" />
     <Compile Include="DataModels\OrderResponse.cs" />
     <Compile Include="DataModels\Provider.cs" />
     <Compile Include="DataModels\Order.cs" />
     <Compile Include="DataModels\Profile.cs" />
+    <Compile Include="DataModels\ProviderCategory.cs" />
     <Compile Include="DataModels\ProviderResponse.cs" />
     <Compile Include="DataModels\Role.cs" />
     <Compile Include="DataModels\User.cs" />

@@ -8,7 +8,10 @@
 <link rel="stylesheet" href="~/Content/order.css" />
 
 <div class="w3-card-4 order-image w3-display-container">
-    <img src="@Model.Images.First().Url">
+    @if (Model.Images.Any())
+    {
+        <img src="@Model.Images.First().Url">
+    }
     <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
         @Model.Creator.Name
     </div>
@@ -44,11 +47,14 @@
     @Model.Body
 </div>
 
-@foreach (var image in Model.Images)
+@if (Model.Images.Any())
 {
-    <a href="@image.Url" target="_blank">
-        <img src="@image.Url" class="content-image" />
-    </a>
+    foreach (var image in Model.Images)
+    {
+        <a href="@image.Url" target="_blank">
+            <img src="@image.Url" class="content-image" />
+        </a>
+    }
 }
 
 <br/>
