@@ -24,7 +24,7 @@
     @foreach (var order in @Model.FirstPart)
     {
         <div class="w3-quarter">
-            <img src="~/Content/Images/preview-background.png" style="width: 100%">
+            <img src="@order.Images.First().Url" style="width: 100%">
             <div class="order-title">
                 <h3>@Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, null)</h3>
             </div>
