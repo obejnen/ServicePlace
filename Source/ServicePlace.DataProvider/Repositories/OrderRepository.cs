@@ -25,7 +25,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            var result = _context.Orders.Include(x => x.Creator.Profile).ToList()
+            var result = _context.Orders.Include(x => x.Creator.Profile).Include(x => x.Photos).ToList()
                 .Select(x => _mapper.MapToCommonModel(x));
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<Order>, IEnumerable<Order>>());
@@ -69,13 +69,13 @@ namespace ServicePlace.DataProvider.Repositories
 
         public Order FindById(object id)
         {
-            var order = _context.Orders.Include(x => x.Creator.Profile).FirstOrDefault(x => x.Id == (int)id);
+            var order = _context.Orders.Include(x => x.Creator.Profile).Include(x => x.Photos).FirstOrDefault(x => x.Id == (int)id);
             return _mapper.MapToCommonModel(order);
         }
 
         public IEnumerable<Order> Search(string search)
         {
-            var orders = _context.Orders.Include(x => x.Creator.Profile).Where(x => x.Title.Contains(search) || x.Body.Contains(search)).ToList();
+            var orders = _context.Orders.Include(x => x.Creator.Profile).Include(x => x.Photos).Where(x => x.Title.Contains(search) || x.Body.Contains(search)).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<Order>, IEnumerable<Order>>());
             return Mapper.Map<IEnumerable<Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));
@@ -83,7 +83,7 @@ namespace ServicePlace.DataProvider.Repositories
 
         public IEnumerable<Order> Take(int skip, int count)
         {
-            var orders = _context.Orders.Include(x => x.Creator.Profile).OrderBy(x => x.CreatedAt).Skip(skip).Take(count).ToList();
+            var orders = _context.Orders.Include(x => x.Creator.Profile).Include(x => x.Photos).OrderBy(x => x.CreatedAt).Skip(skip).Take(count).ToList();
             Mapper.Reset();
             Mapper.Initialize(cfg => cfg.CreateMap<List<Order>, IEnumerable<Order>>());
             return Mapper.Map<IEnumerable<Order>>(orders.Select(x => _mapper.MapToCommonModel(x)));

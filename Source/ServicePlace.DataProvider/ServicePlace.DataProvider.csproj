@@ -67,7 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IImageRepository.cs" />
     <Compile Include="Interfaces\IProviderResponseRepository.cs" />
+    <Compile Include="Mappers\ImageMapper.cs" />
     <Compile Include="Mappers\ProviderResponseMapper.cs" />
     <Compile Include="DbContexts\ApplicationContext.cs" />
     <Compile Include="Infrastructure\DataProviderModule.cs" />
@@ -110,8 +112,17 @@
     <Compile Include="Migrations\201808151041015_RemoveIsCompletedFieldFromOrderResponse.Designer.cs">
       <DependentUpon>201808151041015_RemoveIsCompletedFieldFromOrderResponse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808161224093_AddImages.cs" />
+    <Compile Include="Migrations\201808161224093_AddImages.Designer.cs">
+      <DependentUpon>201808161224093_AddImages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808161224502_AddImagesToOrder.cs" />
+    <Compile Include="Migrations\201808161224502_AddImagesToOrder.Designer.cs">
+      <DependentUpon>201808161224502_AddImagesToOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ImageRepository.cs" />
     <Compile Include="Repositories\OrderResponseRepository.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\IdentityRepository.cs" />
@@ -154,6 +165,17 @@
     <EmbeddedResource Include="Migrations\201808151041015_RemoveIsCompletedFieldFromOrderResponse.resx">
       <DependentUpon>201808151041015_RemoveIsCompletedFieldFromOrderResponse.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808161224093_AddImages.resx">
+      <DependentUpon>201808161224093_AddImages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808161224502_AddImagesToOrder.resx">
+      <DependentUpon>201808161224502_AddImagesToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.8.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.8.0.js" />
+    <Content Include="Scripts\jquery-1.8.0.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

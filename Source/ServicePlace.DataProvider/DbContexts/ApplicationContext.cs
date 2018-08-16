@@ -16,5 +16,6 @@ namespace ServicePlace.DataProvider.DbContexts
         public DbSet<Provider> Providers { get; set; }
         public DbSet<OrderResponse> OrderResponses { get; set; }
         public DbSet<ProviderResponse> ProviderResponses { get; set; }
+        public DbSet<Image> Photos { get; set; }
     }
 }

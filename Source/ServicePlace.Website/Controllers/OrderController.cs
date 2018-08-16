@@ -24,6 +24,8 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Index(int page = 1)
         {
+
+            _userService.CreateRole(new Role {Name = "user"});
             var helper = new PageHelper();
             ViewBag.CurrentPage = page;
             ViewBag.PageRange = helper.GetPageRange(page, _orderService.GetPagesCount(8));
@@ -48,12 +50,21 @@ namespace ServicePlace.Website.Controllers
         {
             if (ModelState.IsValid)
             {
+                var imageList = new List<Image>();
+                foreach (var image in model.Images.Trim().Split(' '))
+                {
+                    imageList.Add(new Image
+                    {
+                        Url = image
+                    });
+                }
                 var order = new Order
                 {
                     Title = model.Title,
                     Body = model.Body,
                     Closed = false,
-                    Creator = _userService.FindById(User.Identity.GetUserId())
+                    Creator = _userService.FindById(User.Identity.GetUserId()),
+                    Images = imageList
                 };
 
                 _orderService.Create(order);
@@ -88,6 +99,7 @@ namespace ServicePlace.Website.Controllers
                 Title = order.Title,
                 Body = order.Body,
                 Closed = order.Closed,
+                Images = order.Images,
                 CreatedAt = order.CreatedAt,
                 UpdatedAt = order.UpdatedAt,
                 Creator = creatorViewModel

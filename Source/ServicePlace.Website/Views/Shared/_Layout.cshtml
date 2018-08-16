@@ -13,6 +13,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <title>Service Place</title>
     @Styles.Render("~/Content/css")
+
+    @Styles.Render("~/Content/dropzonecss")
 </head>
 <body>
     <!-- Sidebar (hidden by default) -->
@@ -43,6 +45,7 @@
     @*</div>*@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dropzonescripts")
     @RenderSection("scripts", required: false)
     <script>
         // Script to open and close sidebar

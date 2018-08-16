@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ServicePlace.Model.ViewModels.OrderViewModels
 {
@@ -9,5 +10,7 @@ namespace ServicePlace.Model.ViewModels.OrderViewModels
 
         [Required]
         public string Body { get; set; }
+
+        public string Images { get; set; }
     }
 }
