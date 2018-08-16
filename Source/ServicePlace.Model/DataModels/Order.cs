@@ -17,6 +17,9 @@ namespace ServicePlace.Model.DataModels
         [Required]
         public string Body { get; set; }
 
+        [Required]
+        public OrderCategory Category { get; set; }
+
         public bool Closed { get; set; }
 
         [Required]

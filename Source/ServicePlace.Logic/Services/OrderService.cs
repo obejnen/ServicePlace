@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model.LogicModels;
+using ServicePlace.Model.DataModels;
+using Order = ServicePlace.Model.LogicModels.Order;
+using OrderResponse = ServicePlace.Model.LogicModels.OrderResponse;
 
 namespace ServicePlace.Logic.Services
 {
@@ -10,11 +12,15 @@ namespace ServicePlace.Logic.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderResponseRepository _responseRepository;
+        private readonly IOrderCategoryRepository _categoryRepository;
 
-        public OrderService(IOrderRepository orderRepository, IOrderResponseRepository responseRepository)
+        public OrderService(IOrderRepository orderRepository
+            , IOrderResponseRepository responseRepository
+            , IOrderCategoryRepository categoryRepository)
         {
             _orderRepository = orderRepository;
             _responseRepository = responseRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public IEnumerable<Order> Orders => _orderRepository.GetAll();
@@ -102,6 +108,16 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<OrderResponse> GetUserResponses(string userId)
         {
             return _responseRepository.GetUserResponses(userId);
+        }
+
+        public IEnumerable<OrderCategory> GetCategories()
+        {
+            return _categoryRepository.GetAll();
+        }
+
+        public OrderCategory FindCategoryById(int id)
+        {
+            return _categoryRepository.FindById(id);
         }
     }
 }

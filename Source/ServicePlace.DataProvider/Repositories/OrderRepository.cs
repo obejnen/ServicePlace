@@ -4,9 +4,10 @@ using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using ServicePlace.DataProvider.Mappers;
-using ServicePlace.Model.LogicModels;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
+using ServicePlace.Model.DataModels;
+using Order = ServicePlace.Model.LogicModels.Order;
 
 namespace ServicePlace.DataProvider.Repositories
 {
@@ -35,7 +36,8 @@ namespace ServicePlace.DataProvider.Repositories
         public void Create(Order model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var order = _mapper.MapToDataModel(model, creator);
+            var category = _context.OrderCategories.FirstOrDefault(x => x.Id == model.Category.Id);
+            var order = _mapper.MapToDataModel(model, creator, category);
             _context.Orders.Add(order);
             _context.SaveChanges();
         }
@@ -43,7 +45,7 @@ namespace ServicePlace.DataProvider.Repositories
         public void Delete(Order model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var order = _mapper.MapToDataModel(model, creator);
+            var order = _mapper.MapToDataModel(model, creator, new OrderCategory());
             _context.Orders.Remove(order);
             _context.SaveChanges();
         }
@@ -51,7 +53,7 @@ namespace ServicePlace.DataProvider.Repositories
         public void Update(Order model)
         {
             var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var newOrder = _mapper.MapToDataModel(model, creator);
+            var newOrder = _mapper.MapToDataModel(model, creator, new OrderCategory());
             _context.Orders.AddOrUpdate(newOrder);
             _context.SaveChanges();
         }

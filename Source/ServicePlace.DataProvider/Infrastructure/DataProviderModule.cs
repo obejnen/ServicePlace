@@ -34,6 +34,7 @@ namespace ServicePlace.DataProvider.Infrastructure
             builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
             builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>();
             builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
+            builder.RegisterType<OrderCategoryRepository>().As<IOrderCategoryRepository>();
         }
     }
 }   

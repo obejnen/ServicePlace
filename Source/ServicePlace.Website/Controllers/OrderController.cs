@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces;
@@ -41,7 +42,17 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Create()
         {
             if (User.Identity.IsAuthenticated)
-                return View();
+            {
+                var model = new CreateViewModel
+                {
+                    Categories = _orderService.GetCategories().Select(x => new SelectListItem
+                    {
+                        Value = x.Id.ToString(),
+                        Text = x.Name
+                    })
+                };
+                return View(model);
+            }
             return RedirectToAction("Login", "Account");
         }
 
@@ -51,18 +62,20 @@ namespace ServicePlace.Website.Controllers
             if (ModelState.IsValid)
             {
                 var imageList = new List<Image>();
-                foreach (var image in model.Images.Trim().Split(' '))
-                {
-                    imageList.Add(new Image
+                if(model.Images != null)
+                    foreach (var image in model.Images.Trim().Split(' '))
                     {
-                        Url = image
-                    });
-                }
+                        imageList.Add(new Image
+                        {
+                            Url = image
+                        });
+                    }
                 var order = new Order
                 {
                     Title = model.Title,
                     Body = model.Body,
                     Closed = false,
+                    Category = _orderService.FindCategoryById(model.CategoryId),
                     Creator = _userService.FindById(User.Identity.GetUserId()),
                     Images = imageList
                 };

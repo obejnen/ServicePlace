@@ -6,7 +6,7 @@ namespace ServicePlace.DataProvider.Mappers
 {
     public class OrderMapper
     {
-        public DataModels.Order MapToDataModel(CommonModels.Order model, DataModels.User creator)
+        public DataModels.Order MapToDataModel(CommonModels.Order model, DataModels.User creator, DataModels.OrderCategory category)
         {
             var imageMapper = new ImageMapper();
             var images = model.Images.Select(x => imageMapper.MapToDataModel(x)).ToList();
@@ -16,6 +16,7 @@ namespace ServicePlace.DataProvider.Mappers
                 Body = model.Body,
                 Title = model.Title,
                 Closed = model.Closed,
+                Category = category,
                 Photos = images,
                 CreatedAt = model.CreatedAt,
                 UpdatedAt = model.UpdatedAt,
@@ -34,6 +35,7 @@ namespace ServicePlace.DataProvider.Mappers
                 Title = model.Title,
                 Body = model.Body,
                 Closed = model.Closed,
+                Category = model.Category,
                 Images = images,
                 Creator = creator,
                 CreatedAt = model.CreatedAt,
