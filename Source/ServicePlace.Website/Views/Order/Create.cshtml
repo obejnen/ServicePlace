@@ -9,7 +9,6 @@
 }
 
 <link rel="stylesheet" href="~/Content/order.css" />
-<script src="~/Scripts/dropzone.js"></script>
 @Styles.Render("~/Content/dropzonecss")
 
 <div class="create-form w3-container w3-card-4">
@@ -48,11 +47,7 @@
 </div>
 
 <script>
-
-    function addImage(data) {
-        $("#order-images").val($("#order-images").val()+ " " + data);
-    }
-
+    
     $(function () {
         Dropzone.options.dropzoneForm = {
             parallelUploads: 8,
@@ -66,6 +61,9 @@
             }
         }
     });
+    function addImage(data) {
+        $('#order-images').val($('#order-images').val()+ " " + data);
+    }
     function submitForm() {
         $("#order-form").submit();
     }

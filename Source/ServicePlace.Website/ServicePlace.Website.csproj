@@ -202,6 +202,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProviderResponseController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -282,6 +283,7 @@
     <Content Include="Views\Shared\_OrderResponseIndexPartial.cshtml" />
     <Content Include="Views\Shared\_ProviderResponsePartial.cshtml" />
     <Content Include="Views\Shared\_ProviderResponseIndexPartial.cshtml" />
+    <Content Include="Views\Shared\_ImageForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
