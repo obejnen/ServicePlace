@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ServicePlace.Model.DataModels;
 
-namespace ServicePlace.Logic.Interfaces
+namespace ServicePlace.Logic.Interfaces.Services
 {
     public interface IProviderService : IService<Provider>
     {
@@ -12,6 +12,8 @@ namespace ServicePlace.Logic.Interfaces
         IEnumerable<Provider> Take(int skip, int count);
 
         IEnumerable<Provider> GetPage(int page, int perPage);
+
+        IEnumerable<Provider> GetPage(IEnumerable<Provider> providers, int page, int perPage);
 
         int GetPagesCount(int perPage);
 

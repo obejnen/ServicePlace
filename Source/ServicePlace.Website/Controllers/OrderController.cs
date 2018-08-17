@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.WebPages;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Common;
-using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model.LogicModels;
-using ServicePlace.Model.ViewModels.AccountViewModels;
+using ServicePlace.Logic.Interfaces.Mappers;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderViewModels;
 
 namespace ServicePlace.Website.Controllers
@@ -16,26 +12,25 @@ namespace ServicePlace.Website.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
+        private readonly IOrderMapper _orderMapper;
+        private readonly PageHelper _helper;
 
-        public OrderController(IOrderService orderService, IUserService userService)
+        public OrderController(
+            IOrderService orderService, 
+            IUserService userService, 
+            IOrderMapper orderMapper, 
+            PageHelper helper)
         {
             _orderService = orderService;
             _userService = userService;
+            _orderMapper = orderMapper;
+            _helper = helper;
         }
 
         public ActionResult Index(int page = 1)
         {
-
-            _userService.CreateRole(new Role {Name = "user"});
-            var helper = new PageHelper();
-            ViewBag.CurrentPage = page;
-            ViewBag.PageRange = helper.GetPageRange(page, _orderService.GetPagesCount(8));
-            var model = Mapper.Map<List<ItemViewModel>>(_orderService.GetPage(page, 8));
-            var viewModel = new IndexViewModel
-            {
-                FirstPart = model.Count() > 4 ? model.Take(4) : model.Take(model.Count()),
-                SecondPart = model.Count > 4 ? model.Skip(4) : null
-            };
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(_orderService.Orders.Count(), 8));
+            var viewModel = _orderMapper.MapToIndexOrderViewModel(_orderService.GetPage(page, 8), new []{ page, pageRange[0], pageRange[1] });
             return View(viewModel);
         }
 
@@ -43,42 +38,20 @@ namespace ServicePlace.Website.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                var model = new CreateViewModel
-                {
-                    Categories = _orderService.GetCategories().Select(x => new SelectListItem
-                    {
-                        Value = x.Id.ToString(),
-                        Text = x.Name
-                    })
-                };
-                return View(model);
+                var viewModel = _orderMapper.GetCreateViewModel();
+                return View(viewModel);
             }
             return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
-        public RedirectToRouteResult Create(CreateViewModel model)
+        public RedirectToRouteResult Create(CreateOrderViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var imageList = new List<Image>();
-                if(model.Images != null)
-                    foreach (var image in model.Images.Trim().Split(' '))
-                    {
-                        imageList.Add(new Image
-                        {
-                            Url = image
-                        });
-                    }
-                var order = new Order
-                {
-                    Title = model.Title,
-                    Body = model.Body,
-                    Closed = false,
-                    Category = _orderService.GetCategory(model.CategoryId),
-                    Creator = _userService.FindById(User.Identity.GetUserId()),
-                    Images = imageList
-                };
+                var order = _orderMapper
+                    .MapToOrderModel(model, _userService
+                                                .FindByUserName(User.Identity.GetUserName()));
 
                 _orderService.Create(order);
             }
@@ -89,7 +62,7 @@ namespace ServicePlace.Website.Controllers
         [HttpPost]
         public ActionResult Close(int orderId)
         {
-            if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Id)
+            if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Profile.Id)
             {
                 _orderService.CloseOrder(orderId);
             }
@@ -98,32 +71,18 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Show(int id)
         {
-            var order = _orderService.Get(id);
-            var creator = _userService.FindById(order.Creator.Id);
-            var creatorViewModel = new CreatorViewModel
-            {
-                Id = creator.Id,
-                Name = creator.Name,
-                UserName = creator.UserName
-            };
-            var viewModel = new ShowViewModel
-            {
-                Id = order.Id,
-                Title = order.Title,
-                Body = order.Body,
-                Closed = order.Closed,
-                Images = order.Images,
-                CreatedAt = order.CreatedAt,
-                UpdatedAt = order.UpdatedAt,
-                Creator = creatorViewModel
-            };
-
-            return View(viewModel);
+            var model = _orderMapper.MapToOrderViewModel(_orderService.Get(id));
+            return View(model);
         }
 
-        public ActionResult Search(string searchString)
+        public ActionResult Search(string searchString, int page = 1)
         {
-            return View("Index", Mapper.Map<IEnumerable<IndexViewModel>>(_orderService.SearchOrder(searchString)));
+            var searchResult = _orderService.SearchOrder(searchString).ToList();
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), 8));
+            return View("Index",
+                _orderMapper
+                    .MapToIndexOrderViewModel(_orderService.GetPage(searchResult, page, 8),
+                                              new []{ page, pageRange[0], pageRange[1]}));
         }
     }
 }

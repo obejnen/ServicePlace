@@ -1,4 +1,4 @@
-﻿using ServicePlace.Logic.Interfaces;
+﻿using ServicePlace.Logic.Interfaces.Services;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.Model.DataModels;
 using ServicePlace.DataProvider.Interfaces;
 
@@ -16,7 +16,7 @@ namespace ServicePlace.DataProvider.Repositories
                 x => x.Creator.Profile
             };
 
-        public ProviderRepository(DbContext context) : base(context)
+        public ProviderRepository(ApplicationContext context) : base(context)
         {
         }
 

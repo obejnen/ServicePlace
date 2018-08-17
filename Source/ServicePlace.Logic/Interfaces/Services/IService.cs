@@ -1,4 +1,4 @@
-﻿namespace ServicePlace.Logic.Interfaces
+﻿namespace ServicePlace.Logic.Interfaces.Services
 {
     public interface IService<TEntity> where TEntity : class
     {

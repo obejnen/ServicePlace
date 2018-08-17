@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.Model.ViewModels.OrderViewModels
 {
-    public class CreateViewModel
+    public class CreateOrderViewModel
     {
         [Required]
         public string Title { get; set; }

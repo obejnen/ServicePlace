@@ -2,16 +2,16 @@
 using ServicePlace.Model.DataModels;
 using ServicePlace.Model.DTOModels;
 
-namespace ServicePlace.Logic.Interfaces
+namespace ServicePlace.Logic.Interfaces.Services
 {
     public interface IUserService : IService<UserDTO>
     {
-        UserDTO FindByEmail(string email);
+        User FindByEmail(string email);
 
-        UserDTO FindByUserName(string username);
+        User FindByUserName(string username);
 
         ClaimsIdentity Authenticate(UserDTO user);
 
-        void CreateRole(Role role);
+        void CreateRole(string roleName);
     }
 }

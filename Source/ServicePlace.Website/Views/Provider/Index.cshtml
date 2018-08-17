@@ -1,5 +1,5 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
-@model IEnumerable<IndexViewModel>
+@model IndexProviderViewModel
 
 @{
     ViewBag.Title = "Providers";
@@ -22,7 +22,7 @@
 <br />
 
 <div class="w3-row-padding w3-padding-16 w3-center">
-    @foreach (var provider in @Model)
+    @foreach (var provider in @Model.FirstPart)
     {
         <a href="@Url.Action("Show", "Provider", new { id = provider.Id })">
             <div class="w3-quarter">

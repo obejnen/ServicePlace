@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace ServicePlace.Model.ViewModels.OrderResponseViewModels
 {
-    public class CreateViewModel
+    public class CreateOrderResponseViewModel
     {
         public int OrderId { get; set; }
         public int ProviderId { get; set; }

@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model.LogicModels;
+﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using ServicePlace.Logic.Interfaces.Mappers;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.ProviderResponseViewModels;
 
 namespace ServicePlace.Website.Controllers
@@ -10,80 +9,42 @@ namespace ServicePlace.Website.Controllers
     public class ProviderResponseController : Controller
     {
         private readonly IProviderService _providerService;
-        private readonly IOrderService _orderService;
         private readonly IUserService _userService;
+        private readonly IProviderResponseMapper _providerResponseMapper;
 
         public ProviderResponseController(
             IProviderService providerService,
-            IOrderService orderService,
-            IUserService userSerivce)
+            IUserService userSerivce,
+            IProviderResponseMapper providerReseponseMapper)
         {
             _providerService = providerService;
-            _orderService = orderService;
             _userService = userSerivce;
+            _providerResponseMapper = providerReseponseMapper;
         }
 
         public ActionResult Create(int providerId)
         {
-            var ordersListModel = new List<SelectListItem>();
-            var user = _userService.FindByUserName(User.Identity.Name);
-            var orders = _orderService.Orders.Where(x => x.Creator.Id == user.Id).ToList();
-
-            foreach (var order in orders)
-            {
-                var item = _orderService.GetOrderProvider(providerId, order.Id);
-                if (item != null)
-                {
-                    ordersListModel.Add(new SelectListItem
-                    {
-                        Value = item.Id.ToString(),
-                        Text = item.Title
-                    });
-                }
-            }
-
-            var model = new CreateViewModel
-            {
-                ProviderId = providerId,
-                Orders = ordersListModel
-            };
-            return View("_ProviderResponsePartial", model);
+            var viewModel =
+                _providerResponseMapper
+                    .GetCreateProviderResponseViewModel(User.Identity.GetUserId(), providerId);
+            return View("_ProviderResponsePartial", viewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(CreateViewModel model)
+        public ActionResult Create(CreateProviderResponseViewModel viewModel)
         {
-            var providerResponse = new ProviderResponse
-            {
-                Order = _orderService.Get(model.OrderId),
-                Provider = _providerService.GetProvider(model.ProviderId),
-                Creator = _userService.FindByUserName(User.Identity.Name),
-                Comment = model.Comment
-            };
-
+            var providerResponse = _providerResponseMapper
+                .MapToProviderResponseModel(viewModel, _userService.FindByUserName(User.Identity.GetUserName()));
             _providerService.CreateResponse(providerResponse);
-            return RedirectToAction("Index", $"Provider/{model.ProviderId}");
+            return RedirectToAction("Index", $"Provider/{viewModel.ProviderId}");
         }
 
         public ActionResult Index(int providerId)
         {
-            var providerResponses = _providerService.GetProviderResponses(providerId);
-            var list = new List<IndexViewModel>();
-            foreach (var orderResponse in providerResponses)
-            {
-                list.Add(new IndexViewModel
-                {
-                    Order = new Model.ViewModels.OrderViewModels.ItemViewModel
-                    {
-                        Id = orderResponse.Order.Id,
-                        Title = orderResponse.Order.Title,
-                    },
-                    Comment = orderResponse.Comment,
-                    CreatedAt = orderResponse.CreatedAt
-                });
-            }
-
-            return View("_ProviderResponseIndexPartial", list);
+            var providerResponses = _providerResponseMapper
+                .MapToIndexProviderResponseViewModel(_providerService
+                                                        .GetProviderResponses(providerId));
+            return View("_ProviderResponseIndexPartial", providerResponses);
         }
     }
 }

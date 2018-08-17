@@ -1,7 +1,7 @@
 ﻿using CloudinaryDotNet.Actions;
 using Newtonsoft.Json.Linq;
 
-namespace ServicePlace.Logic.Interfaces
+namespace ServicePlace.Logic.Interfaces.Services
 {
     public interface IImageService
     {

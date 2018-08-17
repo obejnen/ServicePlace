@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model.DataModels;
 
@@ -17,7 +18,7 @@ namespace ServicePlace.DataProvider.Repositories
                     x => x.Images
                 };
 
-        public OrderRepository(DbContext context) : base(context)
+        public OrderRepository(ApplicationContext context) : base(context)
         {
         }
 

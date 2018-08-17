@@ -1,11 +1,11 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderResponseViewModels
-@model IEnumerable<IndexViewModel>
+@model IndexProviderResponseViewModel
 
 @{
     Layout = null;
 }
 
-@foreach (var providerResponse in Model)
+@foreach (var providerResponse in Model.ProviderResponses)
 {
     <div class="order-response">
         <div class="order-response-image">

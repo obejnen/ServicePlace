@@ -1,5 +1,5 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
-@model ShowViewModel
+@model ProviderViewModel
 
 @{
     ViewBag.Title = Model.Title;
@@ -10,9 +10,9 @@
 <div class="w3-card-4 order-image w3-display-container">
     <img src="~/Content/Images/preview-background.png">
     <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
-        @Model.Creator.Name
+        @Model.User.Name
     </div>
-    <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">Created by @Model.Creator.UserName</div>
+    <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">Created by @Model.User.UserName</div>
     <div class="w3-display-bottomright w3-container w3-text-white">Created at @Model.CreatedAt</div>
 </div>
 

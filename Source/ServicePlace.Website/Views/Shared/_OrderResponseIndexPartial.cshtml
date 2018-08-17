@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using ServicePlace.Model.ViewModels.OrderResponseViewModels
-@model IEnumerable<IndexViewModel>
+@model IndexOrderResponseViewModel
 
 <link rel="stylesheet" href="~/Content/order-response.css" />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
@@ -11,7 +11,7 @@
     Layout = null;
 }
 
-@foreach (var orderResponse in Model)
+@foreach (var orderResponse in Model.OrderResponses)
 {
     <div class="order-response">
         <div class="order-response-image">

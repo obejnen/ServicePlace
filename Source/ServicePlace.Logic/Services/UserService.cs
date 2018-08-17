@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using ServicePlace.Logic.Interfaces;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model.DataModels;
 using ServicePlace.Model.DTOModels;
@@ -66,37 +66,36 @@ namespace ServicePlace.Logic.Services
         public UserDTO Get(object id)
         {
             var user = _repository.GetBy(x => x.Id == (string)id).SingleOrDefault();
-            return user == null ? null : MapUser(user);
+            return user == null
+                ? null 
+                : new UserDTO
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        Name = user.Profile.Name,
+                    };
         }
 
-        public UserDTO FindByEmail(string email)
+        public User FindByEmail(string email)
         {
-            var user = _repository.GetBy(x => x.Email == email).SingleOrDefault();
-            return user == null ? null : MapUser(user);
+            return _repository.GetBy(x => x.Email == email).SingleOrDefault();
         }
 
-        public UserDTO FindByUserName(string username)
+        public User FindByUserName(string username)
         {
-            var user = _repository.GetBy(x => x.UserName == username).SingleOrDefault();
-            return user == null ? null : MapUser(user);
+            return _repository.GetBy(x => x.UserName == username).SingleOrDefault();            
         }
 
         public ClaimsIdentity Authenticate(UserDTO user) => _repository.Authenticate(user.UserName, user.Password);
 
-        public void CreateRole(Role role)
+        public void CreateRole(string roleName)
         {
-            _repository.CreateRole(role);
-        }
-
-        private UserDTO MapUser(User user)
-        {
-            return new UserDTO
+            var role = new Role()
             {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Name = user.Profile.Name,
+                Name = roleName
             };
+            _repository.CreateRole(role);
         }
     }
 }

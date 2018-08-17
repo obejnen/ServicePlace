@@ -2,7 +2,7 @@
 
 namespace ServicePlace.Model.ViewModels.ProviderViewModels
 {
-    public class CreateViewModel
+    public class CreateProviderViewModel
     {
         [Required]
         public string Title { get; set; }

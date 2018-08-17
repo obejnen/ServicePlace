@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ServicePlace.DataProvider.Interfaces;
-using ServicePlace.Logic.Interfaces;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.Logic.Services
@@ -13,9 +13,9 @@ namespace ServicePlace.Logic.Services
         private readonly IOrderResponseRepository _responseRepository;
         private readonly IOrderCategoryRepository _categoryRepository;
 
-        public OrderService(IOrderRepository orderRepository
-            , IOrderResponseRepository responseRepository
-            , IOrderCategoryRepository categoryRepository)
+        public OrderService(IOrderRepository orderRepository,
+            IOrderResponseRepository responseRepository,
+            IOrderCategoryRepository categoryRepository)
         {
             _orderRepository = orderRepository;
             _responseRepository = responseRepository;
@@ -76,8 +76,18 @@ namespace ServicePlace.Logic.Services
             var ordersCount = _orderRepository.GetAll().Count();
             var skip = (page - 1) * perPage;
             return skip + perPage > ordersCount
-                ? Take((page - 1) * perPage, ordersCount % perPage)
-                : Take((page - 1) * perPage, perPage);
+                ? Take(skip, ordersCount % perPage)
+                : Take(skip, perPage);
+        }
+
+        public IEnumerable<Order> GetPage(IEnumerable<Order> orders, int page, int perPage)
+        {
+            var ordersList = orders.ToList();
+            var ordersCount = ordersList.Count();
+            var skip = (page - 1) * perPage;
+            return skip + perPage > ordersCount
+                ? ordersList.Skip(skip).Take(ordersCount % perPage)
+                : ordersList.Skip(skip).Take(perPage);
         }
 
         public int GetPagesCount(int perPage)
@@ -99,8 +109,8 @@ namespace ServicePlace.Logic.Services
             return _responseRepository.GetBy(x => x.Order.Id == orderId);
         }
 
-        public Order GetOrderProvider(int providerId, int orderId) => _responseRepository
-            .GetBy(x => x.Order.Id == orderId && x.Provider.Id == providerId).SingleOrDefault()?.Order;
+        //public Order GetOrderByProvider(int providerId, int orderId) => _responseRepository
+        //    .GetBy(x => x.Order.Id == orderId && x.Provider.Id == providerId).SingleOrDefault()?.Order;
 
         public IEnumerable<Order> GetUserOrders(string userId) => _orderRepository.GetBy(x => x.Creator.Id == userId);
 
@@ -109,6 +119,17 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<OrderCategory> GetCategories()
         {
             return _categoryRepository.GetAll();
+        }
+
+        public IEnumerable<Order> GetProvidedOrders(string userId, int providerId)
+        {
+            return GetUserOrders(userId)
+                .Select(x => _responseRepository
+                                .GetBy(orderResponse =>
+                                    orderResponse.Order.Id == orderResponse.Id
+                                    && orderResponse.Provider.Id == providerId)
+                                .SingleOrDefault()
+                                ?.Order);
         }
 
         public OrderCategory GetCategory(int categoryId) => _categoryRepository.GetBy(x => x.Id == categoryId).SingleOrDefault();

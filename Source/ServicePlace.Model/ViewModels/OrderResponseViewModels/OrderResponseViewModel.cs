@@ -1,12 +1,14 @@
 ﻿using System;
+using ServicePlace.Model.ViewModels.OrderViewModels;
+using ServicePlace.Model.ViewModels.ProviderViewModels;
 
 namespace ServicePlace.Model.ViewModels.OrderResponseViewModels
 {
-    public class IndexViewModel
+    public class OrderResponseViewModel
     {
         public int Id { get; set; }
-        public ProviderViewModels.IndexViewModel Provider { get; set; }
-        public OrderViewModels.ItemViewModel Order { get; set; }
+        public ProviderViewModel Provider { get; set; }
+        public OrderViewModel Order { get; set; }
         public decimal? Price { get; set; }
         public string Comment { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -1,59 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using ServicePlace.Logic.Interfaces;
-using ServicePlace.Model.LogicModels;
-using ServicePlace.Model.ViewModels.AccountViewModels;
+﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using ServicePlace.Logic.Interfaces.Mappers;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderResponseViewModels;
-using CreateViewModel = ServicePlace.Model.ViewModels.OrderResponseViewModels.CreateViewModel;
 
 namespace ServicePlace.Website.Controllers
 {
     public class OrderResponseController : Controller
     {
-        private readonly IProviderService _providerService;
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
+        private readonly IOrderResponseMapper _orderResponseMapper;
 
-        public OrderResponseController(IProviderService providerService, IUserService userService, IOrderService orderService)
+        public OrderResponseController(
+            IUserService userService, 
+            IOrderService orderService,
+            IOrderResponseMapper orderResponseMapper)
         {
-            _providerService = providerService;
             _orderService = orderService;
             _userService = userService;
+            _orderResponseMapper = orderResponseMapper;
         }
 
         public ActionResult Create(int orderId)
         {
-            var providerViewModels = new List<SelectListItem>();
-            var providers = _providerService.GetUserProviders(_userService.FindByUserName(User.Identity.Name));
-            foreach (var provider in providers)
-            {
-                providerViewModels.Add(new SelectListItem
-                {
-                    Value = provider.Id.ToString(),
-                    Text = provider.Title
-                });
-            }
-
-            var model = new CreateViewModel
-            {
-                OrderId = orderId,
-                Providers = providerViewModels
-            };
-            return View("_OrderResponsePartial", model);
+            var viewModel = _orderResponseMapper.GetCreateOrderResponseViewModel(User.Identity.GetUserId(), orderId);
+            return View("_OrderResponsePartial", viewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(CreateViewModel model)
+        public ActionResult Create(CreateOrderResponseViewModel model)
         {
-            var orderResponse = new OrderResponse
-            {
-                Order = _orderService.Get(model.OrderId),
-                Provider = _providerService.GetProvider(model.ProviderId),
-                Creator = _userService.FindByUserName(User.Identity.Name),
-                Completed = false,
-                Price = model.Price,
-                Comment = model.Comment
-            };
+            var orderResponse = _orderResponseMapper.MapToOrderResponseModel(model, _userService.FindByUserName(User.Identity.GetUserName()));
             _orderService.CreateResponse(orderResponse);
             return RedirectToAction("Show", "Order", new { id = model.OrderId });
         }
@@ -67,36 +45,11 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Index(int orderId)
         {
-            var orderResponses = _orderService.GetOrderResponses(orderId);
-            var list = new List<IndexViewModel>();
-            var order = _orderService.Get(orderId);
-            foreach (var orderResponse in orderResponses)
-            {
-                list.Add(new IndexViewModel
-                {
-                    Id = orderResponse.Id,
-                    Order = new Model.ViewModels.OrderViewModels.ItemViewModel
-                    {
-                        Id = order.Id,
-                        Closed = order.Closed,
-                        Creator = new CreatorViewModel
-                        {
-                            Id = order.Creator.Id
-                        }
-                    },
-                    Provider = new Model.ViewModels.ProviderViewModels.IndexViewModel
-                    {
-                        Id = orderResponse.Provider.Id,
-                        Title = orderResponse.Provider.Title,
-                    },
-                    Price = orderResponse.Price,
-                    Comment = orderResponse.Comment,
-                    CreatedAt = orderResponse.CreatedAt,
-                    Completed = orderResponse.Completed
-                });
-            }
+            var orderResponses = 
+                _orderResponseMapper.MapToIndexOrderResponseViewModel(
+                    _orderService.GetOrderResponses(orderId));
 
-            return View("_OrderResponseIndexPartial", list);
+            return View("_OrderResponseIndexPartial", orderResponses);
         }
     }
 }

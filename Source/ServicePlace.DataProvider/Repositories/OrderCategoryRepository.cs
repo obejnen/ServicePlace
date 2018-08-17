@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq.Expressions;
+using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model.DataModels;
 
@@ -15,7 +15,7 @@ namespace ServicePlace.DataProvider.Repositories
                 x => x.Orders
             };
 
-        public OrderCategoryRepository(DbContext context) : base(context)
+        public OrderCategoryRepository(ApplicationContext context) : base(context)
         {
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ServicePlace.DataProvider.Interfaces;
-using ServicePlace.Logic.Interfaces;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.Logic.Services
@@ -62,11 +62,21 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Provider> GetPage(int page, int perPage)
         {
-            int providersCount = _providerRepository.GetAll().Count();
-            int skip = (page - 1) * perPage;
+            var providersCount = _providerRepository.GetAll().Count();
+            var skip = (page - 1) * perPage;
             return skip + perPage > providersCount
-                ? Take((page - 1) * perPage, providersCount % perPage)
-                : Take((page - 1) * perPage, perPage);
+                ? Take(skip, providersCount % perPage)
+                : Take(skip, perPage);
+        }
+
+        public IEnumerable<Provider> GetPage(IEnumerable<Provider> providers, int page, int perPage)
+        {
+            var providerList = providers.ToList();
+            var providersCount = providerList.Count();
+            var skip = (page - 1) * perPage;
+            return skip + perPage > providersCount
+                ? providerList.Skip(skip).Take(providersCount % perPage)
+                : providerList.Skip(skip).Take(perPage);
         }
 
         public int GetPagesCount(int perPage)

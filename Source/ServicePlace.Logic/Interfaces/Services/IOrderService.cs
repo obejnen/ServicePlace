@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ServicePlace.Model.DataModels;
 
-namespace ServicePlace.Logic.Interfaces
+namespace ServicePlace.Logic.Interfaces.Services
 {
     public interface IOrderService : IService<Order>
     {
@@ -17,15 +17,17 @@ namespace ServicePlace.Logic.Interfaces
 
         IEnumerable<Order> GetPage(int page, int perPage);
 
+        IEnumerable<Order> GetPage(IEnumerable<Order> orders, int page, int perPage);
+
         int GetPagesCount(int perPage);
 
         void CreateResponse(OrderResponse response);
 
         IEnumerable<OrderResponse> GetOrderResponses(int orderId);
 
-        Order GetOrderProvider(int providerId, int orderId);
-
         IEnumerable<Order> GetUserOrders(string userId);
+
+        IEnumerable<Order> GetProvidedOrders(string userId, int providerId);
 
         IEnumerable<OrderResponse> GetUserResponses(string userId);
 

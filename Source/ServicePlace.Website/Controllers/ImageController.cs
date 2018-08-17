@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using ServicePlace.Logic.Interfaces;
+using ServicePlace.Logic.Interfaces.Services;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Newtonsoft.Json.Linq;
