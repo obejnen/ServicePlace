@@ -26,13 +26,14 @@ namespace ServicePlace.DataProvider.Infrastructure
 
         private void LoadRepositories(ContainerBuilder builder)
         {
-            builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
+            builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-            builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
             builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>();
-            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
             builder.RegisterType<OrderCategoryRepository>().As<IOrderCategoryRepository>();
+            builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
+            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
+            builder.RegisterType<ProviderCategoryRepository>().As<IProviderCategoryRepository>();
         }
 
         private void LoadAspNetIdentity(ContainerBuilder builder)

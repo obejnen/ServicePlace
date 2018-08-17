@@ -136,18 +136,18 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Order> GetByCategory(int categoryId) => _orderRepository.GetBy(x => x.Category.Id == categoryId);
 
-        public IEnumerable<Order> GetProviderResponse(int providerId, IEnumerable<int> ordersId)
-        {
-            var responses = new List<Order>();
+        //public IEnumerable<Order> GetProviderResponse(int providerId, IEnumerable<int> ordersId)
+        //{
+        //    var responses = new List<Order>();
 
-            foreach (var orderId in ordersId)
-            {
-                responses.AddRange(_responseRepository
-                    .GetBy(x => x.Order.Id == orderId && x.Provider.Id == providerId)
-                    .Select(x => x.Order));
-            }
+        //    foreach (var orderId in ordersId)
+        //    {
+        //        responses.AddRange(_responseRepository
+        //            .GetBy(x => x.Order.Id == orderId && x.Provider.Id == providerId)
+        //            .Select(x => x.Order));
+        //    }
 
-            return responses;
-        }
+        //    return responses;
+        //}
     }
 }

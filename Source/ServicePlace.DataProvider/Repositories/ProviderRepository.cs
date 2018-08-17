@@ -13,7 +13,8 @@ namespace ServicePlace.DataProvider.Repositories
         protected override IEnumerable<Expression<Func<Provider, object>>> Includes =>
             new Expression<Func<Provider, object>>[]
             {
-                x => x.Creator.Profile
+                x => x.Creator.Profile,
+                x => x.Category
             };
 
         public ProviderRepository(ApplicationContext context) : base(context)

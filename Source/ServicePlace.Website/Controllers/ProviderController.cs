@@ -38,7 +38,11 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Create()
         {
             if (User.Identity.IsAuthenticated)
+            {
+                var viewModel = _providerMapper.GetCreateProviderViewModel();
+
                 return View();
+            }
 
             return RedirectToAction("Login", "Account");
         }

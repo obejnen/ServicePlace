@@ -13,28 +13,25 @@ namespace ServicePlace.Website.Controllers
     public class OrderCategoryController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly IOrderCategoryMapper _orderCategoryMapper;
         private readonly IOrderMapper _orderMapper;
         private readonly PageHelper _helper;
 
-        public OrderCategoryController(IOrderService orderService, IOrderMapper orderMapper, PageHelper helper)
+        public OrderCategoryController(IOrderService orderService,
+            IOrderMapper orderMapper,
+            IOrderCategoryMapper orderCategoryMapper,
+            PageHelper helper)
         {
             _orderService = orderService;
             _orderMapper = orderMapper;
+            _orderCategoryMapper = orderCategoryMapper;
             _helper = helper;
         }
 
         public ActionResult Index()
         {
-            var list = new List<ItemViewModel>();
-            foreach (var model in _orderService.GetCategories())
-            {
-                list.Add(new ItemViewModel
-                {
-                    Id = model.Id,
-                    Name = model.Name
-                });
-            }
-            return View("_OrderCategoryIndex", list);
+            var viewModel = _orderCategoryMapper.MapToIndexOrderCategoryViewModel(_orderService.GetCategories());
+            return View("_OrderCategoryIndex", viewModel);
         }
 
         public ActionResult Show(int id, int page = 1)

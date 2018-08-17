@@ -11,13 +11,16 @@ namespace ServicePlace.Logic.Services
     {
         private readonly IProviderRepository _providerRepository;
         private readonly IProviderResponseRepository _responseRepository;
+        private readonly IProviderCategoryRepository _categoryRepository;
 
         public ProviderService(
             IProviderRepository providerRepository,
-            IProviderResponseRepository providerResponseRepository)
+            IProviderResponseRepository providerResponseRepository,
+            IProviderCategoryRepository categoryRepository)
         {
             _providerRepository = providerRepository;
             _responseRepository = providerResponseRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public IEnumerable<Provider> Providers => _providerRepository.GetAll();
@@ -92,14 +95,18 @@ namespace ServicePlace.Logic.Services
             _responseRepository.Create(response);
         }
 
-        public IEnumerable<ProviderResponse> GetProviderResponses(int providerId)
-        {
-            return _responseRepository.GetBy(x => x.Provider.Id == providerId);
-        }
+        public IEnumerable<ProviderResponse> GetProviderResponses(int providerId) =>
+            _responseRepository.GetBy(x => x.Provider.Id == providerId);
 
-        public IEnumerable<ProviderResponse> GetUserResponses(string userId)
-        {
-            return _responseRepository.GetBy(x => x.Creator.Id == userId);
-        }
+        public ProviderCategory GetCategory(int categoryId) =>
+            _categoryRepository.GetBy(x => x.Id == categoryId).SingleOrDefault();
+
+        public IEnumerable<ProviderResponse> GetUserResponses(string userId) =>
+            _responseRepository.GetBy(x => x.Creator.Id == userId);
+
+        public IEnumerable<Provider> GetByCategory(int categoryId) =>
+            _providerRepository.GetBy(x => x.Category.Id == categoryId);
+
+        public IEnumerable<ProviderCategory> GetCategories() => _categoryRepository.GetAll();
     }
 }

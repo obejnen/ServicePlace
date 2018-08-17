@@ -15,7 +15,7 @@ namespace ServicePlace.Logic.Interfaces.Mappers
 
         IEnumerable<SelectListItem> MapToSelectListItems(IEnumerable<Order> orders);
 
-        CreateOrderViewModel GetCreateViewModel();
+        CreateOrderViewModel GetCreateOrderViewModel();
 
         Order MapToOrderModel(CreateOrderViewModel createOrderViewModel, User creator);
     }

@@ -200,6 +200,7 @@
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\OrderCategoryController.cs" />
     <Compile Include="Controllers\OrderResponseController.cs" />
+    <Compile Include="Controllers\ProviderCategoryViewModel.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -285,6 +286,7 @@
     <Content Include="Views\Shared\_ProviderResponsePartial.cshtml" />
     <Content Include="Views\Shared\_ProviderResponseIndexPartial.cshtml" />
     <Content Include="Views\Shared\_OrderCategoryIndex.cshtml" />
+    <Content Include="Views\Shared\_ProviderCategoryIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
