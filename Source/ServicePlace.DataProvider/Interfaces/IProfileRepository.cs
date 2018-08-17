@@ -2,7 +2,7 @@
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IOrderResponseRepository : IRepository<OrderResponse>
+    public interface IProfileRepository : IRepository<Profile>
     {
     }
 }

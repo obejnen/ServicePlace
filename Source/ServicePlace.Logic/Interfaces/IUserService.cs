@@ -1,30 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using ServicePlace.Model.LogicModels;
+﻿using System.Security.Claims;
+using ServicePlace.Model.DataModels;
+using ServicePlace.Model.DTOModels;
 
 namespace ServicePlace.Logic.Interfaces
 {
-    public interface IUserService : IDisposable
+    public interface IUserService : IService<UserDTO>
     {
-        void Create(User user);
+        UserDTO FindByEmail(string email);
 
-        void Update(User user);
+        UserDTO FindByUserName(string username);
 
-        void Delete(User user);
+        ClaimsIdentity Authenticate(UserDTO user);
 
-        User FindByEmail(string email);
-
-        User FindByUserName(string username);
-
-        User FindById(object id);
-
-        ClaimsIdentity Authenticate(User user);
-
-        IdentityResult CreateRole(Role role);
-
-        void SetInitialData(User adminDto, List<string> roles);
+        void CreateRole(Role role);
     }
 }

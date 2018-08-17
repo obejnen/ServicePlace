@@ -1,27 +1,17 @@
 ﻿using System.Collections.Generic;
 using ServicePlace.Model.DataModels;
-using Order = ServicePlace.Model.LogicModels.Order;
-using OrderResponse = ServicePlace.Model.LogicModels.OrderResponse;
 
 namespace ServicePlace.Logic.Interfaces
 {
-    public interface IOrderService
+    public interface IOrderService : IService<Order>
     {
         IEnumerable<Order> Orders { get; }
 
-        void Create(Order order);
+        void CloseOrder(int id);
 
-        void Delete(Order order);
+        void CompleteOrder(int orderId, int orderResponseId);
 
-        void Update(Order order);
-
-        void Close(int id);
-
-        void Complete(int orderId, int orderResponseId);
-
-        Order FindById(object id);
-
-        IEnumerable<Order> Search(string query);
+        IEnumerable<Order> SearchOrder(string query);
 
         IEnumerable<Order> Take(int skip, int count);
 
@@ -41,7 +31,7 @@ namespace ServicePlace.Logic.Interfaces
 
         IEnumerable<OrderCategory> GetCategories();
 
-        OrderCategory FindCategoryById(int id);
+        OrderCategory GetCategory(int id);
 
         IEnumerable<Order> GetByCategory(int id);
     }

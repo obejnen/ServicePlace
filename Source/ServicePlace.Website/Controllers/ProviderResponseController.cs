@@ -55,8 +55,8 @@ namespace ServicePlace.Website.Controllers
         {
             var providerResponse = new ProviderResponse
             {
-                Order = _orderService.FindById(model.OrderId),
-                Provider = _providerService.FindById(model.ProviderId),
+                Order = _orderService.Get(model.OrderId),
+                Provider = _providerService.GetProvider(model.ProviderId),
                 Creator = _userService.FindByUserName(User.Identity.Name),
                 Comment = model.Comment
             };

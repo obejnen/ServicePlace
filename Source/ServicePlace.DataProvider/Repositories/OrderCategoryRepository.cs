@@ -1,34 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ServicePlace.DataProvider.DbContexts;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq.Expressions;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class OrderCategoryRepository : IOrderCategoryRepository
+    public class OrderCategoryRepository : BaseRepository<OrderCategory>, IOrderCategoryRepository
     {
-        private readonly ApplicationContext _context;
+        protected override IEnumerable<Expression<Func<OrderCategory, object>>> Includes =>
+            new Expression<Func<OrderCategory, object>>[]
+            {
+                x => x.Orders
+            };
 
-        public OrderCategoryRepository(ApplicationContext context)
+        public OrderCategoryRepository(DbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public void Create(OrderCategory model)
-        {
-            _context.OrderCategories.Add(model);
-            _context.SaveChanges();
-        }
-
-        public IEnumerable<OrderCategory> GetAll()
-        {
-            return _context.OrderCategories.ToList();
-        }
-
-        public OrderCategory FindById(int id)
-        {
-            return _context.OrderCategories.FirstOrDefault(x => x.Id == id);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace ServicePlace.Website.Controllers
                     Creator = _userService.FindById(User.Identity.GetUserId())
                 };
 
-                _providerService.Create(provider);
+                _providerService.CreateProvider(provider);
             }
 
             return RedirectToAction("Index", "Provider");
@@ -58,7 +58,7 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Show(int id)
         {
-            var provider = _providerService.FindById(id);
+            var provider = _providerService.GetProvider(id);
             var creator = _userService.FindById(provider.Creator.Id);
             var creatorViewModel = new CreatorViewModel
             {
@@ -82,7 +82,7 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Search(string searchString)
         {
-            return View("Index", Mapper.Map<IEnumerable<IndexViewModel>>(_providerService.Search(searchString)));
+            return View("Index", Mapper.Map<IEnumerable<IndexViewModel>>(_providerService.SearchProvider(searchString)));
         }
     }
 }

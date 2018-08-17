@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using ServicePlace.Model.LogicModels;
+﻿using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IProviderResponseRepository : IRepository<ProviderResponse>
     {
-        IEnumerable<ProviderResponse> GetProviderResponses(int providerId);
-
-        IEnumerable<ProviderResponse> GetUserResponses(string userId);
     }
 }

@@ -1,77 +1,102 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using ServicePlace.Model.LogicModels;
 using ServicePlace.Logic.Interfaces;
 using ServicePlace.DataProvider.Interfaces;
+using ServicePlace.Model.DataModels;
+using ServicePlace.Model.DTOModels;
 
 namespace ServicePlace.Logic.Services
 {
     public class UserService : IUserService
     {
         private readonly IIdentityRepository _repository;
+        private readonly IProfileRepository _profileRepository;
 
-        public UserService(IIdentityRepository repository)
+        public UserService(IIdentityRepository repository, IProfileRepository profileRepository)
         {
             _repository = repository;
+            _profileRepository = profileRepository;
         }
 
-        public void Create(User user)
+        public void Create(UserDTO userDto)
         {
-            if (_repository.FindByEmail(user.Email) == null)
+            if (_repository.GetBy(x => x.Email == userDto.Email).Any()) return;
+            var user = new User
             {
-                _repository.Create(user);
-            }
-
-        }
-
-        public void Update(User user)
-        {
-            if (_repository.FindById(user.Id) != null)
+                Id = Guid.NewGuid().ToString(),
+                UserName = userDto.UserName,
+                Email = userDto.Email,
+                PasswordHash = userDto.Password,
+                Profile = new Profile
+                {
+                    Name = userDto.Name
+                }
+            };
+            _repository.Create(user);
+            _repository.AddToRole(user.Id, userDto.Role);
+            _profileRepository.Create(new Profile
             {
-                _repository.Update(user);
-            }
+                Id = user.Id,
+                Name = userDto.Name
+            });
         }
 
-        public void Delete(User user)
+        public void Update(UserDTO userDto)
         {
-            if (_repository.FindById(user.Id) != null)
+            var user = _repository.GetBy(x => x.Id == userDto.Id).SingleOrDefault();
+            if (user == null) return;
+            user.Profile.Id = userDto.Id;
+            user.Profile.Name = userDto.Name;
+            user.Id = userDto.Id;
+            user.UserName = userDto.UserName;
+            user.Email = userDto.Email;
+            _profileRepository.Update(user.Profile);
+            _repository.Update(user);
+        }
+
+        public void Delete(UserDTO userDto)
+        {
+            var user = _repository.GetBy(x => x.Id == userDto.Id).SingleOrDefault();
+            if (user == null) return;
+            _profileRepository.Delete(user.Profile);
+            _repository.Delete(user);
+        }
+
+        public UserDTO Get(object id)
+        {
+            var user = _repository.GetBy(x => x.Id == (string)id).SingleOrDefault();
+            return user == null ? null : MapUser(user);
+        }
+
+        public UserDTO FindByEmail(string email)
+        {
+            var user = _repository.GetBy(x => x.Email == email).SingleOrDefault();
+            return user == null ? null : MapUser(user);
+        }
+
+        public UserDTO FindByUserName(string username)
+        {
+            var user = _repository.GetBy(x => x.UserName == username).SingleOrDefault();
+            return user == null ? null : MapUser(user);
+        }
+
+        public ClaimsIdentity Authenticate(UserDTO user) => _repository.Authenticate(user.UserName, user.Password);
+
+        public void CreateRole(Role role)
+        {
+            _repository.CreateRole(role);
+        }
+
+        private UserDTO MapUser(User user)
+        {
+            return new UserDTO
             {
-                _repository.Delete(user);
-            }
-        }
-
-        public User FindById(object id) => _repository.FindById(id);
-
-        public User FindByEmail(string email) =>
-            _repository.FindByEmail(email);
-
-        public User FindByUserName(string username) => _repository.FindByUserName(username);
-
-        public ClaimsIdentity Authenticate(User user) => _repository.Authenticate(user);
-
-        public IdentityResult CreateRole(Role role)
-        {
-            return _repository.CreateRole(role);
-        }
-
-        public void SetInitialData(User adminDto, List<string> roles)
-        {
-            foreach (string roleName in roles)
-            {
-                var role = new Role { Name = roleName };
-                _repository.CreateRole(role);
-            }
-            Create(adminDto);
-        }
-
-
-        public void Dispose()
-        {
-            _repository.Dispose();
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Name = user.Profile.Name,
+            };
         }
     }
 }

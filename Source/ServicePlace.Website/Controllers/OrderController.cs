@@ -75,7 +75,7 @@ namespace ServicePlace.Website.Controllers
                     Title = model.Title,
                     Body = model.Body,
                     Closed = false,
-                    Category = _orderService.FindCategoryById(model.CategoryId),
+                    Category = _orderService.GetCategory(model.CategoryId),
                     Creator = _userService.FindById(User.Identity.GetUserId()),
                     Images = imageList
                 };
@@ -89,16 +89,16 @@ namespace ServicePlace.Website.Controllers
         [HttpPost]
         public ActionResult Close(int orderId)
         {
-            if (User.Identity.GetUserId() == _orderService.FindById(orderId).Creator.Id)
+            if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Id)
             {
-                _orderService.Close(orderId);
+                _orderService.CloseOrder(orderId);
             }
             return RedirectToAction("Show", "Order", new { id = orderId });
         }
 
         public ActionResult Show(int id)
         {
-            var order = _orderService.FindById(id);
+            var order = _orderService.Get(id);
             var creator = _userService.FindById(order.Creator.Id);
             var creatorViewModel = new CreatorViewModel
             {
@@ -123,7 +123,7 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Search(string searchString)
         {
-            return View("Index", Mapper.Map<IEnumerable<IndexViewModel>>(_orderService.Search(searchString)));
+            return View("Index", Mapper.Map<IEnumerable<IndexViewModel>>(_orderService.SearchOrder(searchString)));
         }
     }
 }

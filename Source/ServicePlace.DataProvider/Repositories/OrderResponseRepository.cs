@@ -1,106 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using System.Linq;
-using ServicePlace.DataProvider.DbContexts;
+using System.Linq.Expressions;
 using ServicePlace.DataProvider.Interfaces;
-using ServicePlace.DataProvider.Mappers;
-using ServicePlace.Model.LogicModels;
-using Order = ServicePlace.Model.DataModels.Order;
+using ServicePlace.Model.DataModels;
 
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class OrderResponseRepository : IOrderResponseRepository
+    public class OrderResponseRepository : BaseRepository<OrderResponse>, IOrderResponseRepository
     {
-        private readonly ApplicationContext _context;
-        private readonly OrderResponseMapper _mapper;
-
-        public OrderResponseRepository(ApplicationContext context)
-        {
-            _context = context;
-            _mapper = new OrderResponseMapper(_context);
-        }
-
-        public void Create(OrderResponse model)
-        {
-            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var orderResponse = _mapper.MapToDataModel(model, creator);
-            _context.OrderResponses.Add(orderResponse);
-            _context.SaveChanges();
-
-        }
-
-        public void Update(OrderResponse model)
-        {
-            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var orderResponse = _mapper.MapToDataModel(model, creator);
-            _context.OrderResponses.AddOrUpdate(orderResponse);
-            _context.SaveChanges();
-        }
-
-        public void Delete(OrderResponse model)
-        {
-            var creator = _context.Users.FirstOrDefault(x => x.Id == model.Creator.Id);
-            var orderResponse = _mapper.MapToDataModel(model, creator);
-            _context.OrderResponses.Remove(orderResponse);
-            _context.SaveChanges();
-        }
-
-        public OrderResponse FindById(object id)
-        {
-            return _mapper.MapToLogicModel(_context.OrderResponses.FirstOrDefault(x => x.Id == (int)id));
-        }
-
-        public IEnumerable<OrderResponse> GetAll()
-        {
-            return _context
-                .OrderResponses
-                .Include(x => x.Order)
-                .Include(x => x.Provider)
-                .ToList()
-                .Select(x => _mapper.MapToLogicModel(x));
-        }
-
-        public IEnumerable<OrderResponse> GetOrderResponses(int id)
-        {
-            return _context
-                .OrderResponses
-                .Include(x => x.Order.Creator.Profile)
-                .Include(x => x.Provider.Creator.Profile)
-                .Where(x => x.Order.Id == id)
-                .ToList()
-                .Select(x => _mapper.MapToLogicModel(x));
-        }
-
-        public IEnumerable<OrderResponse> GetUserResponses(string userId)
-        {
-            return _context
-                .OrderResponses
-                .Include(x => x.Order.Creator.Profile)
-                .Include(x => x.Creator.Profile)
-                .Where(x => x.Creator.Id == userId)
-                .ToList()
-                .Select(x => _mapper.MapToLogicModel(x));
-        }
-
-        public void Complete(int orderResponseId)
-        {
-            var orderResponse = _context.OrderResponses.FirstOrDefault(x => x.Id == orderResponseId);
-            if (orderResponse != null)
+        protected override IEnumerable<Expression<Func<OrderResponse, object>>> Includes =>
+            new Expression<Func<OrderResponse, object>>[]
             {
-                orderResponse.Completed = true;
-                _context.OrderResponses.AddOrUpdate(orderResponse);
-                _context.SaveChanges();
-            }
-        }
+                x => x.Creator.Profile,
+                x => x.Order.Creator.Profile,
+                x => x.Provider.Creator.Profile
+            };
 
-        public void Dispose()
+        public OrderResponseRepository(DbContext context) : base(context)
         {
-            _context.Dispose();
         }
     }
 }

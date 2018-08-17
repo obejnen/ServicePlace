@@ -47,8 +47,8 @@ namespace ServicePlace.Website.Controllers
         {
             var orderResponse = new OrderResponse
             {
-                Order = _orderService.FindById(model.OrderId),
-                Provider = _providerService.FindById(model.ProviderId),
+                Order = _orderService.Get(model.OrderId),
+                Provider = _providerService.GetProvider(model.ProviderId),
                 Creator = _userService.FindByUserName(User.Identity.Name),
                 Completed = false,
                 Price = model.Price,
@@ -61,7 +61,7 @@ namespace ServicePlace.Website.Controllers
         [HttpPost]
         public ActionResult Complete(int orderId, int orderResponseId)
         {
-            _orderService.Complete(orderId, orderResponseId);
+            _orderService.CompleteOrder(orderId, orderResponseId);
             return RedirectToAction("Show", "Order", new {id = orderId});
         }
 
@@ -69,7 +69,7 @@ namespace ServicePlace.Website.Controllers
         {
             var orderResponses = _orderService.GetOrderResponses(orderId);
             var list = new List<IndexViewModel>();
-            var order = _orderService.FindById(orderId);
+            var order = _orderService.Get(orderId);
             foreach (var orderResponse in orderResponses)
             {
                 list.Add(new IndexViewModel
