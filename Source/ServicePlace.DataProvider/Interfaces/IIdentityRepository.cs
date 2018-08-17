@@ -1,18 +1,15 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using ServicePlace.DataProvider.Managers;
-using ServicePlace.Model.LogicModels;
+using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
     public interface IIdentityRepository : IRepository<User>
     {
-        User FindByEmail(string email);
+        ClaimsIdentity Authenticate(string userName, string password);
 
-        User FindByUserName(string username);
+        void CreateRole(Role role);
 
-        ClaimsIdentity Authenticate(User user);
-
-        IdentityResult CreateRole(Role role);
+        void AddToRole(string userId, string roleName);
     }
 }
