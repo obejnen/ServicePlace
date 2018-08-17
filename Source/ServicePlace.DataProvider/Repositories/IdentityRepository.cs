@@ -1,125 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using ServicePlace.DataProvider.Mappers;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Interfaces;
-using ServicePlace.Model.LogicModels;
+using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {
     public class IdentityRepository : IIdentityRepository
     {
-        private readonly IProfileManager _profileManager;
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
-        private readonly UserMapper _mapper;
-        private readonly log4net.ILog _log;
 
-        private bool _disposed;
-
-        public IdentityRepository(UserManager userManager, RoleManager roleManager, IProfileManager profileManager)
+        public IdentityRepository(UserManager userManager, RoleManager roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _profileManager = profileManager;
-            _mapper = new UserMapper();
-            _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         }
 
         public void Create(User user)
         {
-            var model = _mapper.MapToDataModel(user);
-            model.Id = Guid.NewGuid().ToString();
-            _userManager.Create(model, user.Password);
-            _log.Info($"Created user {model.UserName}");
-            _userManager.AddToRole(model.Id, user.Role);
-            _log.Info($"User {model.UserName} added to role {user.Role}");
-            _profileManager.Create(user, model.Id);
-            _log.Info($"Profile for user {model.UserName} created");
+            _userManager.Create(user, user.PasswordHash);
         }
 
         public void Update(User user)
         {
-            var model = _mapper.MapToDataModel(user);
-            _userManager.Update(model);
-            _profileManager.Update(user);
-            _log.Info($"User {model.UserName} and profile updated");
+            _userManager.Update(user);
         }
 
         public void Delete(User user)
         {
-            var model = _mapper.MapToDataModel(user);
-            _userManager.Delete(model);
-            _profileManager.Delete(user);
-            _log.Info($"User ${model.UserName} and profile removed");
+            _userManager.Delete(user);
         }
 
-        public User FindByEmail(string email)
-        {
-            var user = _userManager.FindByEmail(email);
-            return user == null
-                ? null 
-                : _mapper.MapToCommonModel(user);
-        }
+        public IEnumerable<User> GetAll() => _userManager.Users;
 
-        public User FindByUserName(string username)
+        public ClaimsIdentity Authenticate(string userName, string password)
         {
-            var user = _userManager.FindByName(username);
-            return _mapper.MapToCommonModel(user);
-        }
-
-        public User FindById(object id)
-        {
-            var user = _userManager.FindByIdAsync((string)id).Result;
-            return _mapper.MapToCommonModel(user);
-        }
-
-        public ClaimsIdentity Authenticate(User user)
-        {
-            var result = _userManager.Find(user.UserName, user.Password);
+            var result = _userManager.Find(userName, password);
             return result == null
                 ? null
                 : _userManager.CreateIdentity(result, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
-        public IdentityResult CreateRole(Role role)
+        public void AddToRole(string userId, string roleName)
         {
-
-            var model = new RoleMapper().MapToDataModel(role);
-            var result = _roleManager.FindByName(model.Name);
-
-            if (result == null)
-            {
-                model.Id = Guid.NewGuid().ToString();
-                _roleManager.Create(model);
-                return IdentityResult.Success;
-            }
-
-            return IdentityResult.Failed($"Cannot create role with name {model.Name}");
+            _userManager.AddToRole(userId, roleName);
         }
 
-        public IEnumerable<User> GetAll() => _userManager.Users.ToList().Select(x => _mapper.MapToCommonModel(x));
-
-        public void Dispose()
+        public void CreateRole(Role role)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            var result = _roleManager.FindByName(role.Name);
+
+            if (result != null) return;
+            role.Id = Guid.NewGuid().ToString();
+            _roleManager.Create(role);
         }
 
-        public virtual void Dispose(bool disposing)
+        public IQueryable<User> GetBy(Expression<Func<User, bool>> predicate)
         {
-            if (!_disposed)
-            {
-                _userManager.Dispose();
-                _roleManager.Dispose();
-                _profileManager.Dispose();
-            }
-            _disposed = true;
+            return _userManager.Users.Where(predicate);
         }
-
     }
 }

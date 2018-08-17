@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
@@ -13,10 +13,8 @@ namespace ServicePlace.DataProvider.Interfaces
 
         void Update(T model);
 
-        T FindById(object id);
-
         IEnumerable<T> GetAll();
 
-        void Dispose();
+        IQueryable<T> GetBy(Expression<Func<T, bool>> predicate);
     }
 }

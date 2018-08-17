@@ -30,6 +30,6 @@ namespace ServicePlace.Model.DataModels
         [Required]
         public User Creator { get; set; }
 
-        public ICollection<Image> Photos { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 }

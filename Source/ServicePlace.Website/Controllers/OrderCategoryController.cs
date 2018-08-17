@@ -1,21 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using AutoMapper;
-using ServicePlace.Logic.Interfaces;
+using ServicePlace.Common;
+using ServicePlace.Logic.Interfaces.Mappers;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderCategoryViewModels;
-using ServicePlace.Model.ViewModels.OrderResponseViewModels;
+using ServicePlace.Model.ViewModels.OrderViewModels;
 
 namespace ServicePlace.Website.Controllers
 {
     public class OrderCategoryController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly IOrderMapper _orderMapper;
+        private readonly PageHelper _helper;
 
-        public OrderCategoryController(IOrderService orderService)
+        public OrderCategoryController(IOrderService orderService, IOrderMapper orderMapper, PageHelper helper)
         {
             _orderService = orderService;
+            _orderMapper = orderMapper;
+            _helper = helper;
         }
 
         public ActionResult Index()
@@ -32,26 +37,14 @@ namespace ServicePlace.Website.Controllers
             return View("_OrderCategoryIndex", list);
         }
 
-        public ActionResult Show(int id)
+        public ActionResult Show(int id, int page = 1)
         {
-            var model = new List<Model.ViewModels.OrderViewModels.ItemViewModel>();
-            foreach (var order in _orderService.GetByCategory(id))
-            {
-                model.Add(new Model.ViewModels.OrderViewModels.ItemViewModel
-                {
-                    Id = order.Id,
-                    CreatedAt = order.CreatedAt,
-                    Body = order.Body,
-                    Title = order.Title
-                });
-            }
-            //var model = Mapper.Map<List<Model.ViewModels.OrderViewModels.ItemViewModel>>(_orderService.GetByCategory(id));
-            var viewModel = new Model.ViewModels.OrderViewModels.IndexViewModel
-            {
-                FirstPart = model.Count() > 4 ? model.Take(4) : model.Take(model.Count()),
-                SecondPart = model.Count > 4 ? model.Skip(4) : null
-            };
-            return RedirectToAction("Index", "Order", viewModel);
+            var orders = _orderService.GetByCategory(id).ToList();
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(orders.Count(), 8));
+            return RedirectToAction("Index", "Order",
+                _orderMapper
+                    .MapToIndexOrderViewModel(_orderService.GetPage(orders, page, 8),
+                        new[] { page, pageRange[0], pageRange[1] }));
         }
     }
 }

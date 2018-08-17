@@ -1,4 +1,4 @@
-﻿using ServicePlace.Logic.Interfaces;
+﻿using ServicePlace.Logic.Interfaces.Services;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
@@ -6,12 +6,11 @@ namespace ServicePlace.Logic.Services
 {
     public class ImageService : IImageService
     {
-        private readonly Account account;
-        private readonly Cloudinary cloudinary;
+        private readonly Cloudinary _cloudinary;
         public ImageService()
         {
-            account = new Account("railsimagecloud", "984753989472299", "x3Qi_omT-_dYS4ydUce7zfu2Qw0");
-            cloudinary = new Cloudinary(account);
+            var account = new Account("railsimagecloud", "984753989472299", "x3Qi_omT-_dYS4ydUce7zfu2Qw0");
+            _cloudinary = new Cloudinary(account);
         }
         public string Upload(string filePath)
         {
@@ -19,7 +18,7 @@ namespace ServicePlace.Logic.Services
             {
                 File = new FileDescription(filePath)
             };
-            return cloudinary.Upload(uploadParams).Uri.ToString();
+            return _cloudinary.Upload(uploadParams).Uri.ToString();
         }
     }
 }

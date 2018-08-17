@@ -1,4 +1,4 @@
-﻿using ServicePlace.Model.LogicModels;
+﻿using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Interfaces
 {
