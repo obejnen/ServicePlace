@@ -26,6 +26,22 @@
 <div class="w3-xxxlarge w3-right">
     Price: @Model.Price
 </div>
+<br />
+<br />
+<br />
+<br />
+
+<div class="images">
+    @if (Model.Images.Any())
+    {
+        foreach (var image in Model.Images)
+        {
+            <a href="@image" target="_blank">
+                <img src="@image" class="content-image" />
+            </a>
+        }
+    }
+</div>
 
 <div class="response-container">
     @if (User.Identity.IsAuthenticated)

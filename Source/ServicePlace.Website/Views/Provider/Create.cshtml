@@ -7,36 +7,40 @@
 
 <link rel="stylesheet" href="~/Content/provider.css" />
 
-<div class="create-form">
-    @using (Html.BeginForm("Create", "Provider", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+<div class="create-form w3-container w3-card-4">
+    @using (Html.BeginForm("Create", "Provider", FormMethod.Post, new {@id = "provider-form"}))
     {
         <h2>@ViewBag.Title</h2>
-        <br />
+        <br/>
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
         @Html.LabelFor(m => m.Title)
-        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input" })
-        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(m => m.Title, new {@class = "w3-input"})
+        @Html.ValidationMessageFor(m => m.Title, "", new {@class = "text-danger"})
 
-        <br />
+        <br/>
         @Html.LabelFor(m => m.Body)
-        @Html.TextAreaFor(m => m.Body, new { @class = "w3-input body-text" })
-        @Html.ValidationMessageFor(m => m.Body, "", new { @class = "text-danger" })
+        @Html.TextAreaFor(m => m.Body, new {@class = "w3-input body-text"})
+        @Html.ValidationMessageFor(m => m.Body, "", new {@class = "text-danger"})
 
-        <br />
+        <br/>
         @Html.LabelFor(m => m.Price)
-        @Html.TextBoxFor(m => m.Price, new { @class = "w3-input" })
-        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(m => m.Price, new {@class = "w3-input"})
+        @Html.ValidationMessageFor(m => m.Price, "", new {@class = "text-danger"})
 
-        <br />
+        <br/>
         @Html.LabelFor(m => m.CategoryId, "Category")
-        @Html.DropDownListFor(m => m.CategoryId, Model.Categories, new { @class = "w3-select" })
+        @Html.DropDownListFor(m => m.CategoryId, Model.Categories, new {@class = "w3-select"})
 
-        <br />
-        <br />
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Create" />
-        <br />
-        <br />
+        @Html.HiddenFor(m => m.Images, new {@id = "provider-images"})
+
+        <br/>
+        <br/>
     }
+    @Html.Partial("Partials/_DropzonePartial", "provider-images")
+    <br />
+    <button class="w3-button w3-black w3-hover-white" onclick="$('#provider-form').submit()">Create</button>
+    <br/>
+    <br/>
 </div>

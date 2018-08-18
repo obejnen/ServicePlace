@@ -8,6 +8,8 @@ namespace ServicePlace.Model.DataModels
     {
         public Profile Profile { get; set; }
 
+        public Image Avatar { get; set; }
+
         public ICollection<Order> Orders { get; set; }
 
         public ICollection<Provider> Providers { get; set; }

@@ -28,6 +28,7 @@ namespace ServicePlace.Logic.Mappers
                 Title = provider.Title,
                 Body = provider.Body,
                 Price = provider.Price,
+                Images = provider.Images?.Select(x => x.Url),
                 CreatedAt = provider.CreatedAt,
                 UpdatedAt = provider.UpdatedAt,
                 User = new UserViewModel
@@ -89,7 +90,8 @@ namespace ServicePlace.Logic.Mappers
                 Body = createViewModel.Body,
                 Creator = creator,
                 Price = createViewModel.Price,
-                Category = _providerService.GetCategory(createViewModel.CategoryId)
+                Category = _providerService.GetCategory(createViewModel.CategoryId),
+                Images = createViewModel.Images?.Trim().Split(' ').Select(image => new Image { Url = image }).ToList()
             };
         }
     }
