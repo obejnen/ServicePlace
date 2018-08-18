@@ -24,32 +24,7 @@
 <hr />
 <br />
 
-<div class="w3-row-padding w3-padding-16 w3-center">
-    @foreach (var provider in @Model.FirstPart)
-    {
-        <a href="@Url.Action("Show", "Provider", new { id = provider.Id })">
-            <div class="w3-quarter">
-                <div class="w3-display-container">
-                    <img src="~/Content/Images/preview-background.png" style="width: 100%">
-                    <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px; padding-bottom: 15px;">
-                        @(DateTime.Now.Subtract(provider.CreatedAt).Hours > 24
-                                                              ? $"Created {DateTime.Now.Subtract(provider.CreatedAt).Days} days ago"
-                                                              : $"Created {DateTime.Now.Subtract(provider.CreatedAt).Hours} hours ago")
-                    </div>
-                    <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
-                        Price: @(provider.Price?.ToString() ?? "Contract price")
-                    </div>
-                </div>
-                <div class="provider-title">
-                    <h3>@Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, null)</h3>
-                </div>
-                <div class="preview-body">
-                    <p>@provider.Body</p>
-                </div>
-            </div>
-        </a>
-    }
-</div>
+@Html.Partial("Partials/_OrderProviderIndexPartial", Model)
 
 @if (ViewBag.CurrentPage != null)
 {

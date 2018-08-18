@@ -288,6 +288,8 @@
     <Content Include="Views\Shared\_ProviderResponseIndexPartial.cshtml" />
     <Content Include="Views\Shared\_OrderCategoryIndex.cshtml" />
     <Content Include="Views\Shared\_ProviderCategoryIndex.cshtml" />
+    <Content Include="Views\Shared\Partials\_OrderProviderIndexPartial.cshtml" />
+    <Content Include="Views\Shared\Partials\_DropzonePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

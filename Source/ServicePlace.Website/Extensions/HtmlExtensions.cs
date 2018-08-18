@@ -8,7 +8,8 @@ namespace ServicePlace.Website.Extensions
 {
     public static class HtmlExtensions
     {
-        public static IHtmlString Page(this HtmlHelper helper, string action, string controller, int currentPage, int minPage, int maxPage)
+        public static IHtmlString Page(this HtmlHelper helper, string action, string controller, int currentPage,
+            int minPage, int maxPage)
         {
             var html = new StringBuilder();
             html.AppendLine("<div class=\"w3-center w3-padding-32\">");
@@ -19,7 +20,8 @@ namespace ServicePlace.Website.Extensions
             var pageRange = Enumerable.Range(minPage, maxPage)
                 .Select(x => x == currentPage
                     ? $"<a class=\"w3-bar-item w3-black w3-button\" href=\"/{controller}/{action}/?page={x}\">{x}</a>"
-                    : $"<a class=\"w3-bar-item w3-hover-black w3-button\" href=\"/{controller}/{action}/?page={x}\">{x}</a>").ToArray();
+                    : $"<a class=\"w3-bar-item w3-hover-black w3-button\" href=\"/{controller}/{action}/?page={x}\">{x}</a>")
+                .ToArray();
             var lastPage = currentPage == maxPage
                 ? string.Empty
                 : $"<a class=\"w3-bar-item w3-hover-black w3-button\" href=\"/{controller}/{action}/?page={maxPage}\">Last</a>";
@@ -31,17 +33,3 @@ namespace ServicePlace.Website.Extensions
         }
     }
 }
-
-
-//@if(ViewBag.CurrentPage != null)
-//{
-//< div class="w3-center w3-padding-32">
-//    <div class="w3-bar">
-//@(ViewBag.CurrentPage == ViewBag.PageRange[1]
-//? (object)""
-//: Html.ActionLink("Last", "Index", "Order"
-//, new { page = ViewBag.PageRange[1] }
-//, new { @class = "w3-bar-item w3-hover-black w3-button" }))
-//</div>
-//</div>
-//}
