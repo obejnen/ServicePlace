@@ -2,8 +2,7 @@
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IImageRepository
+    public interface IImageRepository : IRepository<Image>
     {
-        void Create(Image model);
     }
 }

@@ -8,12 +8,12 @@ namespace ServicePlace.Model.DataModels
     {
         public Profile Profile { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public ICollection<Order> Orders { get; set; }
 
-        public virtual ICollection<Provider> Providers { get; set; }
+        public ICollection<Provider> Providers { get; set; }
 
-        public virtual ICollection<OrderResponse> OrderResponses { get; set; }
+        public ICollection<OrderResponse> OrderResponses { get; set; }
 
-        public virtual ICollection<ProviderResponse> ProviderResponses { get; set; }
+        public ICollection<ProviderResponse> ProviderResponses { get; set; }
     }
 }

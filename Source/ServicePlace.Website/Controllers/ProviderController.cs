@@ -41,7 +41,7 @@ namespace ServicePlace.Website.Controllers
             {
                 var viewModel = _providerMapper.GetCreateProviderViewModel();
 
-                return View();
+                return View(viewModel);
             }
 
             return RedirectToAction("Login", "Account");

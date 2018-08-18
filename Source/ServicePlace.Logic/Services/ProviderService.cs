@@ -12,15 +12,18 @@ namespace ServicePlace.Logic.Services
         private readonly IProviderRepository _providerRepository;
         private readonly IProviderResponseRepository _responseRepository;
         private readonly IProviderCategoryRepository _categoryRepository;
+        private readonly IContextProvider _contextProvider;
 
         public ProviderService(
             IProviderRepository providerRepository,
             IProviderResponseRepository providerResponseRepository,
-            IProviderCategoryRepository categoryRepository)
+            IProviderCategoryRepository categoryRepository,
+            IContextProvider contextProvider)
         {
             _providerRepository = providerRepository;
             _responseRepository = providerResponseRepository;
             _categoryRepository = categoryRepository;
+            _contextProvider = contextProvider;
         }
 
         public IEnumerable<Provider> Providers => _providerRepository.GetAll();
@@ -30,17 +33,20 @@ namespace ServicePlace.Logic.Services
             provider.CreatedAt = DateTime.Now;
             provider.UpdatedAt = provider.CreatedAt;
             _providerRepository.Create(provider);
+            _contextProvider.CommitChanges();
         }
 
         public void Delete(Provider provider)
         {
             _providerRepository.Delete(provider);
+            _contextProvider.CommitChanges();
         }
 
         public void Update(Provider provider)
         {
             provider.UpdatedAt = DateTime.Now;
             _providerRepository.Update(provider);
+            _contextProvider.CommitChanges();
         }
 
         public Provider Get(object id)
@@ -75,7 +81,7 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<Provider> GetPage(IEnumerable<Provider> providers, int page, int perPage)
         {
             var providerList = providers.ToList();
-            var providersCount = providerList.Count();
+            var providersCount = providerList.Count;
             var skip = (page - 1) * perPage;
             return skip + perPage > providersCount
                 ? providerList.Skip(skip).Take(providersCount % perPage)
@@ -93,6 +99,7 @@ namespace ServicePlace.Logic.Services
         {
             response.CreatedAt = DateTime.Now;
             _responseRepository.Create(response);
+            _contextProvider.CommitChanges();
         }
 
         public IEnumerable<ProviderResponse> GetProviderResponses(int providerId) =>

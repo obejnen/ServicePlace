@@ -12,11 +12,15 @@ namespace ServicePlace.Logic.Services
     {
         private readonly IIdentityRepository _repository;
         private readonly IProfileRepository _profileRepository;
+        private readonly IContextProvider _contextProvider;
 
-        public UserService(IIdentityRepository repository, IProfileRepository profileRepository)
+        public UserService(IIdentityRepository repository,
+            IProfileRepository profileRepository,
+            IContextProvider contextProvider)
         {
             _repository = repository;
             _profileRepository = profileRepository;
+            _contextProvider = contextProvider;
         }
 
         public void Create(UserDTO userDto)
@@ -40,6 +44,7 @@ namespace ServicePlace.Logic.Services
                 Id = user.Id,
                 Name = userDto.Name
             });
+            _contextProvider.CommitChanges();
         }
 
         public void Update(UserDTO userDto)
@@ -53,6 +58,7 @@ namespace ServicePlace.Logic.Services
             user.Email = userDto.Email;
             _profileRepository.Update(user.Profile);
             _repository.Update(user);
+            _contextProvider.CommitChanges();
         }
 
         public void Delete(UserDTO userDto)
@@ -61,6 +67,7 @@ namespace ServicePlace.Logic.Services
             if (user == null) return;
             _profileRepository.Delete(user.Profile);
             _repository.Delete(user);
+            _contextProvider.CommitChanges();
         }
 
         public UserDTO Get(object id)
@@ -84,7 +91,7 @@ namespace ServicePlace.Logic.Services
 
         public User FindByUserName(string username)
         {
-            return _repository.GetBy(x => x.UserName == username).SingleOrDefault();            
+            return _repository.GetBy(x => x.UserName == username).SingleOrDefault();
         }
 
         public ClaimsIdentity Authenticate(UserDTO user) => _repository.Authenticate(user.UserName, user.Password);
@@ -96,6 +103,7 @@ namespace ServicePlace.Logic.Services
                 Name = roleName
             };
             _repository.CreateRole(role);
+            _contextProvider.CommitChanges();
         }
     }
 }

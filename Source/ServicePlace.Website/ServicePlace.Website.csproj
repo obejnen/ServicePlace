@@ -200,11 +200,12 @@
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\OrderCategoryController.cs" />
     <Compile Include="Controllers\OrderResponseController.cs" />
-    <Compile Include="Controllers\ProviderCategoryViewModel.cs" />
+    <Compile Include="Controllers\ProviderCategoryController.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProviderResponseController.cs" />
+    <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

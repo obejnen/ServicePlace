@@ -67,6 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextProvider\ContextProvider.cs" />
+    <Compile Include="Interfaces\IContextProvider.cs" />
     <Compile Include="Interfaces\IImageRepository.cs" />
     <Compile Include="Interfaces\IOrderCategoryRepository.cs" />
     <Compile Include="Interfaces\IProviderCategoryRepository.cs" />

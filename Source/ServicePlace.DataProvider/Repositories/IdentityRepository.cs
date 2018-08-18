@@ -4,39 +4,43 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
+using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Managers;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    public class IdentityRepository : IIdentityRepository
+    public class IdentityRepository : BaseRepository<User>, IIdentityRepository
     {
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
 
-        public IdentityRepository(UserManager userManager, RoleManager roleManager)
+        protected override IEnumerable<Expression<Func<User, object>>> Includes =>
+            new Expression<Func<User, object>>[]
+            {
+            };
+
+        public IdentityRepository(UserManager userManager, RoleManager roleManager, ApplicationContext context) : base(context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public void Create(User user)
+        public override void Create(User user)
         {
             _userManager.Create(user, user.PasswordHash);
         }
 
-        public void Update(User user)
+        public override void Update(User user)
         {
             _userManager.Update(user);
         }
 
-        public void Delete(User user)
+        public override void Delete(User user)
         {
             _userManager.Delete(user);
         }
-
-        public IEnumerable<User> GetAll() => _userManager.Users;
 
         public ClaimsIdentity Authenticate(string userName, string password)
         {
@@ -60,7 +64,7 @@ namespace ServicePlace.DataProvider.Repositories
             _roleManager.Create(role);
         }
 
-        public IQueryable<User> GetBy(Expression<Func<User, bool>> predicate)
+        public override IQueryable<User> GetBy(Expression<Func<User, bool>> predicate)
         {
             return _userManager.Users.Where(predicate);
         }

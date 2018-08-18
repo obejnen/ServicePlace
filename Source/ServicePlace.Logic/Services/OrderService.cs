@@ -10,16 +10,23 @@ namespace ServicePlace.Logic.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IImageRepository _imageRepository;
         private readonly IOrderResponseRepository _responseRepository;
         private readonly IOrderCategoryRepository _categoryRepository;
+        private readonly IContextProvider _contextProvider;
 
         public OrderService(IOrderRepository orderRepository,
             IOrderResponseRepository responseRepository,
-            IOrderCategoryRepository categoryRepository)
+            IOrderCategoryRepository categoryRepository,
+            IImageRepository imageRepository,
+            IContextProvider contextProvider
+            )
         {
             _orderRepository = orderRepository;
             _responseRepository = responseRepository;
             _categoryRepository = categoryRepository;
+            _imageRepository = imageRepository;
+            _contextProvider = contextProvider;
         }
 
         public IEnumerable<Order> Orders => _orderRepository.GetAll();
@@ -28,23 +35,37 @@ namespace ServicePlace.Logic.Services
         {
             order.CreatedAt = DateTime.Now;
             order.UpdatedAt = DateTime.Now;
+            if(order.Images != null)
+            {
+                foreach (var orderImage in order.Images)
+                {
+                    _imageRepository.Create(orderImage);
+                }
+
+                order.Images = order.Images
+                    .Select(x => _imageRepository.GetBy(image => image.Url == x.Url).SingleOrDefault()).ToList();
+            }
             _orderRepository.Create(order);
+            _contextProvider.CommitChanges();
         }
 
         public void Delete(Order order)
         {
             _orderRepository.Delete(order);
+            _contextProvider.CommitChanges();
         }
 
         public void Update(Order order)
         {
             order.UpdatedAt = DateTime.Now;
             _orderRepository.Update(order);
+            _contextProvider.CommitChanges();
         }
 
         public void CloseOrder(int id)
         {
             _orderRepository.CloseOrder(id);
+            _contextProvider.CommitChanges();
         }
 
         public void CompleteOrder(int orderId, int orderResponseId)
@@ -54,6 +75,7 @@ namespace ServicePlace.Logic.Services
             if (orderResponse == null) return;
             orderResponse.Completed = true;
             _responseRepository.Update(orderResponse);
+            _contextProvider.CommitChanges();
         }
 
         public Order Get(object id)
@@ -102,15 +124,13 @@ namespace ServicePlace.Logic.Services
             response.Completed = false;
             response.CreatedAt = DateTime.Now;
             _responseRepository.Create(response);
+            _contextProvider.CommitChanges();
         }
 
         public IEnumerable<OrderResponse> GetOrderResponses(int orderId)
         {
             return _responseRepository.GetBy(x => x.Order.Id == orderId);
         }
-
-        //public Order GetOrderByProvider(int providerId, int orderId) => _responseRepository
-        //    .GetBy(x => x.Order.Id == orderId && x.Provider.Id == providerId).SingleOrDefault()?.Order;
 
         public IEnumerable<Order> GetUserOrders(string userId) => _orderRepository.GetBy(x => x.Creator.Id == userId);
 
@@ -124,30 +144,15 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<Order> GetProvidedOrders(string userId, int providerId)
         {
             return GetUserOrders(userId)
-                .Select(x => _responseRepository
+                .Where(x => _responseRepository
                                 .GetBy(orderResponse =>
-                                    orderResponse.Order.Id == orderResponse.Id
+                                    orderResponse.Order.Id == x.Id
                                     && orderResponse.Provider.Id == providerId)
-                                .SingleOrDefault()
-                                ?.Order);
+                                .SingleOrDefault() != null);
         }
 
         public OrderCategory GetCategory(int categoryId) => _categoryRepository.GetBy(x => x.Id == categoryId).SingleOrDefault();
 
         public IEnumerable<Order> GetByCategory(int categoryId) => _orderRepository.GetBy(x => x.Category.Id == categoryId);
-
-        //public IEnumerable<Order> GetProviderResponse(int providerId, IEnumerable<int> ordersId)
-        //{
-        //    var responses = new List<Order>();
-
-        //    foreach (var orderId in ordersId)
-        //    {
-        //        responses.AddRange(_responseRepository
-        //            .GetBy(x => x.Order.Id == orderId && x.Provider.Id == providerId)
-        //            .Select(x => x.Order));
-        //    }
-
-        //    return responses;
-        //}
     }
 }
