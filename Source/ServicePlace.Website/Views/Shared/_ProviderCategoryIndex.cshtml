@@ -1,5 +1,5 @@
-﻿@using ServicePlace.Model.ViewModels.OrderCategoryViewModels
-@model IndexOrderCategoryViewModel
+﻿@using ServicePlace.Model.ViewModels.ProviderCategoryViewModels
+@model IndexProviderCategoryViewModel
 
 <link rel="stylesheet" href="~/Content/category.css"/>
 
@@ -13,7 +13,7 @@
        class="w3-bar-item w3-button">Close Menu</a>
     @foreach (var category in Model.Categories)
     {
-        @Html.ActionLink(category.Name, "Show", "OrderCategory", new { id = category.Id }, new { @class = "w3-bar-item w3-button", onclick = "w3_close2()" })
+        @Html.ActionLink(category.Name, "Show", "ProviderCategory", new { id = category.Id }, new { @class = "w3-bar-item w3-button", onclick = "w3_close2()" })
     }
 </nav>
 

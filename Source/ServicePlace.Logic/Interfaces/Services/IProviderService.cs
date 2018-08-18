@@ -24,5 +24,10 @@ namespace ServicePlace.Logic.Interfaces.Services
         IEnumerable<ProviderResponse> GetProviderResponses(int providerId);
 
         IEnumerable<ProviderResponse> GetUserResponses(string userId);
+
+        IEnumerable<Provider> GetByCategory(int categoryId);
+        ProviderCategory GetCategory(int categoryId);
+
+        IEnumerable<ProviderCategory> GetCategories();
     }
 }

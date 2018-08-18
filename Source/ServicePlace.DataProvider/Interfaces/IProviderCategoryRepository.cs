@@ -2,7 +2,8 @@
 
 namespace ServicePlace.DataProvider.Interfaces
 {
-    public interface IImageRepository : IRepository<Image>
+    public interface IProviderCategoryRepository : IRepository<ProviderCategory>
     {
+
     }
 }

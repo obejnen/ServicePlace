@@ -29,6 +29,7 @@ namespace ServicePlace.Logic.Infrastructure
 
             builder.RegisterType<ProviderMapper>().As<IProviderMapper>();
             builder.RegisterType<ProviderResponseMapper>().As<IProviderResponseMapper>();
+            builder.RegisterType<ProviderCategoryMapper>().As<IProviderCategoryMapper>();
 
             builder.RegisterType<UserMapper>().As<IUserMapper>();
         }

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using ServicePlace.DataProvider.ContextProviders;
 using ServicePlace.Model.DataModels;
 using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
@@ -21,18 +22,21 @@ namespace ServicePlace.DataProvider.Infrastructure
 
         private void LoadContexts(ContainerBuilder builder)
         {
-            builder.RegisterType<ApplicationContext>().AsSelf();
+            builder.RegisterType<ApplicationContext>().AsSelf().SingleInstance();
+            builder.RegisterType<ContextProvider>().As<IContextProvider>();
         }
 
         private void LoadRepositories(ContainerBuilder builder)
         {
-            builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
+            builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-            builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
             builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>();
-            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
             builder.RegisterType<OrderCategoryRepository>().As<IOrderCategoryRepository>();
+            builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
+            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
+            builder.RegisterType<ProviderCategoryRepository>().As<IProviderCategoryRepository>();
+            builder.RegisterType<ImageRepository>().As<IImageRepository>();
         }
 
         private void LoadAspNetIdentity(ContainerBuilder builder)

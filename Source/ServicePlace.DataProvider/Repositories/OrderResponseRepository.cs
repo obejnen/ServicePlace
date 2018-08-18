@@ -14,7 +14,7 @@ namespace ServicePlace.DataProvider.Repositories
             new Expression<Func<OrderResponse, object>>[]
             {
                 x => x.Creator.Profile,
-                x => x.Order.Creator.Profile,
+                x => x.Order/*.Creator.Profile*/,
                 x => x.Provider.Creator.Profile
             };
 

@@ -74,7 +74,7 @@ namespace ServicePlace.Logic.Mappers
             });
         }
 
-        public CreateOrderViewModel GetCreateViewModel()
+        public CreateOrderViewModel GetCreateOrderViewModel()
         {
             return new CreateOrderViewModel
             {

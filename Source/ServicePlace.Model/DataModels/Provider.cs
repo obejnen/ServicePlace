@@ -9,7 +9,6 @@ namespace ServicePlace.Model.DataModels
     public class Provider
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -19,6 +18,9 @@ namespace ServicePlace.Model.DataModels
         public string Body { get; set; }
 
         public decimal? Price { get; set; }
+
+        [Required]
+        public ProviderCategory Category { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }

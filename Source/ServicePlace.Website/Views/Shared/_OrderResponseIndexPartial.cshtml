@@ -27,7 +27,7 @@
                             {
                                 <i class="far fa-check-circle status-icon status-icon-completed"></i>
                             }
-                            @if (User.Identity.GetUserId() == orderResponse.Order.Creator.Id && !orderResponse.Order.Closed)
+                            @if (User.Identity.GetUserId() == orderResponse.Order.User.Id && !orderResponse.Order.Closed)
                             {
                                 using (Html.BeginForm("Complete", "OrderResponse", FormMethod.Post, new { @id = $"complete-form-{orderResponse.Id}" }))
                                 {

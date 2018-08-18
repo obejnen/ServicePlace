@@ -17,6 +17,9 @@
     </div>
 }
 
+
+@Html.Action("Index", "ProviderCategory")
+
 <br />
 <hr />
 <br />
@@ -30,15 +33,15 @@
                     <img src="~/Content/Images/preview-background.png" style="width: 100%">
                     <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px; padding-bottom: 15px;">
                         @(DateTime.Now.Subtract(provider.CreatedAt).Hours > 24
-                                                      ? $"Created {DateTime.Now.Subtract(provider.CreatedAt).Days} days ago"
-                                                      : $"Created {DateTime.Now.Subtract(provider.CreatedAt).Hours} hours ago")
+                                                              ? $"Created {DateTime.Now.Subtract(provider.CreatedAt).Days} days ago"
+                                                              : $"Created {DateTime.Now.Subtract(provider.CreatedAt).Hours} hours ago")
                     </div>
                     <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
                         Price: @(provider.Price?.ToString() ?? "Contract price")
                     </div>
                 </div>
                 <div class="provider-title">
-                    <h3>@Html.ActionLink(provider.Title, "Show", "Order", new { id = provider.Id }, null)</h3>
+                    <h3>@Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, null)</h3>
                 </div>
                 <div class="preview-body">
                     <p>@provider.Body</p>
@@ -53,19 +56,19 @@
     <div class="w3-center w3-padding-32">
         <div class="w3-bar">
             @(ViewBag.CurrentPage == 1 || ViewBag.PageRange[0] == 1
-                  ? (object) ""
-                  : Html.ActionLink("1", "Index", "Provider", new {page = 1}, new {@class = "w3-bar-item w3-hover-black w3-button"}))
+                          ? (object)""
+                          : Html.ActionLink("1", "Index", "Provider", new { page = 1 }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
             @for (int i = ViewBag.PageRange[0]; i <= ViewBag.PageRange[1]; i++)
             {
                 @(i == ViewBag.CurrentPage
-                      ? Html.ActionLink(i.ToString(), "Index", "Provider", new {page = i}, new {@class = "w3-bar-item w3-black w3-button"})
-                      : Html.ActionLink(i.ToString(), "Index", "Provider", new {page = i}, new {@class = "w3-bar-item w3-hover-black w3-button"}))
+                              ? Html.ActionLink(i.ToString(), "Index", "Provider", new { page = i }, new { @class = "w3-bar-item w3-black w3-button" })
+                              : Html.ActionLink(i.ToString(), "Index", "Provider", new { page = i }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
             }
             @(ViewBag.CurrentPage == ViewBag.PageRange[1]
-                  ? (object) ""
-                  : Html.ActionLink("Last", "Index", "Provider"
-                      , new {page = ViewBag.PageRange[1]}
-                      , new {@class = "w3-bar-item w3-hover-black w3-button"}))
+                          ? (object)""
+                          : Html.ActionLink("Last", "Index", "Provider"
+                              , new { page = ViewBag.PageRange[1] }
+                              , new { @class = "w3-bar-item w3-hover-black w3-button" }))
         </div>
     </div>
 }

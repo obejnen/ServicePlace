@@ -15,6 +15,8 @@ namespace ServicePlace.Logic.Interfaces.Mappers
 
         IEnumerable<SelectListItem> MapToSelectListItems(IEnumerable<Provider> providers);
 
-        Provider MapToProviderModel(CreateProviderViewModel createProviderViewModel, User creator);
+        CreateProviderViewModel GetCreateProviderViewModel();
+
+        Provider MapToProviderModel(CreateProviderViewModel createViewModel, User creator);
     }
 }

@@ -30,6 +30,10 @@
         @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
 
         <br />
+        @Html.LabelFor(m => m.CategoryId, "Category")
+        @Html.DropDownListFor(m => m.CategoryId, Model.Categories, new { @class = "w3-select" })
+
+        <br />
         <br />
         <input type="submit" class="w3-button w3-black w3-hover-white" value="Create" />
         <br />

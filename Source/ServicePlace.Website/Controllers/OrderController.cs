@@ -38,7 +38,7 @@ namespace ServicePlace.Website.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                var viewModel = _orderMapper.GetCreateViewModel();
+                var viewModel = _orderMapper.GetCreateOrderViewModel();
                 return View(viewModel);
             }
             return RedirectToAction("Login", "Account");

@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\LogicModule.cs" />
     <Compile Include="Interfaces\Mappers\IOrderResponseMapper.cs" />
+    <Compile Include="Interfaces\Mappers\IProviderCategoryMapper.cs" />
     <Compile Include="Interfaces\Mappers\IProviderMapper.cs" />
     <Compile Include="Interfaces\Mappers\IProviderResponseMapper.cs" />
     <Compile Include="Interfaces\Mappers\IUserMapper.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Mappers\OrderResponseMapper.cs" />
     <Compile Include="Mappers\OrderCategoryMapper.cs" />
     <Compile Include="Mappers\OrderMapper.cs" />
+    <Compile Include="Mappers\ProviderCategoryMapper.cs" />
     <Compile Include="Mappers\ProviderMapper.cs" />
     <Compile Include="Mappers\ProviderResponseMapper.cs" />
     <Compile Include="Mappers\UserMapper.cs" />

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using ServicePlace.Logic.Interfaces.Mappers;
+using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
 using ServicePlace.Model.ViewModels.AccountViewModels;
 using ServicePlace.Model.ViewModels.ProviderViewModels;
@@ -10,6 +11,15 @@ namespace ServicePlace.Logic.Mappers
 {
     public class ProviderMapper : IProviderMapper
     {
+        private readonly IProviderService _providerService;
+        private readonly IProviderCategoryMapper _providerCategoryMapper;
+
+        public ProviderMapper(IProviderService providerService, IProviderCategoryMapper providerCategoryMapper)
+        {
+            _providerService = providerService;
+            _providerCategoryMapper = providerCategoryMapper;
+        }
+
         public ProviderViewModel MapToProviderViewModel(Provider provider)
         {
             return new ProviderViewModel
@@ -63,6 +73,14 @@ namespace ServicePlace.Logic.Mappers
             });
         }
 
+        public CreateProviderViewModel GetCreateProviderViewModel()
+        {
+            return new CreateProviderViewModel
+            {
+                Categories = _providerCategoryMapper.MapToSelectListItems(_providerService.GetCategories())
+            };
+        }
+
         public Provider MapToProviderModel(CreateProviderViewModel createViewModel, User creator)
         {
             return new Provider
@@ -70,7 +88,8 @@ namespace ServicePlace.Logic.Mappers
                 Title = createViewModel.Title,
                 Body = createViewModel.Body,
                 Creator = creator,
-                Price = createViewModel.Price
+                Price = createViewModel.Price,
+                Category = _providerService.GetCategory(createViewModel.CategoryId)
             };
         }
     }
