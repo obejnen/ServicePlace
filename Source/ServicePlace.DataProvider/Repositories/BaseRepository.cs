@@ -47,7 +47,7 @@ namespace ServicePlace.DataProvider.Repositories
             _context.Set<TEntity>().AddOrUpdate(entity);
         }
 
-        public virtual IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate)
         {
             return Query.Where(predicate);
         }
@@ -55,11 +55,6 @@ namespace ServicePlace.DataProvider.Repositories
         public IEnumerable<TEntity> GetAll()
         {
             return Query;
-        }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
         }
     }
 }

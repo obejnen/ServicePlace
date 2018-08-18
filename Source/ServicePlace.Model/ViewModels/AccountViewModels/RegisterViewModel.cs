@@ -24,6 +24,8 @@ namespace ServicePlace.Model.ViewModels.AccountViewModels
         [Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
 
+        public string Avatar { get; set; }
+
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
     }

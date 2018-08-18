@@ -9,7 +9,6 @@ namespace ServicePlace.Logic.Mappers
 {
     public class UserMapper : IUserMapper
     {
-        private readonly IUserService _userService;
         private readonly IOrderService _orderService;
         private readonly IProviderService _providerService;
         private readonly IOrderMapper _orderMapper;
@@ -17,15 +16,13 @@ namespace ServicePlace.Logic.Mappers
         private readonly IOrderResponseMapper _orderResponseMapper;
         private readonly IProviderResponseMapper _providerResponseMapper;
 
-        public UserMapper(IUserService userService,
-            IOrderService orderService,
+        public UserMapper(IOrderService orderService,
             IProviderService providerService,
             IOrderMapper orderMapper,
             IProviderMapper providerMapper,
             IOrderResponseMapper orderResponseMapper,
             IProviderResponseMapper providerResponseMapper)
         {
-            _userService = userService;
             _orderService = orderService;
             _providerService = providerService;
             _orderMapper = orderMapper;
@@ -40,17 +37,16 @@ namespace ServicePlace.Logic.Mappers
             var providers = _providerMapper.MapToIndexProviderViewModel(_providerService.GetUserProviders(user.Id));
             var orderResponses = _orderResponseMapper.MapToIndexOrderResponseViewModel(_orderService.GetUserResponses(user.Id));
             var providerResponses = _providerResponseMapper.MapToIndexProviderResponseViewModel(_providerService.GetUserResponses(user.Id));
-
-            return new ProfileViewModel
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Name = user.Profile.Name,
-                Orders = orders,
-                Providers = providers,
-                OrderResponses = orderResponses,
-                ProviderResponses = providerResponses
-            };
+            var profile = new ProfileViewModel();
+            profile.Id = user.Id;
+            profile.Avatar = user.Avatar.Url;
+            profile.UserName = user.UserName;
+            profile.Name = user.Profile.Name;
+            profile.Orders = orders;
+            profile.Providers = providers;
+            profile.OrderResponses = orderResponses;
+            profile.ProviderResponses = providerResponses;
+            return profile;
         }
 
         public UserDTO MapToUserDtoModel(RegisterViewModel registerViewModel)
@@ -60,7 +56,8 @@ namespace ServicePlace.Logic.Mappers
                 Email = registerViewModel.Email,
                 UserName = registerViewModel.UserName,
                 Password = registerViewModel.Password,
-                Name = registerViewModel.Name
+                Name = registerViewModel.Name,
+                Avatar = registerViewModel.Avatar.Trim()
             };
         }
     }

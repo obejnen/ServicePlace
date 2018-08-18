@@ -37,8 +37,8 @@
         <br />
         <br />
     }
-    
-    @Html.Partial("Partials/_DropzonePartial", "order-images")
+
+    @Html.Partial("Partials/_DropzonePartial", new ViewDataDictionary { { "Selector", "order-images" }, { "Multiple", true } })
     <br />
     <button onclick="submitForm()" class="w3-button w3-black w3-hover-white">Create</button>
     <br />

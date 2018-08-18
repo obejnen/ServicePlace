@@ -19,6 +19,8 @@ namespace ServicePlace.DataProvider.Repositories
         protected override IEnumerable<Expression<Func<User, object>>> Includes =>
             new Expression<Func<User, object>>[]
             {
+                x => x.Avatar,
+                x => x.Profile
             };
 
         public IdentityRepository(UserManager userManager, RoleManager roleManager, ApplicationContext context) : base(context)
@@ -62,11 +64,6 @@ namespace ServicePlace.DataProvider.Repositories
             if (result != null) return;
             role.Id = Guid.NewGuid().ToString();
             _roleManager.Create(role);
-        }
-
-        public override IQueryable<User> GetBy(Expression<Func<User, bool>> predicate)
-        {
-            return _userManager.Users.Where(predicate);
         }
     }
 }

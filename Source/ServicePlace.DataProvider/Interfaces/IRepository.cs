@@ -13,8 +13,6 @@ namespace ServicePlace.DataProvider.Interfaces
 
         void Update(T model);
 
-        void SaveChanges();
-
         IEnumerable<T> GetAll();
 
         IQueryable<T> GetBy(Expression<Func<T, bool>> predicate);

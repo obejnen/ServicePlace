@@ -26,10 +26,12 @@ namespace ServicePlace.Logic.Services
         public void Create(UserDTO userDto)
         {
             if (_repository.GetBy(x => x.Email == userDto.Email).Any()) return;
+            //userDto.Role = "user";
             var user = new User
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = userDto.UserName,
+                Avatar = new Image { Url = userDto.Avatar },
                 Email = userDto.Email,
                 PasswordHash = userDto.Password,
                 Profile = new Profile
@@ -38,7 +40,7 @@ namespace ServicePlace.Logic.Services
                 }
             };
             _repository.Create(user);
-            _repository.AddToRole(user.Id, userDto.Role);
+            _repository.AddToRole(user.Id, "user");
             _profileRepository.Create(new Profile
             {
                 Id = user.Id,
@@ -52,6 +54,7 @@ namespace ServicePlace.Logic.Services
             var user = _repository.GetBy(x => x.Id == userDto.Id).SingleOrDefault();
             if (user == null) return;
             user.Profile.Id = userDto.Id;
+            user.Avatar = new Image {Url = userDto.Avatar};
             user.Profile.Name = userDto.Name;
             user.Id = userDto.Id;
             user.UserName = userDto.UserName;
@@ -78,6 +81,7 @@ namespace ServicePlace.Logic.Services
                 : new UserDTO
                     {
                         Id = user.Id,
+                        Avatar = user.Avatar.Url,
                         UserName = user.UserName,
                         Email = user.Email,
                         Name = user.Profile.Name,

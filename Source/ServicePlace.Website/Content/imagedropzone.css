@@ -5,3 +5,8 @@
     border: none;
     border-radius: 15px;
 }
+
+.small {
+    margin: auto;
+    width: 200px;
+}
