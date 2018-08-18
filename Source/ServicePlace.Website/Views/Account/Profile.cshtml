@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="~/Content/account.css" />
 
 <div class="profile-container">
-    <div class="w3-card-4 profile-image w3-display-container">
-        <img src="~/Content/Images/preview-background.png">
+    <div class="w3-card-4 w3-display-container profile-image-container">
+        <img src="@Model.Avatar" class="profile-image">
     </div>
     <div class="profile-info">
         <h1>@Model.UserName</h1>

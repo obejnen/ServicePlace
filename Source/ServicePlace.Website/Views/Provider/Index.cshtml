@@ -1,4 +1,5 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
+@using ServicePlace.Website.Extensions
 @model IndexProviderViewModel
 
 @{
@@ -26,24 +27,7 @@
 
 @Html.Partial("Partials/_OrderProviderIndexPartial", Model)
 
-@if (ViewBag.CurrentPage != null)
+@if (Model.CurrentPage != 0)
 {
-    <div class="w3-center w3-padding-32">
-        <div class="w3-bar">
-            @(ViewBag.CurrentPage == 1 || ViewBag.PageRange[0] == 1
-                          ? (object)""
-                          : Html.ActionLink("1", "Index", "Provider", new { page = 1 }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
-            @for (int i = ViewBag.PageRange[0]; i <= ViewBag.PageRange[1]; i++)
-            {
-                @(i == ViewBag.CurrentPage
-                              ? Html.ActionLink(i.ToString(), "Index", "Provider", new { page = i }, new { @class = "w3-bar-item w3-black w3-button" })
-                              : Html.ActionLink(i.ToString(), "Index", "Provider", new { page = i }, new { @class = "w3-bar-item w3-hover-black w3-button" }))
-            }
-            @(ViewBag.CurrentPage == ViewBag.PageRange[1]
-                          ? (object)""
-                          : Html.ActionLink("Last", "Index", "Provider"
-                              , new { page = ViewBag.PageRange[1] }
-                              , new { @class = "w3-bar-item w3-hover-black w3-button" }))
-        </div>
-    </div>
+    @Html.Page("Index", "Provider", Model.CurrentPage, Model.MinPage, Model.MaxPage)
 }

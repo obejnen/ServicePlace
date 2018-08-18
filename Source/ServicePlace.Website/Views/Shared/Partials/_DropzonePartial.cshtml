@@ -1,21 +1,26 @@
-﻿@using (Ajax.BeginForm("Upload", "Image", null
+﻿@{
+    var isSmall = (bool)ViewData["Multiple"] ? "" : "small";
+}
+
+@using (Ajax.BeginForm("Upload", "Image", null
     , new AjaxOptions { HttpMethod = "POST" }
-    , new { @class = "dropzone image-dropzone w3-card-4", @id = "dropzoneForm" }))
+    , new { @class = $"dropzone image-dropzone w3-card-4 {isSmall}", @id = "dropzoneForm" }))
 {
+    <div class="dz-message" data-dz-message><span>Upload image/images</span></div>
     <input name="file" type="file" id="fileInput" multiple style="display: none" />
 }
 
 <script>
     function addImage(data) {
-        $("#@Model").val($("#@Model").val()+ " " + data);
+        $('#@ViewData["Selector"]').val($('#@ViewData["Selector"]').val()+ " " + data);
     }
 
     $(function () {
         Dropzone.options.dropzoneForm = {
             parallelUploads: 8,
+            maxFiles: @((bool)ViewData["Multiple"] ? "" : "1"),
             addRemoveLinks: true,
             init: function () {
-                alert("dsa");
                 dropzone = Dropzone.forElement("#dropzoneForm");
                 dropzone.on("success",
                     function(file, response) {

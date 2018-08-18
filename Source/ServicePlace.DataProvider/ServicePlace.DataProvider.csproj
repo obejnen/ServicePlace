@@ -127,6 +127,14 @@
     <Compile Include="Migrations\201808171258538_AddCategoryToProvider.Designer.cs">
       <DependentUpon>201808171258538_AddCategoryToProvider.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808181732328_AddImagesToProvider.cs" />
+    <Compile Include="Migrations\201808181732328_AddImagesToProvider.Designer.cs">
+      <DependentUpon>201808181732328_AddImagesToProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808181733299_AddAvatarToProvider.cs" />
+    <Compile Include="Migrations\201808181733299_AddAvatarToProvider.Designer.cs">
+      <DependentUpon>201808181733299_AddAvatarToProvider.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -190,6 +198,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808171258538_AddCategoryToProvider.resx">
       <DependentUpon>201808171258538_AddCategoryToProvider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808181732328_AddImagesToProvider.resx">
+      <DependentUpon>201808181732328_AddImagesToProvider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808181733299_AddAvatarToProvider.resx">
+      <DependentUpon>201808181733299_AddAvatarToProvider.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

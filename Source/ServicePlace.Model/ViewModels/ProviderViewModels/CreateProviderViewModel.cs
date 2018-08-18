@@ -17,6 +17,8 @@ namespace ServicePlace.Model.ViewModels.ProviderViewModels
 
         public decimal? Price { get; set; }
 
+        public string Images { get; set; }
+
         public IEnumerable<SelectListItem> Categories { get; set; }
     }
 }
