@@ -1,0 +1,27 @@
+﻿@using (Ajax.BeginForm("Upload", "Image", null
+    , new AjaxOptions { HttpMethod = "POST" }
+    , new { @class = "dropzone image-dropzone w3-card-4", @id = "dropzoneForm" }))
+{
+    <input name="file" type="file" id="fileInput" multiple style="display: none" />
+}
+
+<script>
+    function addImage(data) {
+        $("#@Model").val($("#@Model").val()+ " " + data);
+    }
+
+    $(function () {
+        Dropzone.options.dropzoneForm = {
+            parallelUploads: 8,
+            addRemoveLinks: true,
+            init: function () {
+                alert("dsa");
+                dropzone = Dropzone.forElement("#dropzoneForm");
+                dropzone.on("success",
+                    function(file, response) {
+                        addImage(response.url);
+                    });
+            }
+        }
+    });
+</script>

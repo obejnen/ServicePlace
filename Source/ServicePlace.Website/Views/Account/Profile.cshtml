@@ -1,4 +1,5 @@
 ﻿@using ServicePlace.Model.ViewModels
+@using ServicePlace.Website.Extensions
 @model ProfileViewModel
 @{
     ViewBag.Title = "Profile";
@@ -34,7 +35,7 @@
     <div class="profile-items-content">
         <div id="orders" class="w3-animate-top">
             <h3><strong>Orders</strong></h3>
-            @foreach (var order in Model.Orders)
+            @foreach (var order in Model.Orders.Orders)
             {
                 @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
                 <br />
@@ -42,7 +43,7 @@
         </div>
         <div id="providers" class="w3-animate-top">
             <h3><strong>Providers</strong></h3>
-            @foreach (var provider in Model.Providers)
+            @foreach (var provider in Model.Providers.Providers)
             {
                 @Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, new { @class = "w3-button w3-white w3-hover-black" })
                 <br />
@@ -50,7 +51,7 @@
         </div>
         <div id="order-responses" class="w3-animate-top">
             <h3><strong>Order responses</strong></h3>
-            @foreach (var orderResponse in Model.OrderResponses)
+            @foreach (var orderResponse in Model.OrderResponses.OrderResponses)
             {
                 @Html.ActionLink($"Response on {orderResponse.Order.Title}", "Show", "Order", new { id = orderResponse.Order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
                 <br />
@@ -58,7 +59,7 @@
         </div>
         <div id="provider-responses" class="w3-animate-top">
             <h3><strong>Provider responses</strong></h3>
-            @foreach (var providerResponse in Model.ProviderResponses)
+            @foreach (var providerResponse in Model.ProviderResponses.ProviderResponses)
             {
                 <button class="w3-button w3-white w3-hover-black">
                 <text>Response on </text>
@@ -88,8 +89,6 @@
         $("#providers").hide();
         $("#order-responses").hide();
         $("#provider-responses").hide();
-        var selector = "#" + id;
-        $(selector).show();
-        //$(selector).addClass("w3-animate-top");
+        $("#" + id).show();
     };
 </script>

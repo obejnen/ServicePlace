@@ -50,8 +50,8 @@ namespace ServicePlace.Website.Controllers
             if (ModelState.IsValid)
             {
                 var order = _orderMapper
-                    .MapToOrderModel(model, _userService
-                                                .FindByUserName(User.Identity.GetUserName()));
+                    .MapToOrderModel(model,
+                                     _userService.FindByUserName(User.Identity.GetUserName()));
 
                 _orderService.Create(order);
             }

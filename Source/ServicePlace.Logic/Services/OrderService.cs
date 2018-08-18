@@ -35,16 +35,6 @@ namespace ServicePlace.Logic.Services
         {
             order.CreatedAt = DateTime.Now;
             order.UpdatedAt = DateTime.Now;
-            if(order.Images != null)
-            {
-                foreach (var orderImage in order.Images)
-                {
-                    _imageRepository.Create(orderImage);
-                }
-
-                order.Images = order.Images
-                    .Select(x => _imageRepository.GetBy(image => image.Url == x.Url).SingleOrDefault()).ToList();
-            }
             _orderRepository.Create(order);
             _contextProvider.CommitChanges();
         }
@@ -143,7 +133,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Order> GetProvidedOrders(string userId, int providerId)
         {
-            return GetUserOrders(userId)
+            return GetUserOrders(userId).ToList()
                 .Where(x => _responseRepository
                                 .GetBy(orderResponse =>
                                     orderResponse.Order.Id == x.Id

@@ -1,7 +1,4 @@
 ﻿@using ServicePlace.Model.ViewModels.OrderViewModels
-@using CloudinaryDotNet;
-@using CloudinaryDotNet.Core;
-@using CloudinaryDotNet.Actions;
 @model CreateOrderViewModel
 
 @{
@@ -40,13 +37,8 @@
         <br />
         <br />
     }
-
-    @using (Ajax.BeginForm("Upload", "Image", null
-        , new AjaxOptions { HttpMethod = "POST" }
-        , new { @class = "dropzone image-dropzone w3-card-4", @id = "dropzoneForm" }))
-    {
-        <input name="file" type="file" id="fileInput" multiple style="display: none" />
-    }
+    
+    @Html.Partial("Partials/_DropzonePartial", "order-images")
     <br />
     <button onclick="submitForm()" class="w3-button w3-black w3-hover-white">Create</button>
     <br />
@@ -54,25 +46,7 @@
 </div>
 
 <script>
-
-    function addImage(data) {
-        $("#order-images").val($("#order-images").val()+ " " + data);
-    }
-
-    $(function () {
-        Dropzone.options.dropzoneForm = {
-            parallelUploads: 8,
-            addRemoveLinks: true,
-            init: function () {
-                dropzone = Dropzone.forElement("#dropzoneForm");
-                dropzone.on("success",
-                    function(file, response) {
-                        addImage(response.url);
-                    });
-            }
-        }
-    });
     function submitForm() {
-        $("#order-form").submit();
+    $("#order-form").submit();
     }
 </script>
