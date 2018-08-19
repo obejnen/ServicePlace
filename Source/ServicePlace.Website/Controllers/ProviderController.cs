@@ -5,6 +5,7 @@ using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.ProviderViewModels;
+using Constants = ServicePlace.Common.Constants;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -48,6 +49,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateProviderViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -57,7 +59,34 @@ namespace ServicePlace.Website.Controllers
 
             _providerService.Create(provider);
 
-            return RedirectToAction("Show", "Provider", new { id = _providerService.Providers.Last().Id });
+            return RedirectToAction("Show", new { id = _providerService.Providers.Last().Id });
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var viewModel = _providerMapper.MapToCreateProviderViewModel(_providerService.Get(id));
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreateProviderViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var provider = _providerMapper
+                .MapToProviderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
+            _providerService.Update(provider);
+            return RedirectToAction("Show", new { id = provider.Id });
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            _providerService.Delete(_providerService.Get(id));
+            return RedirectToAction("Index");
         }
 
         public ActionResult Show(int id)
@@ -70,11 +99,11 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Search(string searchString, int page = 1)
         {
             var searchResult = _providerService.SearchProvider(searchString).ToList();
-            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), 8));
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), Constants.ItemsPerPage));
 
             return View("Index",
                 _providerMapper
-                    .MapToIndexProviderViewModel(_providerService.GetPage(searchResult, page, 8),
+                    .MapToIndexProviderViewModel(_providerService.GetPage(searchResult, page, Constants.ItemsPerPage),
                         new[] { page, pageRange[0], pageRange[1] }));
         }
     }

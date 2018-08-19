@@ -36,7 +36,7 @@ namespace ServicePlace.DataProvider.Repositories
         public IEnumerable<Order> Take(int skip, int count)
         {
             return Query
-                .OrderBy(x => x.UpdatedAt)
+                .OrderBy(x => x.CreatedAt)
                 .Skip(skip)
                 .Take(count)
                 .ToList();

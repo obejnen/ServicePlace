@@ -1,4 +1,5 @@
-﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
+﻿@using ServicePlace.Common
+@using ServicePlace.Model.ViewModels.ProviderViewModels
 @model ProviderViewModel
 
 @{
@@ -8,12 +9,27 @@
 <link rel="stylesheet" href="~/Content/provider.css" />
 
 <div class="w3-card-4 order-image w3-display-container">
-    <img src="@Model.Images.First()">
+    <img src="@Constants.HeaderImage" class="header-image">
     <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
         @Model.User.Name
     </div>
     <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">Created by @Model.User.UserName</div>
     <div class="w3-display-bottomright w3-container w3-text-white">Created at @Model.CreatedAt</div>
+</div>
+
+<div class="status-actions">
+    @if (User.Identity.Name == Model.User.Name || User.IsInRole("admin"))
+    {
+        using (Html.BeginForm("Delete", "Provider", FormMethod.Post, new { @id = "delete-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", Model.Id)
+        }
+        <div>
+            @Html.ActionLink("Edit", "Edit", "Provider", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
+        </div>
+    }
 </div>
 
 <br />
@@ -34,11 +50,23 @@
 <div class="images">
     @if (Model.Images.Any())
     {
-        foreach (var image in Model.Images)
+        if (Model.Images.Count() > 1)
         {
-            <a href="@image" target="_blank">
-                <img src="@image" class="content-image" />
-            </a>
+            foreach (var image in Model.Images)
+            {
+                <a href="@image" target="_blank">
+                    <img src="@image" class="content-image" />
+                </a>
+            }
+        }
+        else
+        {
+            if (Model.Images.First() != Constants.DefaultOrderImage)
+            {
+                <a href="@Model.Images.First()" target="_blank">
+                    <img src="@Model.Images.First()" class="content-image" />
+                </a>
+            }
         }
     }
 </div>

@@ -45,6 +45,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderViewModel model)
         {
             if (ModelState.IsValid)
@@ -60,7 +61,38 @@ namespace ServicePlace.Website.Controllers
             return View(model);
         }
 
+        public ActionResult Edit(int id)
+        {
+            var viewModel = _orderMapper.MapToCreateOrderViewModel(_orderService.Get(id));
+            return View(viewModel);
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreateOrderViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var order = _orderMapper
+                    .MapToOrderModel(model,
+                        _userService.FindByUserName(User.Identity.GetUserName()));
+                _orderService.Update(order);
+                return RedirectToAction("Show", "Order", new { id = order.Id });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            _orderService.Delete(_orderService.Get(id));
+            return RedirectToAction("Index", "Order");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Close(int orderId)
         {
             if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Profile.Id)

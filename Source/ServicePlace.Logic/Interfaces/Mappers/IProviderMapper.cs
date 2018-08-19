@@ -17,6 +17,8 @@ namespace ServicePlace.Logic.Interfaces.Mappers
 
         CreateProviderViewModel GetCreateProviderViewModel();
 
+        CreateProviderViewModel MapToCreateProviderViewModel(Provider provider);
+
         Provider MapToProviderModel(CreateProviderViewModel createViewModel, User creator);
     }
 }

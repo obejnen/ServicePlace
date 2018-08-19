@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
@@ -31,12 +32,23 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateProviderResponseViewModel viewModel)
         {
             var providerResponse = _providerResponseMapper
                 .MapToProviderResponseModel(viewModel, _userService.FindByUserName(User.Identity.GetUserName()));
             _providerService.CreateResponse(providerResponse);
             return RedirectToAction("Index", $"Provider/{viewModel.ProviderId}");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            var responseToDelete = _providerService.GetAllProviderResponses().SingleOrDefault(x => x.Id == id);
+            var providerId = responseToDelete?.Provider.Id;
+            _providerService.DeleteResponse(responseToDelete);
+            return RedirectToAction("Show", "Provider", new { id = providerId });
         }
 
         public ActionResult Index(int providerId)

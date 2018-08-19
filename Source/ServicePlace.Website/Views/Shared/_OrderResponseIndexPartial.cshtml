@@ -15,7 +15,6 @@
 {
     <div class="order-response">
         <div class="order-response-image">
-            @*<img src="~/Content/Images/preview-background.png" />*@
             <img src="@orderResponse.Provider.User.Avatar" />
         </div>
         <div class="w3-card-2 order-response-content">
@@ -52,6 +51,17 @@
             <div class="w3-container">
                 <p>@orderResponse.CreatedAt</p>
             </div>
+            @if (@orderResponse.Provider.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
+            {
+            <div class="w3-container">
+                @using (Html.BeginForm("Delete", "OrderResponse", FormMethod.Post, new { @id = "delete-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", orderResponse.Id)
+                }
+                <a class="w3-button w3-white w3-hover-black" onclick="$('#delete-form').submit()">Delete</a>
+            </div>
+            }
         </div>
     </div>
     <br />

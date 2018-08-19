@@ -11,7 +11,7 @@ namespace ServicePlace.Model.DataModels
         public int Id { get; set; }
 
         [Required]
-        public virtual Order Order { get; set; }
+        public Order Order { get; set; }
 
         [Required]
         public virtual Provider Provider { get; set; }

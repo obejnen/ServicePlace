@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
@@ -30,7 +31,6 @@ namespace ServicePlace.Logic.Mappers
                 Closed = order.Closed,
                 Images = order.Images.Select(x => x.Url),
                 CreatedAt = order.CreatedAt,
-                UpdatedAt = order.UpdatedAt,
                 User = new UserViewModel
                 {
                     Id = order.Creator.Id,
@@ -49,11 +49,11 @@ namespace ServicePlace.Logic.Mappers
                 CurrentPage = pages[0],
                 MinPage = pages[1],
                 MaxPage = pages[2],
-                FirstPart = orderViewModels.Count() > 4
-                    ? orderViewModels.Take(4)
+                FirstPart = orderViewModels.Count() > Constants.ItemsPerRow
+                    ? orderViewModels.Take(Constants.ItemsPerRow)
                     : orderViewModels.Take(orderViewModels.Count()),
-                SecondPart = orderViewModels.Count() > 4
-                    ? orderViewModels.Skip(4)
+                SecondPart = orderViewModels.Count() > Constants.ItemsPerRow
+                    ? orderViewModels.Skip(Constants.ItemsPerRow)
                     : null
             };
         }
@@ -83,10 +83,24 @@ namespace ServicePlace.Logic.Mappers
             };
         }
 
+        public CreateOrderViewModel MapToCreateOrderViewModel(Order order)
+        {
+            return new CreateOrderViewModel
+            {
+                Id = order.Id,
+                Title = order.Title,
+                Body = order.Body,
+                Categories = _orderCategoryMapper.MapToSelectListItems(_orderService.GetCategories()),
+                CategoryId = order.Category.Id,
+                CreatedAt = order.CreatedAt
+            };
+        }
+
         public Order MapToOrderModel(CreateOrderViewModel createOrderViewModel, User creator)
         {
             return new Order
             {
+                Id = createOrderViewModel.Id,
                 Title = createOrderViewModel.Title,
                 Body = createOrderViewModel.Body,
                 Category = _orderService.GetCategory(createOrderViewModel.CategoryId),

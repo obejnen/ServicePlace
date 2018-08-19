@@ -20,6 +20,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Upload()
         {
             foreach (string fileName in Request.Files)

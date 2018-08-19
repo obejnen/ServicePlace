@@ -150,6 +150,7 @@
 }
 
 .status {
+    margin-left: auto;
     font-size: 30px;
     margin-top: 10px;
     margin-right: 15px;
@@ -165,9 +166,4 @@
 
 .content-image {
     width: 200px;
-}
-
-.header-image {
-    width: 100%;
-    filter: blur(2px);
 }
