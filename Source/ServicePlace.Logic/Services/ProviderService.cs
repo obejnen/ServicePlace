@@ -32,7 +32,6 @@ namespace ServicePlace.Logic.Services
         public void Create(Provider provider)
         {
             provider.CreatedAt = DateTime.Now;
-            provider.UpdatedAt = provider.CreatedAt;
             if (provider.Images == null)
                 provider.Images = new[] { new Image { Url = Constants.DefaultOrderImage } };
             _providerRepository.Create(provider);
@@ -47,7 +46,7 @@ namespace ServicePlace.Logic.Services
 
         public void Update(Provider provider)
         {
-            provider.UpdatedAt = DateTime.Now;
+            provider.CreatedAt = _providerRepository.GetBy(x => x.Id == provider.Id).SingleOrDefault().CreatedAt;
             _providerRepository.Update(provider);
             _contextProvider.CommitChanges();
         }

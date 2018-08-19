@@ -17,6 +17,8 @@ namespace ServicePlace.Logic.Interfaces.Mappers
 
         CreateOrderViewModel GetCreateOrderViewModel();
 
+        CreateOrderViewModel MapToCreateOrderViewModel(Order order);
+
         Order MapToOrderModel(CreateOrderViewModel createOrderViewModel, User creator);
     }
 }

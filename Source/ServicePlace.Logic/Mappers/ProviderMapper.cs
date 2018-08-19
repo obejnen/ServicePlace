@@ -30,7 +30,6 @@ namespace ServicePlace.Logic.Mappers
                 Price = provider.Price,
                 Images = provider.Images?.Select(x => x.Url),
                 CreatedAt = provider.CreatedAt,
-                UpdatedAt = provider.UpdatedAt,
                 User = new UserViewModel
                 {
                     Id = provider.Creator.Id,

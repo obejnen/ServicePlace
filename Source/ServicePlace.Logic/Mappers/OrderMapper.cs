@@ -30,7 +30,6 @@ namespace ServicePlace.Logic.Mappers
                 Closed = order.Closed,
                 Images = order.Images.Select(x => x.Url),
                 CreatedAt = order.CreatedAt,
-                UpdatedAt = order.UpdatedAt,
                 User = new UserViewModel
                 {
                     Id = order.Creator.Id,
@@ -83,10 +82,24 @@ namespace ServicePlace.Logic.Mappers
             };
         }
 
+        public CreateOrderViewModel MapToCreateOrderViewModel(Order order)
+        {
+            return new CreateOrderViewModel
+            {
+                Id = order.Id,
+                Title = order.Title,
+                Body = order.Body,
+                Categories = _orderCategoryMapper.MapToSelectListItems(_orderService.GetCategories()),
+                CategoryId = order.Category.Id,
+                CreatedAt = order.CreatedAt
+            };
+        }
+
         public Order MapToOrderModel(CreateOrderViewModel createOrderViewModel, User creator)
         {
             return new Order
             {
+                Id = createOrderViewModel.Id,
                 Title = createOrderViewModel.Title,
                 Body = createOrderViewModel.Body,
                 Category = _orderService.GetCategory(createOrderViewModel.CategoryId),

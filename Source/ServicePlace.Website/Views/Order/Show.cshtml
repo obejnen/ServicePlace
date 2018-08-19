@@ -18,22 +18,31 @@
 </div>
 
 <div class="status-actions">
-    @if (User.Identity.Name == Model.User.Name || !Model.Closed)
+    @if (User.Identity.Name == Model.User.Name || User.IsInRole("admin"))
     {
-        using (Html.BeginForm("Close", "Order", FormMethod.Post))
+        if (!Model.Closed)
         {
-            @Html.Hidden("orderId", Model.Id)
-            <input type="submit" class="w3-button w3-black w3-hover-white w3-right w3-xlarge" value="Close Order" />
+            using (Html.BeginForm("Close", "Order", FormMethod.Post, new { @id = "close-form" }))
+            {
+                @Html.Hidden("orderId", Model.Id)
+            }
+            <div>
+                <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#close-form').submit()">Close Order</a>
+            </div>
         }
+        <div>
+            @Html.ActionLink("Edit", "Edit", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+            @Html.ActionLink("Delete", "Delete", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+        </div>
     }
-    <strong>
-        <div class="w3-right status">
+    <div class="w3-right status">
+        <strong>
             Status:
             <text class="status-open">
                 @(Model.Closed ? "Closed" : "Open")
             </text>
-        </div>
-    </strong>
+        </strong>
+    </div>
 </div>
 
 <br />

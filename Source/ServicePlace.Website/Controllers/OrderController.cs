@@ -60,6 +60,33 @@ namespace ServicePlace.Website.Controllers
             return View(model);
         }
 
+        public ActionResult Edit(int id)
+        {
+            var viewModel = _orderMapper.MapToCreateOrderViewModel(_orderService.Get(id));
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CreateOrderViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var order = _orderMapper
+                    .MapToOrderModel(model,
+                        _userService.FindByUserName(User.Identity.GetUserName()));
+                _orderService.Update(order);
+                return RedirectToAction("Show", "Order", new { id = order.Id });
+            }
+
+            return View(model);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            _orderService.Delete(_orderService.Get(id));
+            return RedirectToAction("Index", "Order");
+        }
+
         [HttpPost]
         public ActionResult Close(int orderId)
         {

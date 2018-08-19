@@ -32,7 +32,6 @@ namespace ServicePlace.Logic.Services
         public void Create(Order order)
         {
             order.CreatedAt = DateTime.Now;
-            order.UpdatedAt = DateTime.Now;
             if (order.Images == null)
                 order.Images = new[] { new Image { Url = Constants.DefaultOrderImage } };
             _orderRepository.Create(order);
@@ -47,7 +46,9 @@ namespace ServicePlace.Logic.Services
 
         public void Update(Order order)
         {
-            order.UpdatedAt = DateTime.Now;
+            var orderToUpdate = _orderRepository.GetBy(x => x.Id == order.Id).SingleOrDefault();
+            order.CreatedAt = orderToUpdate.CreatedAt;
+            order.Images = orderToUpdate.Images;
             _orderRepository.Update(order);
             _contextProvider.CommitChanges();
         }

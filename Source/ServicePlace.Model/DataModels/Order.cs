@@ -25,8 +25,6 @@ namespace ServicePlace.Model.DataModels
         [Required]
         public DateTime CreatedAt { get; set; }
 
-        public DateTime? UpdatedAt { get; set; }
-
         [Required]
         public User Creator { get; set; }
 
