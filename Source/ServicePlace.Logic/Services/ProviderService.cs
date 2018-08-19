@@ -110,6 +110,12 @@ namespace ServicePlace.Logic.Services
             _contextProvider.CommitChanges();
         }
 
+        public void DeleteResponse(ProviderResponse response)
+        {
+            _responseRepository.Delete(response);
+            _contextProvider.CommitChanges();
+        }
+
         public IEnumerable<ProviderResponse> GetProviderResponses(int providerId) =>
             _responseRepository.GetBy(x => x.Provider.Id == providerId);
 

@@ -1,4 +1,5 @@
-﻿@using ServicePlace.Model.ViewModels.ProviderResponseViewModels
+﻿@using Microsoft.AspNet.Identity
+@using ServicePlace.Model.ViewModels.ProviderResponseViewModels
 @model IndexProviderResponseViewModel
 
 @{
@@ -23,6 +24,17 @@
             <div class="w3-container">
                 <p>@providerResponse.CreatedAt</p>
             </div>
+            @if (providerResponse.Order.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
+            {
+            <div class="w3-container">
+                @using (Html.BeginForm("Delete", "ProviderResponse", FormMethod.Post, new { @id = "delete-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", providerResponse.Id)
+                }
+                <a class="w3-button w3-white w3-hover-black" onclick="$('#delete-form').submit()">Delete</a>
+            </div>
+            }
         </div>
     </div>
     <br />

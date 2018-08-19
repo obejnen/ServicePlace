@@ -29,6 +29,7 @@ namespace ServicePlace.Logic.Mappers
         {
             return new ProviderResponseViewModel
             {
+                Id = providerResponse.Id,
                 Order = _orderMapper.MapToOrderViewModel(providerResponse.Order),
                 Provider = _providerMapper.MapToProviderViewModel(providerResponse.Provider),
                 Comment = providerResponse.Comment,

@@ -21,6 +21,8 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         void CreateResponse(ProviderResponse response);
 
+        void DeleteResponse(ProviderResponse response);
+
         IEnumerable<ProviderResponse> GetProviderResponses(int providerId);
 
         IEnumerable<ProviderResponse> GetUserResponses(string userId);

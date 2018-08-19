@@ -17,6 +17,8 @@
         @using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
         {
             <h2>Responde</h2>
+            @Html.AntiForgeryToken()
+
             @Html.HiddenFor(m => m.OrderId, Model.OrderId)
             @Html.LabelFor(m => m.ProviderId, "Provider")
             @Html.DropDownListFor(m => m.ProviderId, Model.Providers, new { @class = "w3-select" })

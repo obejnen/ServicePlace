@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
@@ -29,6 +30,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderResponseViewModel model)
         {
             var orderResponse = _orderResponseMapper.MapToOrderResponseModel(model, _userService.FindByUserName(User.Identity.GetUserName()));
@@ -37,6 +39,17 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            var responseToDelete = _orderService.GetAllOrderResponses().SingleOrDefault(x => x.Id == id);
+            var orderId = responseToDelete?.Order.Id;
+            _orderService.DeleteResponse(responseToDelete);
+            return RedirectToAction("Show", "Order", new {id = orderId});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Complete(int orderId, int orderResponseId)
         {
             _orderService.CompleteOrder(orderId, orderResponseId);

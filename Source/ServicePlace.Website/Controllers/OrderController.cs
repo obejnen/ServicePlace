@@ -45,6 +45,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderViewModel model)
         {
             if (ModelState.IsValid)
@@ -67,6 +68,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(CreateOrderViewModel model)
         {
             if (ModelState.IsValid)
@@ -81,6 +83,8 @@ namespace ServicePlace.Website.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             _orderService.Delete(_orderService.Get(id));
@@ -88,6 +92,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Close(int orderId)
         {
             if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Profile.Id)

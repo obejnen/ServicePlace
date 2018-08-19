@@ -49,6 +49,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateProviderViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -68,6 +69,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(CreateProviderViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -79,6 +81,8 @@ namespace ServicePlace.Website.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             _providerService.Delete(_providerService.Get(id));

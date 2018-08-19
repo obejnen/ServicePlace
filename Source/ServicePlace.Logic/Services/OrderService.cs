@@ -122,6 +122,14 @@ namespace ServicePlace.Logic.Services
             _contextProvider.CommitChanges();
         }
 
+        public void DeleteResponse(OrderResponse response)
+        {
+            response.Order = null;
+            response.Provider = null;
+            _responseRepository.Delete(response);
+            _contextProvider.CommitChanges();
+        }
+
         public IEnumerable<OrderResponse> GetOrderResponses(int orderId)
         {
             return _responseRepository.GetBy(x => x.Order.Id == orderId);

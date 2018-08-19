@@ -22,7 +22,7 @@ namespace ServicePlace.DataProvider.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.Creator_Id)
-                .ForeignKey("dbo.Order", t => t.Order_Id)
+                .ForeignKey("dbo.Order", t => t.Order_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Provider", t => t.Provider_Id)
                 .Index(t => t.Creator_Id)
                 .Index(t => t.Order_Id)
@@ -113,7 +113,7 @@ namespace ServicePlace.DataProvider.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.Creator_Id)
                 .ForeignKey("dbo.Order", t => t.Order_Id)
-                .ForeignKey("dbo.Provider", t => t.Provider_Id)
+                .ForeignKey("dbo.Provider", t => t.Provider_Id, cascadeDelete: true)
                 .Index(t => t.Creator_Id)
                 .Index(t => t.Order_Id)
                 .Index(t => t.Provider_Id);

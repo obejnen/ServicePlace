@@ -6,6 +6,7 @@ namespace ServicePlace.Model.ViewModels.ProviderResponseViewModels
 {
     public class ProviderResponseViewModel
     {
+        public int Id { get; set; }
         public OrderViewModel Order { get; set; }
         public ProviderViewModel Provider { get; set; }
         public string Comment { get; set; }

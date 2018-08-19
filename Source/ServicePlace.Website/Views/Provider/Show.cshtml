@@ -20,9 +20,14 @@
 <div class="status-actions">
     @if (User.Identity.Name == Model.User.Name || User.IsInRole("admin"))
     {
+        using (Html.BeginForm("Delete", "Provider", FormMethod.Post, new { @id = "delete-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", Model.Id)
+        }
         <div>
             @Html.ActionLink("Edit", "Edit", "Provider", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
-            @Html.ActionLink("Delete", "Delete", "Provider", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
         </div>
     }
 </div>

@@ -23,6 +23,8 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         void CreateResponse(OrderResponse response);
 
+        void DeleteResponse(OrderResponse response);
+
         IEnumerable<OrderResponse> GetOrderResponses(int orderId);
 
         IEnumerable<Order> GetUserOrders(string userId);

@@ -24,15 +24,21 @@
         {
             using (Html.BeginForm("Close", "Order", FormMethod.Post, new { @id = "close-form" }))
             {
+                @Html.AntiForgeryToken()
                 @Html.Hidden("orderId", Model.Id)
             }
             <div>
                 <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#close-form').submit()">Close Order</a>
             </div>
         }
+        using (Html.BeginForm("Delete", "Order", FormMethod.Post, new { @id = "delete-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", Model.Id)
+        }
         <div>
             @Html.ActionLink("Edit", "Edit", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
-            @Html.ActionLink("Delete", "Delete", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
         </div>
     }
     <div class="w3-right status">
