@@ -1,20 +1,19 @@
-﻿@using ServicePlace.Model.ViewModels.OrderViewModels
-@model CreateOrderViewModel
+﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
+@model CreateProviderViewModel
 
 @{
-    ViewBag.Title = "Edit order";
+    ViewBag.Title = "Edit provider";
 }
 
-<link rel="stylesheet" href="~/Content/order.css" />
+<link rel="stylesheet" href="~/Content/provider.css" />
 
 <div class="create-form w3-container w3-card-4">
-    @using (Html.BeginForm("Edit", "Order", FormMethod.Post, new { @id = "order-form" }))
+    @using (Html.BeginForm("Edit", "Provider", FormMethod.Post, new { @id = "provider-form" }))
     {
         <h2>@ViewBag.Title</h2>
         <br />
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <br />
 
         @Html.LabelFor(m => m.Title)
         @Html.TextBoxFor(m => m.Title, new { @class = "w3-input" })
@@ -22,11 +21,15 @@
 
         <br />
         @Html.LabelFor(m => m.Body)
-        @Html.TextAreaFor(m => m.Body, new { @class = "w3-input" })
+        @Html.TextAreaFor(m => m.Body, new { @class = "w3-input body-text" })
         @Html.ValidationMessageFor(m => m.Body, "", new { @class = "text-danger" })
 
         <br />
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price, new { @class = "w3-input" })
+        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
 
+        <br />
         @Html.LabelFor(m => m.CategoryId, "Category")
         @Html.DropDownListFor(m => m.CategoryId, Model.Categories, new { @class = "w3-select" })
 

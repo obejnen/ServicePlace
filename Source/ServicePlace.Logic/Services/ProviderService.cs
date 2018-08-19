@@ -46,7 +46,9 @@ namespace ServicePlace.Logic.Services
 
         public void Update(Provider provider)
         {
-            provider.CreatedAt = _providerRepository.GetBy(x => x.Id == provider.Id).SingleOrDefault().CreatedAt;
+            var providerToUpdate = _providerRepository.GetBy(x => x.Id == provider.Id).SingleOrDefault();
+            provider.CreatedAt = providerToUpdate.CreatedAt;
+            provider.Images = providerToUpdate.Images;
             _providerRepository.Update(provider);
             _contextProvider.CommitChanges();
         }

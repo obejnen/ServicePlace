@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
@@ -48,11 +49,11 @@ namespace ServicePlace.Logic.Mappers
                 CurrentPage = pages[0],
                 MinPage = pages[1],
                 MaxPage = pages[2],
-                FirstPart = orderViewModels.Count() > 4
-                    ? orderViewModels.Take(4)
+                FirstPart = orderViewModels.Count() > Constants.ItemsPerRow
+                    ? orderViewModels.Take(Constants.ItemsPerRow)
                     : orderViewModels.Take(orderViewModels.Count()),
-                SecondPart = orderViewModels.Count() > 4
-                    ? orderViewModels.Skip(4)
+                SecondPart = orderViewModels.Count() > Constants.ItemsPerRow
+                    ? orderViewModels.Skip(Constants.ItemsPerRow)
                     : null
             };
         }
