@@ -1,4 +1,5 @@
 ﻿@using ServicePlace.Model.ViewModels.OrderViewModels
+@using ServicePlace.Common
 @model OrderViewModel
 
 @{
@@ -8,10 +9,7 @@
 <link rel="stylesheet" href="~/Content/order.css" />
 
 <div class="w3-card-4 order-image w3-display-container">
-    @if (Model.Images.Any())
-    {
-        <img src="@Model.Images.First()">
-    }
+    <img src="@Constants.HeaderImage" class="header-image">
     <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
         @Model.User.Name
     </div>
@@ -24,8 +22,8 @@
     {
         using (Html.BeginForm("Close", "Order", FormMethod.Post))
         {
-             @Html.Hidden("orderId", Model.Id)
-             <input type="submit" class="w3-button w3-black w3-hover-white w3-right w3-xlarge" value="Close Order"/>
+            @Html.Hidden("orderId", Model.Id)
+            <input type="submit" class="w3-button w3-black w3-hover-white w3-right w3-xlarge" value="Close Order" />
         }
     }
     <strong>
@@ -49,16 +47,28 @@
 
 @if (Model.Images.Any())
 {
-    foreach (var image in Model.Images)
+    if (Model.Images.Count() > 1)
     {
-        <a href="@image" target="_blank">
-            <img src="@image" class="content-image" />
-        </a>
+        foreach (var image in Model.Images)
+        {
+            <a href="@image" target="_blank">
+                <img src="@image" class="content-image" />
+            </a>
+        }
+    }
+    else
+    {
+        if (Model.Images.First() != Constants.DefaultOrderImage)
+        {
+            <a href="@Model.Images.First()" target="_blank">
+                <img src="@Model.Images.First()" class="content-image" />
+            </a>
+        }
     }
 }
 
-<br/>
-<hr/>
+<br />
+<hr />
 
 <div class="response-container">
     @if (User.Identity.IsAuthenticated && !Model.Closed)

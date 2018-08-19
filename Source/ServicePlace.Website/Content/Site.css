@@ -38,3 +38,8 @@ a {
 .navbar-transparent {
     opacity: 0.9;
 }
+
+.index-preview-image {
+    max-width: 100%;
+    max-height: 180px;
+}

@@ -14,6 +14,7 @@ namespace ServicePlace.DataProvider.Repositories
             new Expression<Func<Provider, object>>[]
             {
                 x => x.Creator.Profile,
+                x => x.Creator.Avatar,
                 x => x.Category
             };
 

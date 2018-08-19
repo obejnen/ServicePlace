@@ -22,7 +22,7 @@ namespace ServicePlace.Website.Extensions
                     ? $"<a class=\"w3-bar-item w3-black w3-button\" href=\"/{controller}/{action}/?page={x}\">{x}</a>"
                     : $"<a class=\"w3-bar-item w3-hover-black w3-button\" href=\"/{controller}/{action}/?page={x}\">{x}</a>")
                 .ToArray();
-            var lastPage = currentPage == maxPage
+            var lastPage = currentPage == maxPage || maxPage == 0
                 ? string.Empty
                 : $"<a class=\"w3-bar-item w3-hover-black w3-button\" href=\"/{controller}/{action}/?page={maxPage}\">Last</a>";
             html.AppendLine(firstPage);
