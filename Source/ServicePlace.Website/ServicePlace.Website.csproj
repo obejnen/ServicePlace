@@ -294,6 +294,9 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Order\Edit.cshtml" />
     <Content Include="Views\Provider\Edit.cshtml" />
+    <Content Include="Views\Shared\_OrderByCategoryIndex.cshtml" />
+    <Content Include="Views\OrderCategory\Admin\Create.cshtml" />
+    <Content Include="Views\ProviderCategory\Admin\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

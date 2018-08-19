@@ -108,9 +108,16 @@ namespace ServicePlace.Logic.Services
             _contextProvider.CommitChanges();
         }
 
+        public bool IsInRole(string userId, string roleName) => _repository.IsInRole(userId, roleName);
+
         public void AddToRole(string userId, string roleName)
         {
             _repository.AddToRole(userId, roleName);
+        }
+
+        public void RemoveFromRole(string userId, string roleName)
+        {
+            _repository.RemoveFromRole(userId, roleName);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using ServicePlace.Model.DTOModels;
+using ServicePlace.Model.ViewModels.OrderCategoryViewModels;
 using ServicePlace.Model.ViewModels.OrderResponseViewModels;
 using ServicePlace.Model.ViewModels.OrderViewModels;
+using ServicePlace.Model.ViewModels.ProviderCategoryViewModels;
 using ServicePlace.Model.ViewModels.ProviderResponseViewModels;
 using ServicePlace.Model.ViewModels.ProviderViewModels;
 
@@ -14,5 +16,7 @@ namespace ServicePlace.Model.ViewModels.AdminViewModels
         public IndexProviderViewModel Providers { get; set; }
         public IndexOrderResponseViewModel OrderResponses { get; set; }
         public IndexProviderResponseViewModel ProviderResponses { get; set; }
+        public IndexOrderCategoryViewModel OrderCategories { get; set; }
+        public IndexProviderCategoryViewModel ProviderCategories { get; set; }
     }
 }

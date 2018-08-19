@@ -129,5 +129,12 @@ namespace ServicePlace.Logic.Services
             _providerRepository.GetBy(x => x.Category.Id == categoryId);
 
         public IEnumerable<ProviderCategory> GetCategories() => _categoryRepository.GetAll();
+
+        public void CreateCategory(ProviderCategory providerCategory)
+        {
+            _categoryRepository.Create(providerCategory);
+            _contextProvider.CommitChanges();
+
+        }
     }
 }

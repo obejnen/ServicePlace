@@ -8,8 +8,12 @@ namespace ServicePlace.DataProvider.Interfaces
     {
         ClaimsIdentity Authenticate(string userName, string password);
 
+        bool IsInRole(string userId, string roleName);
+
         void CreateRole(Role role);
 
         void AddToRole(string userId, string roleName);
+
+        void RemoveFromRole(string userId, string roleName);
     }
 }

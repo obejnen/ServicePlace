@@ -108,9 +108,9 @@ namespace ServicePlace.Website.Controllers
             return View(model);
         }
 
-        public ActionResult Search(string searchString, int page = 1)
+        public ActionResult Search(string searchString, int page = 1, int categoryId = 0)
         {
-            var searchResult = _orderService.SearchOrder(searchString).ToList();
+            var searchResult = _orderService.SearchOrder(searchString, categoryId).ToList();
             var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), 8));
             return View("Index",
                 _orderMapper

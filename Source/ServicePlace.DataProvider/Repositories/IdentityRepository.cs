@@ -52,9 +52,16 @@ namespace ServicePlace.DataProvider.Repositories
                 : _userManager.CreateIdentity(result, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
+        public bool IsInRole(string userId, string roleName) => _userManager.IsInRoleAsync(userId, roleName).Result;
+
         public void AddToRole(string userId, string roleName)
         {
             _userManager.AddToRole(userId, roleName);
+        }
+
+        public void RemoveFromRole(string userId, string roleName)
+        {
+            _userManager.RemoveFromRole(userId, roleName);
         }
 
         public void CreateRole(Role role)

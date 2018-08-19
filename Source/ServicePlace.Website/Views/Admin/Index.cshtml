@@ -29,6 +29,8 @@
         {
             <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')">Provider responses</button>
         }
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-categories')">Order categories</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-categories')">Provider categories</button>
     </div>
     <div class="profile-items-content">
         <div id="users" class="w3-animate-top">
@@ -36,7 +38,17 @@
             @foreach (var user in Model.Users)
             {
                 @Html.ActionLink(user.UserName, "Profile", "Account", null, new { @class = "w3-button w3-white w3-hover-black" })
-                <br/>
+                <button class="w3-button w3-black w3-hover-red" onclick="$('#set-admin-form').submit()">
+                    @(user.IsAdmin ? "Remove from admins" : "Add to admins")
+                </button>
+
+                using (Html.BeginForm("ChangeRole", "Admin", FormMethod.Post, new { @id = "set-admin-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("userId", user.Id)
+                    @Html.Hidden("role", user.IsAdmin ? "user" : "admin")
+                }
+                <br />
             }
         </div>
         @if (Model.Orders.Orders.Any())
@@ -45,8 +57,8 @@
                 <h3><strong>Orders</strong></h3>
                 @foreach (var order in Model.Orders.Orders)
                 {
-                    @Html.ActionLink(order.Title, "Show", "Order", new {id = order.Id}, new {@class = "w3-button w3-white w3-hover-black"})
-                    <br/>
+                    @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    <br />
                 }
             </div>
         }
@@ -56,8 +68,8 @@
                 <h3><strong>Providers</strong></h3>
                 @foreach (var provider in Model.Providers.Providers)
                 {
-                    @Html.ActionLink(provider.Title, "Show", "Provider", new {id = provider.Id}, new {@class = "w3-button w3-white w3-hover-black"})
-                    <br/>
+                    @Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    <br />
                 }
             </div>
         }
@@ -67,8 +79,8 @@
                 <h3><strong>Order responses</strong></h3>
                 @foreach (var orderResponse in Model.OrderResponses.OrderResponses)
                 {
-                    @Html.ActionLink($"Response on {orderResponse.Order.Title}", "Show", "Order", new {id = orderResponse.Order.Id}, new {@class = "w3-button w3-white w3-hover-black"})
-                    <br/>
+                    @Html.ActionLink($"Response on {orderResponse.Order.Title}", "Show", "Order", new { id = orderResponse.Order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    <br />
                 }
             </div>
         }
@@ -92,11 +104,31 @@
                                 , new {@class = "w3-button w3-hover-white"})
                         </strong>
                     </button>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                 }
             </div>
         }
+            <div id="order-categories" class="w3-animate-top">
+                <h3><strong>Order categories</strong></h3>
+                @Html.ActionLink("Create order category", "Create", "OrderCategory", null, new { @class = "w3-button w3-black w3-hover-white" })
+                <br />
+                @foreach (var orderCategory in Model.OrderCategories.Categories)
+                {
+                    @Html.ActionLink(orderCategory.Name, "Show", "Order", new { id = orderCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    <br />
+                }
+            </div>
+        <div id="provider-categories" class="w3-animate-top">
+            <h3><strong>Provider categories</strong></h3>
+            @Html.ActionLink("Create provider category", "Create", "ProviderCategory", null, new { @class = "w3-button w3-black w3-hover-white" })
+            <br />
+            @foreach (var providerCategory in Model.ProviderCategories.Categories)
+            {
+                @Html.ActionLink(providerCategory.Name, "Show", "Order", new { id = providerCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                <br />
+            }
+        </div>
     </div>
 </div>
 
@@ -106,6 +138,8 @@
         $("#providers").hide();
         $("#order-responses").hide();
         $("#provider-responses").hide();
+        $("#order-categories").hide();
+        $("#provider-categories").hide();
     });
     function openContent(id) {
         $("#users").hide();
@@ -113,6 +147,8 @@
         $("#providers").hide();
         $("#order-responses").hide();
         $("#provider-responses").hide();
+        $("#order-categories").hide();
+        $("#provider-categories").hide();
         $("#" + id).show();
     };
 </script>

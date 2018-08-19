@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
@@ -10,6 +11,7 @@ namespace ServicePlace.Logic.Mappers
 {
     public class UserMapper : IUserMapper
     {
+        private readonly IUserService _userService;
         private readonly IOrderService _orderService;
         private readonly IProviderService _providerService;
         private readonly IOrderMapper _orderMapper;
@@ -22,7 +24,8 @@ namespace ServicePlace.Logic.Mappers
             IOrderMapper orderMapper,
             IProviderMapper providerMapper,
             IOrderResponseMapper orderResponseMapper,
-            IProviderResponseMapper providerResponseMapper)
+            IProviderResponseMapper providerResponseMapper,
+            IUserService userService)
         {
             _orderService = orderService;
             _providerService = providerService;
@@ -30,6 +33,7 @@ namespace ServicePlace.Logic.Mappers
             _providerMapper = providerMapper;
             _orderResponseMapper = orderResponseMapper;
             _providerResponseMapper = providerResponseMapper;
+            _userService = userService;
         }
 
         public ProfileViewModel MapToProfileViewModel(User user)
@@ -38,16 +42,17 @@ namespace ServicePlace.Logic.Mappers
             var providers = _providerMapper.MapToIndexProviderViewModel(_providerService.GetUserProviders(user.Id));
             var orderResponses = _orderResponseMapper.MapToIndexOrderResponseViewModel(_orderService.GetUserResponses(user.Id));
             var providerResponses = _providerResponseMapper.MapToIndexProviderResponseViewModel(_providerService.GetUserResponses(user.Id));
-            var profile = new ProfileViewModel();
-            profile.Id = user.Id;
-            profile.Avatar = user.Avatar.Url;
-            profile.UserName = user.UserName;
-            profile.Name = user.Profile.Name;
-            profile.Orders = orders;
-            profile.Providers = providers;
-            profile.OrderResponses = orderResponses;
-            profile.ProviderResponses = providerResponses;
-            return profile;
+            return new ProfileViewModel
+            {
+                Id = user.Id,
+                Avatar = user.Avatar.Url,
+                UserName = user.UserName,
+                Name = user.Profile.Name,
+                Orders = orders,
+                Providers = providers,
+                OrderResponses = orderResponses,
+                ProviderResponses = providerResponses
+            };
         }
 
         public UserDTO MapToUserDtoModel(RegisterViewModel registerViewModel)
@@ -70,6 +75,7 @@ namespace ServicePlace.Logic.Mappers
                 UserName = user.UserName,
                 Email = user.Email,
                 Name = user.Profile.Name,
+                IsAdmin = _userService.IsInRole(user.Id, Constants.AdminRoleName),
                 Avatar = user.Avatar.Url
             };
         }

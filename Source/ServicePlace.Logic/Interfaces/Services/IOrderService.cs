@@ -11,7 +11,7 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         void CompleteOrder(int orderId, int orderResponseId);
 
-        IEnumerable<Order> SearchOrder(string query);
+        IEnumerable<Order> SearchOrder(string query, int categoryId);
 
         IEnumerable<Order> Take(int skip, int count);
 
@@ -42,5 +42,7 @@ namespace ServicePlace.Logic.Interfaces.Services
         IEnumerable<Order> GetAll();
 
         IEnumerable<OrderResponse> GetAllOrderResponses();
+
+        void CreateCategory(OrderCategory orderCategory);
     }
 }

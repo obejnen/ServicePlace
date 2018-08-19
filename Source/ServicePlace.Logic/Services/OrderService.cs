@@ -78,9 +78,10 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<OrderResponse> GetAllOrderResponses() => _responseRepository.GetAll();
 
-        public IEnumerable<Order> SearchOrder(string search)
+        public IEnumerable<Order> SearchOrder(string search, int categoryId)
         {
-            return _orderRepository.GetBy(x => x.Title.Contains(search) || x.Body.Contains(search));
+            return _orderRepository.GetBy(x => (x.Title.Contains(search) || x.Body.Contains(search))
+                                               && (categoryId <= 0 || x.Category.Id == categoryId));
         }
 
         public IEnumerable<Order> Take(int skip, int count)
@@ -157,5 +158,11 @@ namespace ServicePlace.Logic.Services
         public OrderCategory GetCategory(int categoryId) => _categoryRepository.GetBy(x => x.Id == categoryId).SingleOrDefault();
 
         public IEnumerable<Order> GetByCategory(int categoryId) => _orderRepository.GetBy(x => x.Category.Id == categoryId);
+
+        public void CreateCategory(OrderCategory orderCategory)
+        {
+            _categoryRepository.Create(orderCategory);
+            _contextProvider.CommitChanges();
+        }
     }
 }

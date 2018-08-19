@@ -16,5 +16,7 @@ namespace ServicePlace.Logic.Interfaces.Mappers
         IEnumerable<SelectListItem> MapToSelectListItems(IEnumerable<OrderCategory> orderCategories);
 
         IndexOrderCategoryViewModel MapToIndexOrderCategoryViewModel(IEnumerable<OrderCategory> orderCategories);
+
+        OrderCategory MapToOrderCategoryModel(CreateOrderCategoryViewModel viewModel);
     }
 }
