@@ -35,5 +35,13 @@ namespace ServicePlace.Logic.Mappers
                 Categories = providerCategories.Select(MapToProviderCategoryViewModel)
             };
         }
+
+        public ProviderCategory MapToProviderCategoryModel(CreateProviderCategoryViewModel createViewModel)
+        {
+            return new ProviderCategory
+            {
+                Name = createViewModel.Name
+            };
+        }
     }
 }

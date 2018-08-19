@@ -91,11 +91,13 @@
     <Compile Include="ViewModels\AccountViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\AdminViewModels\IndexAdminViewModel.cs" />
+    <Compile Include="ViewModels\OrderCategoryViewModels\CreateOrderCategoryViewModel.cs" />
     <Compile Include="ViewModels\OrderCategoryViewModels\IndexOrderCategoryViewModel.cs" />
     <Compile Include="ViewModels\OrderCategoryViewModels\OrderCategoryViewModel.cs" />
     <Compile Include="ViewModels\OrderResponseViewModels\CreateOrderResponseViewModel.cs" />
     <Compile Include="ViewModels\OrderResponseViewModels\IndexOrderResponseViewModel.cs" />
     <Compile Include="ViewModels\OrderResponseViewModels\OrderResponseViewModel.cs" />
+    <Compile Include="ViewModels\ProviderCategoryViewModels\CreateProviderCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProviderCategoryViewModels\IndexProviderCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProviderCategoryViewModels\ProviderCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProviderResponseViewModels\CreateProviderResponseViewModel.cs" />

@@ -13,9 +13,13 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         ClaimsIdentity Authenticate(UserDTO user);
 
+        bool IsInRole(string userId, string roleName);
+
         void CreateRole(string roleName);
 
         void AddToRole(string userId, string roleName);
+
+        void RemoveFromRole(string userId, string roleName);
 
         IEnumerable<User> GetAll();
     }

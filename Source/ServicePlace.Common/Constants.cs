@@ -8,5 +8,7 @@
         public const string DefaultOrderImage = "http://res.cloudinary.com/railsimagecloud/image/upload/v1534667666/se4ukzad6uloqb0ugvjq.jpg";
         public const string DefaultProviderImage = "http://res.cloudinary.com/railsimagecloud/image/upload/v1534667666/alwxjb3o3dk2mrr7yqbh.png";
         public const string DefaultAvatar = "http://res.cloudinary.com/railsimagecloud/image/upload/v1534619009/rny5izzlj7gw834bgvhn.png";
+        public const string AdminRoleName = "admin";
+        public const string UserRoleName = "user";
     }
 }

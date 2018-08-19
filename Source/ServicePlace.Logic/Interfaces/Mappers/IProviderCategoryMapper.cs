@@ -13,5 +13,7 @@ namespace ServicePlace.Logic.Interfaces.Mappers
 
         IndexProviderCategoryViewModel MapToIndexProviderCategoryViewModel(
             IEnumerable<ProviderCategory> providerCategories);
+
+        ProviderCategory MapToProviderCategoryModel(CreateProviderCategoryViewModel createViewModel);
     }
 }

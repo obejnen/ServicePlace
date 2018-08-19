@@ -34,5 +34,13 @@ namespace ServicePlace.Logic.Mappers
                 Categories = orderCategories.Select(MapToOrderCategoryViewModel)
             };
         }
+
+        public OrderCategory MapToOrderCategoryModel(CreateOrderCategoryViewModel createViewModel)
+        {
+            return new OrderCategory
+            {
+                Name = createViewModel.Name
+            };
+        }
     }
 }

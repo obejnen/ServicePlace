@@ -28,26 +28,26 @@ namespace ServicePlace.DataProvider.Infrastructure
 
         private void LoadRepositories(ContainerBuilder builder)
         {
-            builder.RegisterType<IdentityRepository>().As<IIdentityRepository>();
-            builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
-            builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-            builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>();
-            builder.RegisterType<OrderCategoryRepository>().As<IOrderCategoryRepository>();
-            builder.RegisterType<ProviderRepository>().As<IProviderRepository>();
-            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>();
-            builder.RegisterType<ProviderCategoryRepository>().As<IProviderCategoryRepository>();
-            builder.RegisterType<ImageRepository>().As<IImageRepository>();
+            builder.RegisterType<IdentityRepository>().As<IIdentityRepository>().InstancePerDependency();
+            builder.RegisterType<ProfileRepository>().As<IProfileRepository>().InstancePerDependency();
+            builder.RegisterType<OrderRepository>().As<IOrderRepository>().InstancePerDependency();
+            builder.RegisterType<OrderResponseRepository>().As<IOrderResponseRepository>().InstancePerDependency();
+            builder.RegisterType<OrderCategoryRepository>().As<IOrderCategoryRepository>().InstancePerDependency();
+            builder.RegisterType<ProviderRepository>().As<IProviderRepository>().InstancePerDependency();
+            builder.RegisterType<ProviderResponseRepository>().As<IProviderResponseRepository>().InstancePerDependency();
+            builder.RegisterType<ProviderCategoryRepository>().As<IProviderCategoryRepository>().InstancePerDependency();
+            builder.RegisterType<ImageRepository>().As<IImageRepository>().InstancePerDependency();
         }
 
         private void LoadAspNetIdentity(ContainerBuilder builder)
         {
-            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>();
-            builder.RegisterType<RoleStore<Role>>().As<IRoleStore<Role, string>>();
-            builder.RegisterType<UserStore>();
-            builder.RegisterType<RoleStore>();
+            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>().InstancePerDependency();
+            builder.RegisterType<RoleStore<Role>>().As<IRoleStore<Role, string>>().InstancePerDependency();
+            builder.RegisterType<UserStore>().InstancePerDependency();
+            builder.RegisterType<RoleStore>().InstancePerDependency();
 
-            builder.RegisterType<UserManager>();
-            builder.RegisterType<RoleManager>();
+            builder.RegisterType<UserManager>().InstancePerDependency();
+            builder.RegisterType<RoleManager>().InstancePerDependency();
         }
     }
 }   
