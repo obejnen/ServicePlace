@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using ServicePlace.Common;
@@ -83,6 +84,8 @@ namespace ServicePlace.Logic.Services
                     };
         }
 
+        public IEnumerable<User> GetAll() => _repository.GetAll();
+
         public User FindByEmail(string email)
         {
             return _repository.GetBy(x => x.Email == email).SingleOrDefault();
@@ -103,6 +106,11 @@ namespace ServicePlace.Logic.Services
             };
             _repository.CreateRole(role);
             _contextProvider.CommitChanges();
+        }
+
+        public void AddToRole(string userId, string roleName)
+        {
+            _repository.AddToRole(userId, roleName);
         }
     }
 }

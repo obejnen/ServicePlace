@@ -57,6 +57,10 @@ namespace ServicePlace.Logic.Services
             return _providerRepository.GetBy(x => x.Id == (int) id).SingleOrDefault();
         }
 
+        public IEnumerable<Provider> GetAll() => _providerRepository.GetAll();
+
+        public IEnumerable<ProviderResponse> GetAllProviderResponses() => _responseRepository.GetAll();
+
         public IEnumerable<Provider> SearchProvider(string search)
         {
             return _providerRepository.GetBy(x => x.Title.Contains(search) || x.Body.Contains(search));

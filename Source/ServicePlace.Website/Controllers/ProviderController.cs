@@ -57,7 +57,7 @@ namespace ServicePlace.Website.Controllers
 
             _providerService.Create(provider);
 
-            return Show(_providerService.Providers.Last().Id);
+            return RedirectToAction("Show", "Provider", new { id = _providerService.Providers.Last().Id });
         }
 
         public ActionResult Show(int id)

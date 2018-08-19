@@ -15,7 +15,8 @@ namespace ServicePlace.DataProvider.Repositories
             {
                 x => x.Creator.Profile,
                 x => x.Creator.Avatar,
-                x => x.Category
+                x => x.Category,
+                x => x.Images
             };
 
         public ProviderRepository(ApplicationContext context) : base(context)

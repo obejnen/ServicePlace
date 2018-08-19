@@ -1,4 +1,6 @@
-﻿namespace ServicePlace.Logic.Interfaces.Services
+﻿using System.Collections.Generic;
+
+namespace ServicePlace.Logic.Interfaces.Services
 {
     public interface IService<TEntity> where TEntity : class
     {

@@ -47,7 +47,7 @@
         <a href="@Url.Action("Show", new { id = item.Id })">
             <div class="w3-quarter">
                 <div class="w3-display-container">
-                    <img src="@(((IEnumerable<string>)item.Images).First())" style="width: 100%">
+                    <img src="@(((IEnumerable<string>)item.Images).First())" class="index-preview-image">
                     <div class="w3-display-bottomright w3-text-white" style="text-shadow: 1px 1px 0 #000;margin-right: 5px; padding-bottom: 15px;">
                         @(DateTime.Now.Subtract(item.CreatedAt).Hours > 24
                               ? $"Created {DateTime.Now.Subtract(item.CreatedAt).Days} days ago"
