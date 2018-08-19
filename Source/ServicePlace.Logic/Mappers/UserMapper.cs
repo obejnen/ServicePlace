@@ -1,4 +1,5 @@
-﻿using ServicePlace.Logic.Interfaces.Mappers;
+﻿using System.Linq;
+using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
 using ServicePlace.Model.DTOModels;
@@ -58,6 +59,18 @@ namespace ServicePlace.Logic.Mappers
                 Password = registerViewModel.Password,
                 Name = registerViewModel.Name,
                 Avatar = registerViewModel.Avatar?.Trim()
+            };
+        }
+
+        public UserDTO MapToUserDtoModel(User user)
+        {
+            return new UserDTO
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Name = user.Profile.Name,
+                Avatar = user.Avatar.Url
             };
         }
     }

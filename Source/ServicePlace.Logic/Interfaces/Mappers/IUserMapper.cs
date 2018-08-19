@@ -10,5 +10,7 @@ namespace ServicePlace.Logic.Interfaces.Mappers
         ProfileViewModel MapToProfileViewModel(User user);
 
         UserDTO MapToUserDtoModel(RegisterViewModel registerViewModel);
+
+        UserDTO MapToUserDtoModel(User user);
     }
 }

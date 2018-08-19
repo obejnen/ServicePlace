@@ -45,7 +45,7 @@ namespace ServicePlace.Website.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult Create(CreateOrderViewModel model)
+        public ActionResult Create(CreateOrderViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -54,9 +54,10 @@ namespace ServicePlace.Website.Controllers
                                      _userService.FindByUserName(User.Identity.GetUserName()));
 
                 _orderService.Create(order);
+                return RedirectToAction("Show", "Order", new { id = _orderService.Orders.Last().Id });
             }
 
-            return RedirectToAction("Index", "Order");
+            return View(model);
         }
 
         [HttpPost]

@@ -1,13 +1,13 @@
-﻿@using ServicePlace.Model.ViewModels.AccountViewModels
-@model ProfileViewModel
+﻿@using ServicePlace.Model.ViewModels.AdminViewModels
+@model IndexAdminViewModel
 @{
-    ViewBag.Title = "Profile";
+    ViewBag.Title = "Control Panel";
 }
 
 <link rel="stylesheet" href="~/Content/account.css" />
 
 <div class="profile-container">
-    <div class="w3-card-4 w3-display-container profile-image-container">
+    @*<div class="w3-card-4 w3-display-container profile-image-container">
         <img src="@Model.Avatar" class="profile-image">
     </div>
     <div class="profile-info">
@@ -23,12 +23,13 @@
         <h4>@(Model.Providers.Providers.Any() ? $"Providers count: {Model.Providers.Providers.Count()}" : "")</h4>
         <h4>@(Model.OrderResponses.OrderResponses.Any() ? $"Order responses count: {Model.OrderResponses.OrderResponses.Count()}" : "")</h4>
         <h4>@(Model.ProviderResponses.ProviderResponses.Any() ? $"Provider responses count: {Model.ProviderResponses.ProviderResponses.Count()}" : "")</h4>
-    </div>
+    </div>*@
 </div>
 <br />
 <br />
 <div class="profile-items">
     <div class="profile-items-buttons">
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('users')">Users</button>
         @if (Model.Orders.Orders.Any())
         {
             <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')">Orders</button>
@@ -47,7 +48,14 @@
         }
     </div>
     <div class="profile-items-content">
-        @if(Model.Orders.Orders.Any())
+        <div id="users" class="w3-animate-top">
+            <h3><strong>Users</strong></h3>
+            @foreach (var user in Model.Users)
+            {
+                @Html.ActionLink(user.UserName, "Profile", "Account", null, new { @class = "w3-button w3-white w3-hover-black" })
+            }
+        </div>
+        @if (Model.Orders.Orders.Any())
         {
             <div id="orders" class="w3-animate-top">
                 <h3><strong>Orders</strong></h3>
@@ -88,13 +96,17 @@
                 {
                     <button class="w3-button w3-white w3-hover-black">
                         <text>Response on </text>
-                        <strong>@Html.ActionLink(providerResponse.Provider.Title
-                                    , "Show", "Provider", new {id = providerResponse.Provider.Id}
-                                    , new {@class = "w3-button w3-hover-white"})</strong>
+                        <strong>
+                            @Html.ActionLink(providerResponse.Provider.Title
+                                , "Show", "Provider", new {id = providerResponse.Provider.Id}
+                                , new {@class = "w3-button w3-hover-white"})
+                        </strong>
                         <text> about </text>
-                        <strong>@Html.ActionLink(providerResponse.Order.Title
-                                    , "Show", "Order", new {id = providerResponse.Order.Id}
-                                    , new {@class = "w3-button w3-hover-white"})</strong>
+                        <strong>
+                            @Html.ActionLink(providerResponse.Order.Title
+                                , "Show", "Order", new {id = providerResponse.Order.Id}
+                                , new {@class = "w3-button w3-hover-white"})
+                        </strong>
                     </button>
                     <br/>
                     <br/>
@@ -105,12 +117,14 @@
 </div>
 
 <script>
-    $(function() {
+    $(function () {
+        $("#orders").hide();
         $("#providers").hide();
         $("#order-responses").hide();
         $("#provider-responses").hide();
     });
     function openContent(id) {
+        $("#users").hide();
         $("#orders").hide();
         $("#providers").hide();
         $("#order-responses").hide();

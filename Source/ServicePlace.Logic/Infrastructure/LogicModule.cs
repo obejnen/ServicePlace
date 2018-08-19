@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Runtime.InteropServices;
+using Autofac;
 using ServicePlace.DataProvider.Infrastructure;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
@@ -30,6 +31,8 @@ namespace ServicePlace.Logic.Infrastructure
             builder.RegisterType<ProviderMapper>().As<IProviderMapper>();
             builder.RegisterType<ProviderResponseMapper>().As<IProviderResponseMapper>();
             builder.RegisterType<ProviderCategoryMapper>().As<IProviderCategoryMapper>();
+
+            builder.RegisterType<AdminMapper>().As<IAdminMapper>();
 
             builder.RegisterType<UserMapper>().As<IUserMapper>();
         }

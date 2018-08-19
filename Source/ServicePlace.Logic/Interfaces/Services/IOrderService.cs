@@ -36,5 +36,9 @@ namespace ServicePlace.Logic.Interfaces.Services
         OrderCategory GetCategory(int id);
 
         IEnumerable<Order> GetByCategory(int id);
+
+        IEnumerable<Order> GetAll();
+
+        IEnumerable<OrderResponse> GetAllOrderResponses();
     }
 }
