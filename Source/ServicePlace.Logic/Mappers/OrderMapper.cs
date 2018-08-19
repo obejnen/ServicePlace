@@ -34,6 +34,7 @@ namespace ServicePlace.Logic.Mappers
                 User = new UserViewModel
                 {
                     Id = order.Creator.Id,
+                    Avatar = order.Creator.Avatar.Url,
                     Name = order.Creator.Profile.Name,
                     UserName = order.Creator.UserName
                 }

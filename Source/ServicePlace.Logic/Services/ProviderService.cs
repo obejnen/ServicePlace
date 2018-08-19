@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ServicePlace.Common;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
@@ -32,6 +33,8 @@ namespace ServicePlace.Logic.Services
         {
             provider.CreatedAt = DateTime.Now;
             provider.UpdatedAt = provider.CreatedAt;
+            if (provider.Images == null)
+                provider.Images = new[] { new Image { Url = Constants.DefaultOrderImage } };
             _providerRepository.Create(provider);
             _contextProvider.CommitChanges();
         }

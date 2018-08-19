@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Model.DataModels;
@@ -26,12 +27,11 @@ namespace ServicePlace.Logic.Services
         public void Create(UserDTO userDto)
         {
             if (_repository.GetBy(x => x.Email == userDto.Email).Any()) return;
-            //userDto.Role = "user";
             var user = new User
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = userDto.UserName,
-                Avatar = new Image { Url = userDto.Avatar },
+                Avatar = new Image { Url = userDto.Avatar ?? Constants.DefaultAvatar },
                 Email = userDto.Email,
                 PasswordHash = userDto.Password,
                 Profile = new Profile
@@ -41,11 +41,6 @@ namespace ServicePlace.Logic.Services
             };
             _repository.Create(user);
             _repository.AddToRole(user.Id, "user");
-            _profileRepository.Create(new Profile
-            {
-                Id = user.Id,
-                Name = userDto.Name
-            });
             _contextProvider.CommitChanges();
         }
 

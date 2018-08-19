@@ -57,7 +57,7 @@ namespace ServicePlace.Logic.Mappers
                 UserName = registerViewModel.UserName,
                 Password = registerViewModel.Password,
                 Name = registerViewModel.Name,
-                Avatar = registerViewModel.Avatar.Trim()
+                Avatar = registerViewModel.Avatar?.Trim()
             };
         }
     }

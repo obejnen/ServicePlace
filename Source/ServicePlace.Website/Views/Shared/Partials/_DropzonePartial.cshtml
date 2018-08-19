@@ -18,7 +18,7 @@
     $(function () {
         Dropzone.options.dropzoneForm = {
             parallelUploads: 8,
-            maxFiles: @((bool)ViewData["Multiple"] ? "" : "1"),
+            @((bool)ViewData["Multiple"] ? "" : "maxFiles: 1,")
             addRemoveLinks: true,
             init: function () {
                 dropzone = Dropzone.forElement("#dropzoneForm");

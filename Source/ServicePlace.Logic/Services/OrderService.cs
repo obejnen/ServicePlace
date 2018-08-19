@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ServicePlace.Common;
 using ServicePlace.DataProvider.Interfaces;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.DataModels;
@@ -10,7 +11,6 @@ namespace ServicePlace.Logic.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IImageRepository _imageRepository;
         private readonly IOrderResponseRepository _responseRepository;
         private readonly IOrderCategoryRepository _categoryRepository;
         private readonly IContextProvider _contextProvider;
@@ -18,14 +18,12 @@ namespace ServicePlace.Logic.Services
         public OrderService(IOrderRepository orderRepository,
             IOrderResponseRepository responseRepository,
             IOrderCategoryRepository categoryRepository,
-            IImageRepository imageRepository,
             IContextProvider contextProvider
             )
         {
             _orderRepository = orderRepository;
             _responseRepository = responseRepository;
             _categoryRepository = categoryRepository;
-            _imageRepository = imageRepository;
             _contextProvider = contextProvider;
         }
 
@@ -35,6 +33,8 @@ namespace ServicePlace.Logic.Services
         {
             order.CreatedAt = DateTime.Now;
             order.UpdatedAt = DateTime.Now;
+            if (order.Images == null)
+                order.Images = new[] { new Image { Url = Constants.DefaultOrderImage } };
             _orderRepository.Create(order);
             _contextProvider.CommitChanges();
         }
