@@ -9,6 +9,16 @@ namespace ServicePlace.Website
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "Error",
+                url: "Error/{action}/{id}",
+                defaults: new
+                {
+                    controller = "Error",
+                    action = "Error404",
+                    id = UrlParameter.Optional
+                });
+
             routes.MapRoute
             (
                 name: "Show",
