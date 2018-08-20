@@ -1,7 +1,8 @@
 ﻿using System.Web.Mvc;
-using ServicePlace.Common;
+using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
+using Constants = ServicePlace.Common.Constants;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -30,6 +31,11 @@ namespace ServicePlace.Website.Controllers
             else
                 _userService.RemoveFromRole(userId, Constants.AdminRoleName);
             return RedirectToAction("Index");
+        }
+
+        public void GetLogs()
+        {
+            ViewBag.ElmahUrl = "/elmah.exd";
         }
     }
 }
