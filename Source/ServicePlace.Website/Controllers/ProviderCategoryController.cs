@@ -56,10 +56,11 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id, int page = 1)
         {
             var providers = _providerService.GetByCategory(id).ToList();
-            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(providers.Count(), 8));
-            return RedirectToAction("Index", "Order",
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(providers.Count(), Constants.ItemsPerPage));
+            ViewBag.CategoryId = id;
+            return View("_ProviderByCategoryIndex",
                 _providerMapper
-                    .MapToIndexProviderViewModel(_providerService.GetPage(providers, page, 8),
+                    .MapToIndexProviderViewModel(_providerService.GetPage(providers, page, Constants.ItemsPerPage),
                         new[] { page, pageRange[0], pageRange[1] }));
         }
     }

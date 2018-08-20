@@ -6,11 +6,11 @@ using ServicePlace.DataProvider.Interfaces;
 
 namespace ServicePlace.DataProvider.ContextProviders
 {
-    public class ContextProvider : IContextProvider
+    public class CommitProvider : IContextProvider
     {
         private readonly ApplicationContext _context;
 
-        public ContextProvider(ApplicationContext context)
+        public CommitProvider(ApplicationContext context)
         {
             _context = context;
         }

@@ -27,7 +27,7 @@ namespace ServicePlace.Logic.Services
             _contextProvider = contextProvider;
         }
 
-        public IEnumerable<Order> Orders => _orderRepository.GetAll();
+        public IEnumerable<Order> Orders => _orderRepository.GetBy(x => x.Approved);
 
         public void Create(Order order)
         {
@@ -47,6 +47,7 @@ namespace ServicePlace.Logic.Services
         public void Update(Order order)
         {
             var orderToUpdate = _orderRepository.GetBy(x => x.Id == order.Id).SingleOrDefault();
+            if (orderToUpdate == null) return;
             order.CreatedAt = orderToUpdate.CreatedAt;
             order.Images = orderToUpdate.Images;
             _orderRepository.Update(order);
@@ -69,6 +70,15 @@ namespace ServicePlace.Logic.Services
             _contextProvider.CommitChanges();
         }
 
+        public void ApproveOrder(int orderId)
+        {
+            var order = _orderRepository.GetBy(x => x.Id == orderId).SingleOrDefault();
+            if (order == null) return;
+            order.Approved = true;
+            _orderRepository.Update(order);
+            _contextProvider.CommitChanges();
+        }
+
         public Order Get(object id)
         {
             return _orderRepository.GetBy(x => x.Id == (int) id).SingleOrDefault();
@@ -80,7 +90,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Order> SearchOrder(string search, int categoryId)
         {
-            return _orderRepository.GetBy(x => (x.Title.Contains(search) || x.Body.Contains(search))
+            return _orderRepository.GetBy(x => (x.Title.Contains(search) || x.Body.Contains(search)) && x.Approved
                                                && (categoryId <= 0 || x.Category.Id == categoryId));
         }
 
@@ -91,7 +101,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Order> GetPage(int page, int perPage)
         {
-            var ordersCount = _orderRepository.GetAll().Count();
+            var ordersCount = Orders.Count();
             var skip = (page - 1) * perPage;
             return skip + perPage > ordersCount
                 ? Take(skip, ordersCount % perPage)
@@ -101,7 +111,7 @@ namespace ServicePlace.Logic.Services
         public IEnumerable<Order> GetPage(IEnumerable<Order> orders, int page, int perPage)
         {
             var ordersList = orders.ToList();
-            var ordersCount = ordersList.Count();
+            var ordersCount = ordersList.Count;
             var skip = (page - 1) * perPage;
             return skip + perPage > ordersCount
                 ? ordersList.Skip(skip).Take(ordersCount % perPage)
@@ -157,7 +167,7 @@ namespace ServicePlace.Logic.Services
 
         public OrderCategory GetCategory(int categoryId) => _categoryRepository.GetBy(x => x.Id == categoryId).SingleOrDefault();
 
-        public IEnumerable<Order> GetByCategory(int categoryId) => _orderRepository.GetBy(x => x.Category.Id == categoryId);
+        public IEnumerable<Order> GetByCategory(int categoryId) => _orderRepository.GetBy(x => x.Category.Id == categoryId && x.Approved);
 
         public void CreateCategory(OrderCategory orderCategory)
         {

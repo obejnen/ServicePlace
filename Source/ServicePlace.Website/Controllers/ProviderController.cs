@@ -29,6 +29,7 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Index(int page = 1)
         {
+            ViewBag.HasPrice = true;
             var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(_providerService.Providers.Count(), 8));
             var viewModel = _providerMapper
                 .MapToIndexProviderViewModel(_providerService.GetPage(page, 8), new[] { page, pageRange[0], pageRange[1] });

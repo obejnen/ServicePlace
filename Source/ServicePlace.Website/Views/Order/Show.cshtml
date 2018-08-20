@@ -18,7 +18,7 @@
 </div>
 
 <div class="status-actions">
-    @if (User.Identity.Name == Model.User.Name || User.IsInRole("admin"))
+    @if (User.Identity.Name == Model.User.Name || User.IsInRole(Constants.AdminRoleName))
     {
         if (!Model.Closed)
         {
@@ -39,6 +39,17 @@
         <div>
             @Html.ActionLink("Edit", "Edit", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
             <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
+        </div>
+    }
+    @if (User.IsInRole(Constants.AdminRoleName) && !Model.Approved)
+    {
+        using (Html.BeginForm("ApproveOrder", "Admin", FormMethod.Post, new {@id = "approve-form"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("orderId", Model.Id)
+        }
+        <div>
+            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">Approve</a>
         </div>
     }
     <div class="w3-right status">

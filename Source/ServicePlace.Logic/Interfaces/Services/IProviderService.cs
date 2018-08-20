@@ -9,7 +9,10 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         IEnumerable<Provider> SearchProvider(string query);
 
+        void ApproveProvider(int providerId);
+
         IEnumerable<Provider> Take(int skip, int count);
+
 
         IEnumerable<Provider> GetPage(int page, int perPage);
 
@@ -28,6 +31,7 @@ namespace ServicePlace.Logic.Interfaces.Services
         IEnumerable<ProviderResponse> GetUserResponses(string userId);
 
         IEnumerable<Provider> GetByCategory(int categoryId);
+
         ProviderCategory GetCategory(int categoryId);
 
         IEnumerable<ProviderCategory> GetCategories();

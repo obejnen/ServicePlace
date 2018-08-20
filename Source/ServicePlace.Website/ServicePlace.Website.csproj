@@ -309,6 +309,7 @@
     <Content Include="Views\Error\Error500.cshtml" />
     <None Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Shared\Error404.cshtml" />
+    <Content Include="Views\Shared\_ProviderByCategoryIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

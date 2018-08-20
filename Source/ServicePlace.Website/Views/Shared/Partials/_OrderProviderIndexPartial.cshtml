@@ -1,4 +1,6 @@
-﻿@using System.Reflection
+﻿@{
+    var hasPrice = (bool?) ViewBag.HasPrice;
+}
 <div class="w3-row-padding w3-col w3-padding-16 w3-center w3-rest">
     @foreach (var item in @Model.FirstPart)
     {
@@ -12,20 +14,8 @@
                               : $"Created {DateTime.Now.Subtract(item.CreatedAt).Hours} hours ago")
                     </div>
                     <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
-                        @{
-                            bool hasPrice;
-                            try
-                            {
-                                Type type = item.GetType();
-                                hasPrice = type.GetProperty("Price") != null;
-                            }
-                            catch (AmbiguousMatchException)
-                            {
-                                hasPrice = false;
-                            }
-                        }
                         @(
-                            hasPrice ? $"Price: {item.Price}" : ""
+                            hasPrice == true ? $"Price: {item.Price}" : ""
                         )
                     </div>
                 </div>
@@ -54,20 +44,8 @@
                               : $"Created {DateTime.Now.Subtract(item.CreatedAt).Hours} hours ago")
                     </div>
                     <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
-                        @{
-                            bool hasPrice;
-                            try
-                            {
-                                Type type = Model.GetType();
-                                hasPrice = type.GetProperty("Price") != null;
-                            }
-                            catch (AmbiguousMatchException)
-                            {
-                                hasPrice = false;
-                            }
-                        }
                         @(
-                            hasPrice ? $"Price: {item.Price}" : ""
+                            hasPrice == true ? $"Price: {item.Price}" : ""
                          )
                     </div>
                 </div>

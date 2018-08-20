@@ -1,6 +1,8 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ServicePlace.DataProvider.Managers;
+using ServicePlace.DataProvider.Migrations;
 using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.DbContexts
@@ -9,6 +11,7 @@ namespace ServicePlace.DataProvider.DbContexts
     {
         public ApplicationContext() : base("name = DefaultConnection")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
         }
 
         public DbSet<Profile> Profiles { get; set; }

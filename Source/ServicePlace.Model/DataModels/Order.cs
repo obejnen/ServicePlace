@@ -22,6 +22,8 @@ namespace ServicePlace.Model.DataModels
 
         public bool Closed { get; set; }
 
+        public bool Approved { get; set; }
+
         [Required]
         public DateTime CreatedAt { get; set; }
 

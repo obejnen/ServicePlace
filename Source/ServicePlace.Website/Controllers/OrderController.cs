@@ -112,6 +112,7 @@ namespace ServicePlace.Website.Controllers
         {
             var searchResult = _orderService.SearchOrder(searchString, categoryId).ToList();
             var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), 8));
+            ViewBag.Action = "Search";
             return View("Index",
                 _orderMapper
                     .MapToIndexOrderViewModel(_orderService.GetPage(searchResult, page, 8),

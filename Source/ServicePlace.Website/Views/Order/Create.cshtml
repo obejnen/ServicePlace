@@ -19,7 +19,7 @@
         <br />
 
         @Html.LabelFor(m => m.Title)
-        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input" })
+        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input", @id = "title-input" })
         @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
 
         <br />

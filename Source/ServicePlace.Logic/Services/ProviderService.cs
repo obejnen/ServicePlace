@@ -67,6 +67,15 @@ namespace ServicePlace.Logic.Services
             return _providerRepository.GetBy(x => x.Title.Contains(search) || x.Body.Contains(search));
         }
 
+        public void ApproveProvider(int providerId)
+        {
+            var provider = _providerRepository.GetBy(x => x.Id == providerId).SingleOrDefault();
+            if (provider == null) return;
+            provider.Approved = true;
+            _providerRepository.Update(provider);
+            _contextProvider.CommitChanges();
+        }
+
         public IEnumerable<Provider> Take(int skip, int count)
         {
             return _providerRepository.Take(skip, count);

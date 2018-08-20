@@ -42,9 +42,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -67,7 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContextProvider\ContextProvider.cs" />
+    <Compile Include="ContextProvider\CommitProvider.cs" />
     <Compile Include="Interfaces\IContextProvider.cs" />
     <Compile Include="Interfaces\IImageRepository.cs" />
     <Compile Include="Interfaces\IOrderCategoryRepository.cs" />
@@ -138,6 +135,10 @@
     <Compile Include="Migrations\201808191207424_RemoveUpdatedAtField.cs" />
     <Compile Include="Migrations\201808191207424_RemoveUpdatedAtField.Designer.cs">
       <DependentUpon>201808191207424_RemoveUpdatedAtField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808201030155_AddApprovedFieldToOrdersAndProviders.cs" />
+    <Compile Include="Migrations\201808201030155_AddApprovedFieldToOrdersAndProviders.Designer.cs">
+      <DependentUpon>201808201030155_AddApprovedFieldToOrdersAndProviders.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -211,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808191207424_RemoveUpdatedAtField.resx">
       <DependentUpon>201808191207424_RemoveUpdatedAtField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808201030155_AddApprovedFieldToOrdersAndProviders.resx">
+      <DependentUpon>201808201030155_AddApprovedFieldToOrdersAndProviders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

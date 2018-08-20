@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Orders";
+    int categoryId = ViewBag.CategoryId;
 }
 
 <link rel="stylesheet" href="~/Content/order.css" />
@@ -29,5 +30,5 @@
 
 @if (Model.CurrentPage != 0)
 {
-    @Html.Page("Index", "Order", Model.CurrentPage, Model.MinPage, Model.MaxPage)
+    @Html.Page("Show", "OrderCategory", Model.CurrentPage, Model.MinPage, Model.MaxPage, categoryId)
 }

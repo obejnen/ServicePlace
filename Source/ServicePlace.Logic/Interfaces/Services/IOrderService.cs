@@ -11,6 +11,8 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         void CompleteOrder(int orderId, int orderResponseId);
 
+        void ApproveOrder(int orderId);
+
         IEnumerable<Order> SearchOrder(string query, int categoryId);
 
         IEnumerable<Order> Take(int skip, int count);
