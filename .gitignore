@@ -262,4 +262,5 @@ paket-files/
 __pycache__/
 *.pyc
 
-**/Images
+Images/
+App_Data/
