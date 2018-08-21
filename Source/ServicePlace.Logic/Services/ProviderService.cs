@@ -80,7 +80,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Provider> Take(int skip, int count)
         {
-            return _providerRepository.Take(skip, count);
+            return Providers.Skip(skip).Take(count);
         }
 
         public IEnumerable<Provider> GetUserProviders(string userId)

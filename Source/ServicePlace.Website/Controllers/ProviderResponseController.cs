@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.ProviderResponseViewModels;
+using ServicePlace.Website.Extensions;
+using ServicePlace.Website.Hubs;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -38,17 +40,21 @@ namespace ServicePlace.Website.Controllers
             var providerResponse = _providerResponseMapper
                 .MapToProviderResponseModel(viewModel, _userService.FindByUserName(User.Identity.GetUserName()));
             _providerService.CreateResponse(providerResponse);
-            return RedirectToAction("Show", "Provider", new { id = viewModel.ProviderId });
+            var responseModel = _providerResponseMapper.MapToProviderResponseViewModel(providerResponse);
+            var objNotifHub = new NotificationHub();
+            objNotifHub.SendNotification(responseModel.Provider.User.UserName,
+                PartialView("Partials/_ProviderResponseNotitifaction", responseModel)
+                    .ConvertToString(ControllerContext));
+            return PartialView("Partials/_ProviderResponse", responseModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public int Delete(int id)
         {
             var responseToDelete = _providerService.GetAllProviderResponses().SingleOrDefault(x => x.Id == id);
-            var providerId = responseToDelete?.Provider.Id;
             _providerService.DeleteResponse(responseToDelete);
-            return RedirectToAction("Show", "Provider", new { id = providerId });
+            return id;
         }
 
         public ActionResult Index(int providerId)

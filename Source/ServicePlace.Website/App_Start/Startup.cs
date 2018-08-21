@@ -3,13 +3,12 @@ using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Microsoft.AspNet.Identity;
 
-[assembly: OwinStartup(typeof(ServicePlace.Website.App_Start.Startup))]
-
-namespace ServicePlace.Website.App_Start
+[assembly: OwinStartup(typeof(ServicePlace.Website.Startup))]
+namespace ServicePlace.Website
 {
-    public class Startup
+    public partial class Startup
     {
-        public void Configuration(IAppBuilder app)
+        public void ConfigureAuth(IAppBuilder app)
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

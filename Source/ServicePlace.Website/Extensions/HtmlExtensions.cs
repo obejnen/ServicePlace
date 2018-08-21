@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using System.Text;
 
@@ -32,6 +33,24 @@ namespace ServicePlace.Website.Extensions
             html.AppendLine(lastPage);
             html.AppendLine("</div></div>");
             return new HtmlString(html.ToString());
+        }
+
+        public static string ConvertToString(this PartialViewResult partialView,
+            ControllerContext controllerContext)
+        {
+            using (var sw = new StringWriter())
+            {
+                partialView.View = ViewEngines.Engines
+                    .FindPartialView(controllerContext, partialView.ViewName).View;
+
+                var vc = new ViewContext(
+                    controllerContext, partialView.View, partialView.ViewData, partialView.TempData, sw);
+                partialView.View.Render(vc, sw);
+
+                var partialViewString = sw.GetStringBuilder().ToString();
+
+                return partialViewString;
+            }
         }
     }
 }

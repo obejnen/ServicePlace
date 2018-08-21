@@ -48,7 +48,7 @@ namespace ServicePlace.Logic.Mappers
 
         public CreateProviderResponseViewModel GetCreateProviderResponseViewModel(string userId, int providerId)
         {
-            var orders = _orderService.GetProvidedOrders(userId, providerId);
+            var orders = _orderService.GetProvidedOrders(userId, providerId).ToList();
             return new CreateProviderResponseViewModel
             {
                 ProviderId = providerId,

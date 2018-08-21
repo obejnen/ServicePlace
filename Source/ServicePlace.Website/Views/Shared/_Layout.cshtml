@@ -13,7 +13,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/dropzonecss")
 </head>
-<body>
+<body id="body">
     <!-- Sidebar (hidden by default) -->
     <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left navbar-transparent" style="display:none;z-index:2;width:40%;min-width:300px" id="menuSidebar">
         <a href="javascript:void(0)" onclick="toggleSidebar('menuSidebar')"
@@ -43,6 +43,22 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dropzonescripts")
     @Scripts.Render("~/Scripts/javascripts")
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <script src="~/signalr/hubs" type="text/javascript"></script>
+    <script type="text/javascript">$(function () {
+        var hub = $.connection.notificationHub;
+
+            hub.client.broadcastNotif = function (data) {
+                $("#body").append(data);
+                setTimeout(function () {
+                        $("#order-response-notification").hide();
+                    },
+                    4000);
+            };
+
+            $.connection.hub.start();
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

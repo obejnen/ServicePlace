@@ -11,8 +11,10 @@
     <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
     <br />
     <br />
-    <div class="order-response-form" id="response-form">
-        @using (Html.BeginForm("Create", "ProviderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+    <div class="order-response-form w3-animate-top" id="response-div">
+        @using (Ajax.BeginForm("Create", "ProviderResponse", null,
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "addToProviderResponse"},
+            new { @class = "w3-container w3-card-4", @id = "response-form" }))
         {
             <h2>Responde</h2>
             @Html.AntiForgeryToken()
