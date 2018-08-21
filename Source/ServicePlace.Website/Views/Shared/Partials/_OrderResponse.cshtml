@@ -2,7 +2,7 @@
 @using ServicePlace.Model.ViewModels.OrderResponseViewModels
 @model OrderResponseViewModel
 
-<div class="order-response">
+<div class="order-response" id=@($"order-response-{@Model.Id}")>
     <div class="order-response-image w3-card-4">
         <img src="@Model.Provider.User.Avatar" />
     </div>
@@ -44,7 +44,9 @@
         @if (@Model.Provider.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
         {
             <div class="w3-container">
-                @using (Html.BeginForm("Delete", "OrderResponse", FormMethod.Post, new { @id = "delete-form" }))
+                @using (Ajax.BeginForm("Delete", "OrderResponse", null,
+                    new AjaxOptions { HttpMethod = "POST", OnSuccess = "removeFromOrderResponses" },
+                    new { @id = "delete-form" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("id", Model.Id)

@@ -315,6 +315,7 @@
     <Content Include="Views\Shared\Error404.cshtml" />
     <Content Include="Views\Shared\_ProviderByCategoryIndex.cshtml" />
     <Content Include="Views\Shared\Partials\_OrderResponse.cshtml" />
+    <Content Include="Views\Shared\Partials\_ProviderResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

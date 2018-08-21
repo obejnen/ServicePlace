@@ -38,17 +38,17 @@ namespace ServicePlace.Website.Controllers
             var providerResponse = _providerResponseMapper
                 .MapToProviderResponseModel(viewModel, _userService.FindByUserName(User.Identity.GetUserName()));
             _providerService.CreateResponse(providerResponse);
-            return RedirectToAction("Show", "Provider", new { id = viewModel.ProviderId });
+            var responseModel = _providerResponseMapper.MapToProviderResponseViewModel(providerResponse);
+            return PartialView("Partials/_ProviderResponse", responseModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public int Delete(int id)
         {
             var responseToDelete = _providerService.GetAllProviderResponses().SingleOrDefault(x => x.Id == id);
-            var providerId = responseToDelete?.Provider.Id;
             _providerService.DeleteResponse(responseToDelete);
-            return RedirectToAction("Show", "Provider", new { id = providerId });
+            return id;
         }
 
         public ActionResult Index(int providerId)

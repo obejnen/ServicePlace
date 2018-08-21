@@ -41,12 +41,11 @@ namespace ServicePlace.Website.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public int Delete(int id)
         {
             var responseToDelete = _orderService.GetAllOrderResponses().SingleOrDefault(x => x.Id == id);
-            var orderId = responseToDelete?.Order.Id;
             _orderService.DeleteResponse(responseToDelete);
-            return RedirectToAction("Show", "Order", new {id = orderId});
+            return id;
         }
 
         [HttpPost]

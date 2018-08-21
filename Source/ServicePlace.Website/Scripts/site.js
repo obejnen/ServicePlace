@@ -6,22 +6,35 @@ $(function () {
     $("#response-div").hide();
     $("#hide-form-button").hide();
 });
+
 function openForm() {
     $("#hide-form-button").show();
     $("#open-form-button").hide();
     $("#response-div").show();
-    $("#response-div").addClass("w3-animate-top");
 }
 
 function hideForm() {
     $("#open-form-button").show();
     $("#hide-form-button").hide();
     $("#response-div").hide();
-    $("#response-div").removeClass("w3-animate-top");
 }
 
 function addToOrderResponse(data) {
-    $("#response-div").hide();
+    hideForm();
     $("#response-form")[0].reset();
     $("#order-responses").append(data);
+}
+
+function addToProviderResponse(data) {
+    hideForm();
+    $("#response-form")[0].reset();
+    $("#provider-responses").append(data);
+}
+
+function removeFromProviderResponses(id) {
+    $("#provider-response-" + id).remove();
+}
+
+function removeFromOrderResponses(id) {
+    $("#order-response-" + id).remove();
 }

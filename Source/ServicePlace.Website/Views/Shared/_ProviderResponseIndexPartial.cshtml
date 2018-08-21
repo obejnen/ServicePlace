@@ -6,37 +6,9 @@
     Layout = null;
 }
 
-@foreach (var providerResponse in Model.ProviderResponses)
-{
-    <div class="order-response">
-        <div class="order-response-image">
-            <img src="@providerResponse.Order.User.Avatar" />
-        </div>
-        <div class="w3-card-2 order-response-content">
-            <header class="w3-container w3-light-gray">
-                <h3><strong>@Html.ActionLink(providerResponse.Order.Title, "Show", "Order", new { id = providerResponse.Order.Id }, null)</strong></h3>
-            </header>
-            <div class="w3-container">
-                <p>@providerResponse.Comment</p>
-            </div>
-        </div>
-        <div class="w3-card-2 w3-light-gray order-response-info">
-            <div class="w3-container">
-                <p>@providerResponse.CreatedAt</p>
-            </div>
-            @if (providerResponse.Order.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
-            {
-            <div class="w3-container">
-                @using (Html.BeginForm("Delete", "ProviderResponse", FormMethod.Post, new { @id = "delete-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("id", providerResponse.Id)
-                }
-                <a class="w3-button w3-white w3-hover-black" onclick="$('#delete-form').submit()">Delete</a>
-            </div>
-            }
-        </div>
-    </div>
-    <br />
-    <br />
-}
+<div id="provider-responses">
+    @foreach (var providerResponse in Model.ProviderResponses)
+    {
+        @Html.Partial("Partials/_ProviderResponse", providerResponse)
+    }
+</div>
