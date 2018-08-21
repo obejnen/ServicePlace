@@ -13,12 +13,9 @@ namespace ServicePlace.Logic.Interfaces.Services
 
         IEnumerable<Provider> Take(int skip, int count);
 
-
         IEnumerable<Provider> GetPage(int page, int perPage);
 
         IEnumerable<Provider> GetPage(IEnumerable<Provider> providers, int page, int perPage);
-
-        int GetPagesCount(int perPage);
 
         IEnumerable<Provider> GetUserProviders(string userId);
 

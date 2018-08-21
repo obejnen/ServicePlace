@@ -54,14 +54,18 @@
         </div>
         @if (Model.Orders.Orders.Any())
         {
-            <div id="orders" class="w3-animate-top">
-                <h3><strong>Orders</strong></h3>
-                @foreach (var order in Model.Orders.Orders)
+        <div id="orders" class="w3-animate-top">
+            <h3><strong>Orders</strong></h3>
+            @foreach (var order in Model.Orders.Orders)
+            {
+                @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                if (!order.Approved)
                 {
-                    @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
-                    <br />
+                    <span style="font-size: 10px">Waiting for moderation</span>
                 }
-            </div>
+                <br />
+            }
+        </div>
         }
         @if (Model.Providers.Providers.Any())
         {
@@ -70,6 +74,10 @@
                 @foreach (var provider in Model.Providers.Providers)
                 {
                     @Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    if (!provider.Approved)
+                    {
+                        <span style="font-size: 10px">Waiting for moderation</span>
+                    }
                     <br />
                 }
             </div>

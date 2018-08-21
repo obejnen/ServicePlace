@@ -29,6 +29,7 @@ namespace ServicePlace.Logic.Mappers
                 Title = provider.Title,
                 Body = provider.Body,
                 Price = provider.Price,
+                Approved = provider.Approved,
                 Images = provider.Images?.Select(x => x.Url),
                 CreatedAt = provider.CreatedAt,
                 User = new UserViewModel

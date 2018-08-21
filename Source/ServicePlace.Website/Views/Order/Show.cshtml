@@ -43,7 +43,7 @@
     }
     @if (User.IsInRole(Constants.AdminRoleName) && !Model.Approved)
     {
-        using (Html.BeginForm("ApproveOrder", "Admin", FormMethod.Post, new {@id = "approve-form"}))
+        using (Html.BeginForm("ApproveOrder", "Admin", FormMethod.Post, new { @id = "approve-form" }))
         {
             @Html.AntiForgeryToken()
             @Html.Hidden("orderId", Model.Id)

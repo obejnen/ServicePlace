@@ -56,7 +56,9 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id, int page = 1)
         {
             var providers = _providerService.GetByCategory(id).ToList();
-            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(providers.Count(), Constants.ItemsPerPage));
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(providers.Count, Constants.ItemsPerPage));
+            ViewBag.HasPrice = true;
+            ViewBag.Controller = "Provider";
             ViewBag.CategoryId = id;
             return View("_ProviderByCategoryIndex",
                 _providerMapper

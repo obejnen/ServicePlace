@@ -93,6 +93,7 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id)
         {
             var viewModel = _providerMapper.MapToProviderViewModel(_providerService.Get(id));
+            ViewBag.Controller = "Provider";
 
             return View(viewModel);
         }

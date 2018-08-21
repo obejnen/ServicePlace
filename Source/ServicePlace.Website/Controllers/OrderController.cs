@@ -71,16 +71,13 @@ namespace ServicePlace.Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreateOrderViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var order = _orderMapper
-                    .MapToOrderModel(model,
-                        _userService.FindByUserName(User.Identity.GetUserName()));
-                _orderService.Update(order);
-                return RedirectToAction("Show", "Order", new { id = order.Id });
-            }
+            if (!ModelState.IsValid) return View(model);
+            var order = _orderMapper
+                .MapToOrderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
+            _orderService.Update(order);
+            return RedirectToAction("Show", "Order", new { id = order.Id });
 
-            return View(model);
         }
 
         [HttpPost]
@@ -105,7 +102,10 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id)
         {
             var model = _orderMapper.MapToOrderViewModel(_orderService.Get(id));
-            return View(model);
+            if(model.Approved || 
+               User.IsInRole(Common.Constants.AdminRoleName) || 
+               User.Identity.GetUserId() == model.User.Id) return View(model);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Search(string searchString, int page = 1, int categoryId = 0)

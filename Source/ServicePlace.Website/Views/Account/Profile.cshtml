@@ -69,6 +69,10 @@
                 @foreach (var provider in Model.Providers.Providers)
                 {
                     @Html.ActionLink(provider.Title, "Show", "Provider", new {id = provider.Id}, new {@class = "w3-button w3-white w3-hover-black"})
+                    if(!provider.Approved)
+                    {
+                        <span style="font-size: 10px">Waiting for moderation</span>
+                    }
                     <br/>
                 }
             </div>
