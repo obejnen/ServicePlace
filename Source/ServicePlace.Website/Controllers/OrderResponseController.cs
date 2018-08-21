@@ -1,9 +1,13 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderResponseViewModels;
+using ServicePlace.Website.Extensions;
+using ServicePlace.Website.Hubs;
+using ServicePlace.Website.Models.NotificationModels;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -35,17 +39,21 @@ namespace ServicePlace.Website.Controllers
         {
             var orderResponse = _orderResponseMapper.MapToOrderResponseModel(model, _userService.FindByUserName(User.Identity.GetUserName()));
             _orderService.CreateResponse(orderResponse);
-            return RedirectToAction("Show", "Order", new { id = model.OrderId });
+            var viewModel = _orderResponseMapper.MapToOrderResponseViewModel(orderResponse);
+            var objNotifHub = new NotificationHub();
+            objNotifHub.SendNotification(viewModel.Order.User.UserName, 
+                PartialView("Partials/_OrderResponseNotification", viewModel)
+                    .ConvertToString(ControllerContext));
+            return PartialView("Partials/_OrderResponse", viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public int Delete(int id)
         {
             var responseToDelete = _orderService.GetAllOrderResponses().SingleOrDefault(x => x.Id == id);
-            var orderId = responseToDelete?.Order.Id;
             _orderService.DeleteResponse(responseToDelete);
-            return RedirectToAction("Show", "Order", new {id = orderId});
+            return id;
         }
 
         [HttpPost]

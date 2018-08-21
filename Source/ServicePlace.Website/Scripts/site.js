@@ -3,19 +3,42 @@
 }
 
 $(function () {
-    $("#response-form").hide();
+    $("#response-div").hide();
     $("#hide-form-button").hide();
 });
+
 function openForm() {
     $("#hide-form-button").show();
     $("#open-form-button").hide();
-    $("#response-form").show();
-    $("#response-form").addClass("w3-animate-top");
+    $("#response-div").show();
 }
 
 function hideForm() {
     $("#open-form-button").show();
     $("#hide-form-button").hide();
-    $("#response-form").hide();
-    $("#response-form").removeClass("w3-animate-top");
+    $("#response-div").hide();
+}
+
+function addToOrderResponse(data) {
+    hideForm();
+    $("#response-form")[0].reset();
+    $("#order-responses").append(data);
+}
+
+function addToProviderResponse(data) {
+    hideForm();
+    $("#response-form")[0].reset();
+    $("#provider-responses").append(data);
+}
+
+function removeFromProviderResponses(id) {
+    $("#provider-response-" + id).remove();
+}
+
+function removeFromOrderResponses(id) {
+    $("#order-response-" + id).remove();
+}
+
+function closeNotification(id) {
+    $("#" + id).hide();
 }

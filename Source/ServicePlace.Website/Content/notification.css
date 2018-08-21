@@ -1,0 +1,25 @@
+﻿.notification-container {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    width: 30%;
+    height: 100px;
+    opacity: 1;
+}
+
+.notification-header {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 35px;
+    height: 35px;
+    margin: auto;
+}
+
+.notification-content {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 65px;
+}
