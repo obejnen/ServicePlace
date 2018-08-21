@@ -4,7 +4,7 @@
     ViewBag.Title = "Control Panel";
 }
 
-<link rel="stylesheet" href="~/Content/account.css" />
+@Scripts.Render("~/Scripts/adminscripts")
 
 <div class="profile-container">
 </div>
@@ -12,25 +12,25 @@
 <br />
 <div class="profile-items">
     <div class="profile-items-buttons">
-        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('users')">Users</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('users')" id="users-button">Users</button>
         @if (Model.Orders.Orders.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')">Orders</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')" id="orders-button">Orders</button>
         }
         @if (Model.Providers.Providers.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('providers')">Providers</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('providers')" id="providers-button">Providers</button>
         }
         @if (Model.OrderResponses.OrderResponses.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-responses')">Order responses</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-responses')" id="order-responses-button">Order responses</button>
         }
         @if (Model.ProviderResponses.ProviderResponses.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')">Provider responses</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')" id="provider-responses-button">Provider responses</button>
         }
-        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-categories')">Order categories</button>
-        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-categories')">Provider categories</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-categories')" id="order-categories-button">Order categories</button>
+        <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-categories')" id="provider-categories-button">Provider categories</button>
         <button class="w3-button w3-white w3-hover-black profile-button" onclick="location.href = '/elmah.axd'">Log</button>
     </div>
     <div class="profile-items-content">
@@ -54,14 +54,18 @@
         </div>
         @if (Model.Orders.Orders.Any())
         {
-            <div id="orders" class="w3-animate-top">
-                <h3><strong>Orders</strong></h3>
-                @foreach (var order in Model.Orders.Orders)
+        <div id="orders" class="w3-animate-top">
+            <h3><strong>Orders</strong></h3>
+            @foreach (var order in Model.Orders.Orders)
+            {
+                @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                if (!order.Approved)
                 {
-                    @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
-                    <br />
+                    <span style="font-size: 10px">Waiting for moderation</span>
                 }
-            </div>
+                <br />
+            }
+        </div>
         }
         @if (Model.Providers.Providers.Any())
         {
@@ -70,6 +74,10 @@
                 @foreach (var provider in Model.Providers.Providers)
                 {
                     @Html.ActionLink(provider.Title, "Show", "Provider", new { id = provider.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    if (!provider.Approved)
+                    {
+                        <span style="font-size: 10px">Waiting for moderation</span>
+                    }
                     <br />
                 }
             </div>
@@ -112,7 +120,7 @@
         }
             <div id="order-categories" class="w3-animate-top">
                 <h3><strong>Order categories</strong></h3>
-                @Html.ActionLink("Create order category", "Create", "OrderCategory", null, new { @class = "w3-button w3-black w3-hover-white" })
+                @Html.ActionLink("Create order category", "Create", "OrderCategory", null, new { @class = "w3-button w3-gray w3-hover-white" })
                 <br />
                 @foreach (var orderCategory in Model.OrderCategories.Categories)
                 {
@@ -122,7 +130,7 @@
             </div>
         <div id="provider-categories" class="w3-animate-top">
             <h3><strong>Provider categories</strong></h3>
-            @Html.ActionLink("Create provider category", "Create", "ProviderCategory", null, new { @class = "w3-button w3-black w3-hover-white" })
+            @Html.ActionLink("Create provider category", "Create", "ProviderCategory", null, new { @class = "w3-button w3-gray w3-hover-white" })
             <br />
             @foreach (var providerCategory in Model.ProviderCategories.Categories)
             {
@@ -132,24 +140,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(function () {
-        $("#orders").hide();
-        $("#providers").hide();
-        $("#order-responses").hide();
-        $("#provider-responses").hide();
-        $("#order-categories").hide();
-        $("#provider-categories").hide();
-    });
-    function openContent(id) {
-        $("#users").hide();
-        $("#orders").hide();
-        $("#providers").hide();
-        $("#order-responses").hide();
-        $("#provider-responses").hide();
-        $("#order-categories").hide();
-        $("#provider-categories").hide();
-        $("#" + id).show();
-    };
-</script>

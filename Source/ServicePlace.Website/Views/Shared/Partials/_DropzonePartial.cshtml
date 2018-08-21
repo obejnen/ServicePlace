@@ -20,7 +20,8 @@
         Dropzone.options.dropzoneForm = {
             parallelUploads: 8,
             @((bool)ViewData["Multiple"] ? "" : "maxFiles: 1,")
-            addRemoveLinks: true,
+            acceptedFiles: "image/*",
+            maxFilesize: 5,
             init: function () {
                 dropzone = Dropzone.forElement("#dropzoneForm");
                 dropzone.on("success",

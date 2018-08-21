@@ -27,13 +27,13 @@ namespace ServicePlace.Logic.Services
             _contextProvider = contextProvider;
         }
 
-        public IEnumerable<Provider> Providers => _providerRepository.GetAll();
+        public IEnumerable<Provider> Providers => _providerRepository.GetBy(x => x.Approved).OrderBy(x => x.CreatedAt);
 
         public void Create(Provider provider)
         {
             provider.CreatedAt = DateTime.Now;
             if (provider.Images == null)
-                provider.Images = new[] { new Image { Url = Constants.DefaultOrderImage } };
+                provider.Images = new[] { new Image { Url = Constants.DefaultProviderImage } };
             _providerRepository.Create(provider);
             _contextProvider.CommitChanges();
         }
@@ -47,8 +47,10 @@ namespace ServicePlace.Logic.Services
         public void Update(Provider provider)
         {
             var providerToUpdate = _providerRepository.GetBy(x => x.Id == provider.Id).SingleOrDefault();
+            if (providerToUpdate == null) return;
             provider.CreatedAt = providerToUpdate.CreatedAt;
             provider.Images = providerToUpdate.Images;
+            provider.Approved = false;
             _providerRepository.Update(provider);
             _contextProvider.CommitChanges();
         }
@@ -58,13 +60,22 @@ namespace ServicePlace.Logic.Services
             return _providerRepository.GetBy(x => x.Id == (int) id).SingleOrDefault();
         }
 
-        public IEnumerable<Provider> GetAll() => _providerRepository.GetAll();
+        public IEnumerable<Provider> GetAll() => _providerRepository.GetAll().OrderBy(x => x.CreatedAt);
 
         public IEnumerable<ProviderResponse> GetAllProviderResponses() => _responseRepository.GetAll();
 
         public IEnumerable<Provider> SearchProvider(string search)
         {
-            return _providerRepository.GetBy(x => x.Title.Contains(search) || x.Body.Contains(search));
+            return _providerRepository.GetBy(x => (x.Title.Contains(search) || x.Body.Contains(search)) && x.Approved);
+        }
+
+        public void ApproveProvider(int providerId)
+        {
+            var provider = _providerRepository.GetBy(x => x.Id == providerId).SingleOrDefault();
+            if (provider == null) return;
+            provider.Approved = true;
+            _providerRepository.Update(provider);
+            _contextProvider.CommitChanges();
         }
 
         public IEnumerable<Provider> Take(int skip, int count)
@@ -79,7 +90,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Provider> GetPage(int page, int perPage)
         {
-            var providersCount = _providerRepository.GetAll().Count();
+            var providersCount = Providers.Count();
             var skip = (page - 1) * perPage;
             return skip + perPage > providersCount
                 ? Take(skip, providersCount % perPage)
@@ -94,13 +105,6 @@ namespace ServicePlace.Logic.Services
             return skip + perPage > providersCount
                 ? providerList.Skip(skip).Take(providersCount % perPage)
                 : providerList.Skip(skip).Take(perPage);
-        }
-
-        public int GetPagesCount(int perPage)
-        {
-            var providersCount = _providerRepository.GetAll().Count();
-            int count = providersCount / perPage;
-            return count * perPage == providersCount ? count : count + 1;
         }
 
         public void CreateResponse(ProviderResponse response)
@@ -126,7 +130,7 @@ namespace ServicePlace.Logic.Services
             _responseRepository.GetBy(x => x.Creator.Id == userId);
 
         public IEnumerable<Provider> GetByCategory(int categoryId) =>
-            _providerRepository.GetBy(x => x.Category.Id == categoryId);
+            Providers.Where(x => x.Category.Id == categoryId);
 
         public IEnumerable<ProviderCategory> GetCategories() => _categoryRepository.GetAll();
 

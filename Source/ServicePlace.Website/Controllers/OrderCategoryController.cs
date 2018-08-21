@@ -55,10 +55,10 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id, int page = 1)
         {
             var orders = _orderService.GetByCategory(id).ToList();
-            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(orders.Count(), 8));
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(orders.Count(), Constants.ItemsPerPage));
             ViewBag.CategoryId = id;
             return View("_OrderByCategoryIndex", _orderMapper.MapToIndexOrderViewModel(
-                _orderService.GetPage(orders, page, 8),
+                _orderService.GetPage(orders, page, Constants.ItemsPerPage),
                 new[] { page, pageRange[0], pageRange[1] }));
         }
     }

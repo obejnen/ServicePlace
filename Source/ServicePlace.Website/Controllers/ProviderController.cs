@@ -29,6 +29,7 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Index(int page = 1)
         {
+            ViewBag.HasPrice = true;
             var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(_providerService.Providers.Count(), 8));
             var viewModel = _providerMapper
                 .MapToIndexProviderViewModel(_providerService.GetPage(page, 8), new[] { page, pageRange[0], pageRange[1] });
@@ -36,6 +37,7 @@ namespace ServicePlace.Website.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             if (User.Identity.IsAuthenticated)
@@ -62,6 +64,7 @@ namespace ServicePlace.Website.Controllers
             return RedirectToAction("Show", new { id = _providerService.Providers.Last().Id });
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var viewModel = _providerMapper.MapToCreateProviderViewModel(_providerService.Get(id));
@@ -92,6 +95,7 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id)
         {
             var viewModel = _providerMapper.MapToProviderViewModel(_providerService.Get(id));
+            ViewBag.Controller = "Provider";
 
             return View(viewModel);
         }

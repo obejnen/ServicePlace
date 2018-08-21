@@ -5,8 +5,6 @@
     ViewBag.Title = "Create order";
 }
 
-<link rel="stylesheet" href="~/Content/order.css" />
-<script src="~/Scripts/dropzone.js"></script>
 @Styles.Render("~/Content/dropzonecss")
 
 <div class="create-form w3-container w3-card-4">
@@ -19,7 +17,7 @@
         <br />
 
         @Html.LabelFor(m => m.Title)
-        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input" })
+        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input", @id = "title-input" })
         @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
 
         <br />
@@ -40,13 +38,7 @@
 
     @Html.Partial("Partials/_DropzonePartial", new ViewDataDictionary { { "Selector", "order-images" }, { "Multiple", true } })
     <br />
-    <button onclick="submitForm()" class="w3-button w3-black w3-hover-white">Create</button>
+    <button onclick="$('#order-form').submit()" class="w3-button w3-black w3-hover-white">Create</button>
     <br />
     <br />
 </div>
-
-<script>
-    function submitForm() {
-        $("#order-form").submit();
-    }
-</script>

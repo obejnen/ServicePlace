@@ -1,13 +1,13 @@
-﻿@using ServicePlace.Model.ViewModels.OrderViewModels
+﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
 @using ServicePlace.Website.Extensions
-@model IndexOrderViewModel
+@model IndexProviderViewModel
 
 @{
-    ViewBag.Title = "Orders";
+    ViewBag.Title = "Providers";
     int categoryId = ViewBag.CategoryId;
 }
 
-@using (Html.BeginForm("Search", "Order", FormMethod.Post, new { @class = "w3-right search-form" }))
+@using (Html.BeginForm("Search", "Provider", FormMethod.Post, new { @class = "w3-right search-form" }))
 {
     @Html.Hidden("categoryId", (string)ViewBag.CategoryId.ToString())
     <div class="search-div">
@@ -19,7 +19,8 @@
 }
 
 
-@Html.Action("Index", "OrderCategory")
+
+@Html.Action("Index", "ProviderCategory")
 
 <br />
 <hr />
@@ -28,5 +29,5 @@
 
 @if (Model.CurrentPage != 0)
 {
-    @Html.Page("Show", "OrderCategory", Model.CurrentPage, Model.MinPage, Model.MaxPage, categoryId)
+    @Html.Page("Show", "ProviderCategory", Model.CurrentPage, Model.MinPage, Model.MaxPage, categoryId)
 }

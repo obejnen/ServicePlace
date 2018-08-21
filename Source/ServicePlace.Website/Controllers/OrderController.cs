@@ -34,33 +34,28 @@ namespace ServicePlace.Website.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var viewModel = _orderMapper.GetCreateOrderViewModel();
-                return View(viewModel);
-            }
-            return RedirectToAction("Login", "Account");
+            var viewModel = _orderMapper.GetCreateOrderViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var order = _orderMapper
-                    .MapToOrderModel(model,
-                                     _userService.FindByUserName(User.Identity.GetUserName()));
+            if (!ModelState.IsValid) return View(model);
+            var order = _orderMapper
+                .MapToOrderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
 
-                _orderService.Create(order);
-                return RedirectToAction("Show", "Order", new { id = _orderService.Orders.Last().Id });
-            }
+            _orderService.Create(order);
+            return RedirectToAction("Show", "Order", new { id = _orderService.GetAll().Last().Id });
 
-            return View(model);
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var viewModel = _orderMapper.MapToCreateOrderViewModel(_orderService.Get(id));
@@ -71,16 +66,13 @@ namespace ServicePlace.Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreateOrderViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var order = _orderMapper
-                    .MapToOrderModel(model,
-                        _userService.FindByUserName(User.Identity.GetUserName()));
-                _orderService.Update(order);
-                return RedirectToAction("Show", "Order", new { id = order.Id });
-            }
+            if (!ModelState.IsValid) return View(model);
+            var order = _orderMapper
+                .MapToOrderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
+            _orderService.Update(order);
+            return RedirectToAction("Show", "Order", new { id = order.Id });
 
-            return View(model);
         }
 
         [HttpPost]
@@ -105,13 +97,17 @@ namespace ServicePlace.Website.Controllers
         public ActionResult Show(int id)
         {
             var model = _orderMapper.MapToOrderViewModel(_orderService.Get(id));
-            return View(model);
+            if(model.Approved || 
+               User.IsInRole(Common.Constants.AdminRoleName) || 
+               User.Identity.GetUserId() == model.User.Id) return View(model);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Search(string searchString, int page = 1, int categoryId = 0)
         {
             var searchResult = _orderService.SearchOrder(searchString, categoryId).ToList();
             var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), 8));
+            ViewBag.Action = "Search";
             return View("Index",
                 _orderMapper
                     .MapToIndexOrderViewModel(_orderService.GetPage(searchResult, page, 8),

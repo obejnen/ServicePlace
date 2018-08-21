@@ -38,7 +38,7 @@ namespace ServicePlace.Website.Controllers
             var providerResponse = _providerResponseMapper
                 .MapToProviderResponseModel(viewModel, _userService.FindByUserName(User.Identity.GetUserName()));
             _providerService.CreateResponse(providerResponse);
-            return RedirectToAction("Index", $"Provider/{viewModel.ProviderId}");
+            return RedirectToAction("Show", "Provider", new { id = viewModel.ProviderId });
         }
 
         [HttpPost]

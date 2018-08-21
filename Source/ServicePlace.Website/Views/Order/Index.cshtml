@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Orders";
+    string action = ViewBag.Action ?? "Index";
 }
 
 <link rel="stylesheet" href="~/Content/order.css" />
@@ -24,9 +25,10 @@
 <br />
 <hr />
 <br />
+
 @Html.Partial("Partials/_OrderProviderIndexPartial", Model)
 
 @if (Model.CurrentPage != 0)
 {
-    @Html.Page("Index", "Order", Model.CurrentPage, Model.MinPage, Model.MaxPage)
+    @Html.Page(action, "Order", Model.CurrentPage, Model.MinPage, Model.MaxPage)
 }

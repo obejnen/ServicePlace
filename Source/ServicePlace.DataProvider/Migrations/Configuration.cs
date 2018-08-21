@@ -5,7 +5,7 @@ namespace ServicePlace.DataProvider.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ServicePlace.DataProvider.DbContexts.ApplicationContext>
+    public sealed class Configuration : DbMigrationsConfiguration<ServicePlace.DataProvider.DbContexts.ApplicationContext>
     {
         public Configuration()
         {

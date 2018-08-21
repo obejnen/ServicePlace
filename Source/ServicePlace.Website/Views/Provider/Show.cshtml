@@ -1,12 +1,11 @@
-﻿@using ServicePlace.Common
+﻿@using Microsoft.AspNet.Identity
 @using ServicePlace.Model.ViewModels.ProviderViewModels
+@using Constants = ServicePlace.Common.Constants
 @model ProviderViewModel
 
 @{
     ViewBag.Title = Model.Title;
 }
-
-<link rel="stylesheet" href="~/Content/provider.css" />
 
 <div class="w3-card-4 order-image w3-display-container">
     <img src="@Constants.HeaderImage" class="header-image">
@@ -18,7 +17,7 @@
 </div>
 
 <div class="status-actions">
-    @if (User.Identity.Name == Model.User.Name || User.IsInRole("admin"))
+    @if (User.Identity.GetUserId() == Model.User.Id || User.IsInRole(Constants.AdminRoleName))
     {
         using (Html.BeginForm("Delete", "Provider", FormMethod.Post, new { @id = "delete-form" }))
         {
@@ -28,6 +27,17 @@
         <div>
             @Html.ActionLink("Edit", "Edit", "Provider", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
             <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
+        </div>
+    }
+    @if (User.IsInRole(Constants.AdminRoleName) && !Model.Approved)
+    {
+        using (Html.BeginForm("ApproveProvider", "Admin", FormMethod.Post, new { @id = "approve-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("providerId", Model.Id)
+        }
+        <div>
+            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">Approve</a>
         </div>
     }
 </div>
@@ -61,7 +71,7 @@
         }
         else
         {
-            if (Model.Images.First() != Constants.DefaultOrderImage)
+            if (Model.Images.First() != Constants.DefaultProviderImage)
             {
                 <a href="@Model.Images.First()" target="_blank">
                     <img src="@Model.Images.First()" class="content-image" />

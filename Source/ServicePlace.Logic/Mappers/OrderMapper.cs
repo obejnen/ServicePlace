@@ -29,6 +29,7 @@ namespace ServicePlace.Logic.Mappers
                 Title = order.Title,
                 Body = order.Body,
                 Closed = order.Closed,
+                Approved = order.Approved,
                 Images = order.Images.Select(x => x.Url),
                 CreatedAt = order.CreatedAt,
                 User = new UserViewModel
