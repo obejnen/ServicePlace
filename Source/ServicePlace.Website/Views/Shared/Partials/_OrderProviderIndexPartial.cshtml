@@ -1,0 +1,65 @@
+﻿@{
+    var hasPrice = (bool?) ViewBag.HasPrice;
+    string controllerName = ViewBag.Controller;
+}
+<div class="w3-row-padding w3-col w3-padding-16 w3-center w3-rest">
+    @foreach (var item in @Model.FirstPart)
+    {
+        <a href="@Url.Action("Show", controllerName, new { id = item.Id })">
+            <div class="w3-quarter">
+                <div class="w3-display-container">
+                    <img src="@(((IEnumerable<string>)item.Images).First())" class="index-preview-image">
+                    <div class="w3-display-bottomright w3-text-white" style="text-shadow:1px 1px 0 #000;margin-right: 5px; padding-bottom: 15px;">
+                        @(DateTime.Now.Subtract(item.CreatedAt).Hours > 24
+                              ? $"Created {DateTime.Now.Subtract(item.CreatedAt).Days} days ago"
+                              : $"Created {DateTime.Now.Subtract(item.CreatedAt).Hours} hours ago")
+                    </div>
+                    <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
+                        @(
+                            hasPrice == true ? $"Price: {item.Price}" : ""
+                        )
+                    </div>
+                </div>
+                <div class="provider-title">
+                    <h3>@(controllerName == null
+                              ? Html.Raw($"<a href=\"{@Url.Action("Show", new {id = item.Id})}\">{item.Title}</a>")
+                              : Html.Raw($"<a href=\"{@Url.Action("Show", controllerName, new { id = item.Id })}\">{item.Title}</a>"))</h3>
+                </div>
+                <div class="preview-body">
+                    <p>@item.Body</p>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+@if (Model.SecondPart != null)
+{
+<div class="w3-row-padding w3-col w3-padding-16 w3-center w3-rest">
+    @foreach (var item in @Model.SecondPart)
+    {
+        <a href="@Url.Action("Show", controllerName, new { id = item.Id })">
+            <div class="w3-quarter">
+                <div class="w3-display-container">
+                    <img src="@(((IEnumerable<string>)item.Images).First())" class="index-preview-image">
+                    <div class="w3-display-bottomright w3-text-white" style="text-shadow: 1px 1px 0 #000;margin-right: 5px; padding-bottom: 15px;">
+                        @(DateTime.Now.Subtract(item.CreatedAt).Hours > 24
+                              ? $"Created {DateTime.Now.Subtract(item.CreatedAt).Days} days ago"
+                              : $"Created {DateTime.Now.Subtract(item.CreatedAt).Hours} hours ago")
+                    </div>
+                    <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
+                        @(
+                            hasPrice == true ? $"Price: {item.Price}" : ""
+                         )
+                    </div>
+                </div>
+                <div class="provider-title">
+                    <h3><a href="@Url.Action("Show", controllerName, new { id = item.Id })">@item.Title</a></h3>
+                </div>
+                <div class="preview-body">
+                    <p>@item.Body</p>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+}

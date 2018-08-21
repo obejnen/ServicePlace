@@ -1,0 +1,34 @@
+﻿@{
+    var isSmall = (bool)ViewData["Multiple"] ? "" : "small";
+}
+
+@using (Ajax.BeginForm("Upload", "Image", null
+    , new AjaxOptions { HttpMethod = "POST" }
+    , new { @class = $"dropzone image-dropzone w3-card-4 {isSmall}", @id = "dropzoneForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="dz-message" data-dz-message><span>Upload image/images</span></div>
+    <input name="file" type="file" id="fileInput" multiple style="display: none" />
+}
+
+<script>
+    function addImage(data) {
+        $('#@ViewData["Selector"]').val($('#@ViewData["Selector"]').val()+ " " + data);
+    }
+
+    $(function () {
+        Dropzone.options.dropzoneForm = {
+            parallelUploads: 8,
+            @((bool)ViewData["Multiple"] ? "" : "maxFiles: 1,")
+            acceptedFiles: "image/*",
+            maxFilesize: 5,
+            init: function () {
+                dropzone = Dropzone.forElement("#dropzoneForm");
+                dropzone.on("success",
+                    function(file, response) {
+                        addImage(response.url);
+                    });
+            }
+        }
+    });
+</script>

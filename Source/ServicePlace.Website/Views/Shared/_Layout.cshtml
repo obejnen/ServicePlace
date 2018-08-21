@@ -4,35 +4,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#datepickerfrom").datepicker();
-            $("#datepickerto").datepicker();
-        });
-    </script>
     <title>Service Place</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/dropzonecss")
 </head>
 <body>
+    <!-- Sidebar (hidden by default) -->
+    <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left navbar-transparent" style="display:none;z-index:2;width:40%;min-width:300px" id="menuSidebar">
+        <a href="javascript:void(0)" onclick="toggleSidebar('menuSidebar')"
+           class="w3-bar-item w3-button">Close Menu</a>
+        @Html.ActionLink("Orders", "Index", "Order", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @Html.ActionLink("Providers", "Index", "Provider", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @Html.ActionLink("Need service", "Create", "Order", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @Html.ActionLink("Provide service", "Create", "Provider", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+    </nav>
+
+    <!-- Top menu -->
     <div class="w3-top">
-        <div class="w3-bar w3-black w3-card">
-            <a class="w3-bar-item w3-button w3-padding-large" asp-controller="Home" asp-action="Index">HOME</a>
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Order" asp-action="Index">ORDERS</a>
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Executor" asp-action="Index">EXECUTORS</a>
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Order" asp-action="Create">NEED SERVICE</a>
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" asp-controller="Executor" asp-action="Create">PROVIDE SERVICE</a>
-            <partial name="_LoginPartial" />
+        <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+            <div class="w3-button w3-padding-16 w3-left" onclick="toggleSidebar('menuSidebar')">Menu</div>
+            <div class="w3-button w3-padding-16 w3-left" onclick="toggleSidebar('categoriesSidebar')">Categories</div>
+            <div>@Html.Partial("_LoginPartial")</div>
+            <div class="w3-center w3-padding-16 site-title" id="#title"><strong>@ViewBag.Title</strong></div>
         </div>
     </div>
-    <div class="main">
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
         @RenderBody()
     </div>
-    @RenderSection("Scripts", required: false)
+    <!-- End page content -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dropzonescripts")
+    @Scripts.Render("~/Scripts/javascripts")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

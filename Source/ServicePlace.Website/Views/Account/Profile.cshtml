@@ -1,0 +1,113 @@
+﻿@using ServicePlace.Model.ViewModels.AccountViewModels
+@model ProfileViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+
+@Scripts.Render("~/Scripts/profilescripts")
+
+<div class="profile-container">
+    <div class="w3-card-4 w3-display-container profile-image-container">
+        <img src="@Model.Avatar" class="profile-image">
+    </div>
+    <div class="profile-info">
+        <h1>@Model.UserName</h1>
+        <h2>@Model.Name</h2>
+        @if (User.IsInRole("admin"))
+        {
+            @Html.ActionLink("Admin Panel", "Index", "Admin", null, new { @class = "w3-button w3-white w3-hover-black" })
+        }
+    </div>
+    <div class="profile-stats">
+        <h4>@(Model.Orders.Orders.Any() ? $"Orders count: {Model.Orders.Orders.Count()}" : "")</h4>
+        <h4>@(Model.Providers.Providers.Any() ? $"Providers count: {Model.Providers.Providers.Count()}" : "")</h4>
+        <h4>@(Model.OrderResponses.OrderResponses.Any() ? $"Order responses count: {Model.OrderResponses.OrderResponses.Count()}" : "")</h4>
+        <h4>@(Model.ProviderResponses.ProviderResponses.Any() ? $"Provider responses count: {Model.ProviderResponses.ProviderResponses.Count()}" : "")</h4>
+    </div>
+</div>
+<br />
+<br />
+<div class="profile-items">
+    <div class="profile-items-buttons">
+        @if (Model.Orders.Orders.Any())
+        {
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')" id="orders-button">Orders</button>
+        }
+        @if (Model.Providers.Providers.Any())
+        {
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('providers')" id="providers-button">Providers</button>
+        }
+        @if (Model.OrderResponses.OrderResponses.Any())
+        {
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-responses')" id="order-responses-button">Order responses</button>
+        }
+        @if (Model.ProviderResponses.ProviderResponses.Any())
+        {
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')" id="provider-responses-button">Provider responses</button>
+        }
+    </div>
+    <div class="profile-items-content">
+        @if(Model.Orders.Orders.Any())
+        {
+        <div id="orders" class="w3-animate-top">
+            <h3><strong>Orders</strong></h3>
+            @foreach (var order in Model.Orders.Orders)
+            {
+                @Html.ActionLink(order.Title, "Show", "Order", new { id = order.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                if(!order.Approved)
+                {
+                    <span style="font-size: 10px">Waiting for moderation</span>
+                }
+                <br />
+            }
+        </div>
+        }
+        @if (Model.Providers.Providers.Any())
+        {
+            <div id="providers" class="w3-animate-top">
+                <h3><strong>Providers</strong></h3>
+                @foreach (var provider in Model.Providers.Providers)
+                {
+                    @Html.ActionLink(provider.Title, "Show", "Provider", new {id = provider.Id}, new {@class = "w3-button w3-white w3-hover-black"})
+                    if(!provider.Approved)
+                    {
+                        <span style="font-size: 10px">Waiting for moderation</span>
+                    }
+                    <br/>
+                }
+            </div>
+        }
+        @if (Model.OrderResponses.OrderResponses.Any())
+        {
+            <div id="order-responses" class="w3-animate-top">
+                <h3><strong>Order responses</strong></h3>
+                @foreach (var orderResponse in Model.OrderResponses.OrderResponses)
+                {
+                    @Html.ActionLink($"Response on {orderResponse.Order.Title}", "Show", "Order", new {id = orderResponse.Order.Id}, new {@class = "w3-button w3-white w3-hover-black"})
+                    <br/>
+                }
+            </div>
+        }
+        @if (Model.ProviderResponses.ProviderResponses.Any())
+        {
+            <div id="provider-responses" class="w3-animate-top">
+                <h3><strong>Provider responses</strong></h3>
+                @foreach (var providerResponse in Model.ProviderResponses.ProviderResponses)
+                {
+                    <button class="w3-button w3-white w3-hover-black">
+                        <text>Response on </text>
+                        <strong>@Html.ActionLink(providerResponse.Provider.Title
+                                    , "Show", "Provider", new {id = providerResponse.Provider.Id}
+                                    , new {@class = "w3-button w3-hover-white"})</strong>
+                        <text> about </text>
+                        <strong>@Html.ActionLink(providerResponse.Order.Title
+                                    , "Show", "Order", new {id = providerResponse.Order.Id}
+                                    , new {@class = "w3-button w3-hover-white"})</strong>
+                    </button>
+                    <br/>
+                    <br/>
+                }
+            </div>
+        }
+    </div>
+</div>

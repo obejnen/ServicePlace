@@ -1,16 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ServicePlace.DataProvider.Models;
+﻿using System;
+using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using ServicePlace.DataProvider.Managers;
+using ServicePlace.DataProvider.Migrations;
+using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.DbContexts
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public ApplicationContext() : base("name = DefaultConnection")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
         }
 
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderCategory> OrderCategories { get; set; }
+
+        public DbSet<OrderResponse> OrderResponses { get; set; }
+
+        public DbSet<Provider> Providers { get; set; }
+
+        public DbSet<ProviderResponse> ProviderResponses { get; set; }
+
+        public DbSet<ProviderCategory> ProviderCategories { get; set; }
+
+        public DbSet<Image> Photos { get; set; }
     }
 }

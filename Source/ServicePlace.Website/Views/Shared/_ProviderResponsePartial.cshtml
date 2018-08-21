@@ -1,0 +1,35 @@
+﻿@using ServicePlace.Model.ViewModels.ProviderResponseViewModels
+@model CreateProviderResponseViewModel
+
+@{
+    Layout = null;
+}
+
+@if (Model.Orders.Any())
+{
+    <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">Write comment</button>
+    <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
+    <br />
+    <br />
+    <div class="order-response-form" id="response-form">
+        @using (Html.BeginForm("Create", "ProviderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+        {
+            <h2>Responde</h2>
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(m => m.ProviderId, Model.ProviderId)
+            @Html.LabelFor(m => m.OrderId, "Provider")
+            @Html.DropDownListFor(m => m.OrderId, Model.Orders, new { @class = "w3-select" })
+            <br />
+            @Html.LabelFor(m => m.Comment)
+            @Html.TextAreaFor(m => m.Comment, new { @class = "w3-input" })
+            <br />
+            <br />
+            <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
+            <br />
+            <br />
+        }
+        <br />
+        <br />
+    </div>
+}

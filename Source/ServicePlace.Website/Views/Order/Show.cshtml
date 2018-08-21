@@ -1,0 +1,106 @@
+﻿@using Microsoft.AspNet.Identity
+@using ServicePlace.Model.ViewModels.OrderViewModels
+@using Constants = ServicePlace.Common.Constants
+@model OrderViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<link rel="stylesheet" href="~/Content/order.css" />
+
+<div class="w3-card-4 order-image w3-display-container">
+    <img src="@Constants.HeaderImage" class="header-image">
+    <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
+        @Model.User.Name
+    </div>
+    <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">Created by @Model.User.UserName</div>
+    <div class="w3-display-bottomright w3-container w3-text-white">Created at @Model.CreatedAt</div>
+</div>
+
+<div class="status-actions">
+    @if (User.Identity.GetUserId()== Model.User.Id || User.IsInRole(Constants.AdminRoleName))
+    {
+        if (!Model.Closed)
+        {
+            using (Html.BeginForm("Close", "Order", FormMethod.Post, new { @id = "close-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("orderId", Model.Id)
+            }
+            <div>
+                <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#close-form').submit()">Close Order</a>
+            </div>
+        }
+        using (Html.BeginForm("Delete", "Order", FormMethod.Post, new { @id = "delete-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", Model.Id)
+        }
+        <div>
+            @Html.ActionLink("Edit", "Edit", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
+        </div>
+    }
+    @if (User.IsInRole(Constants.AdminRoleName) && !Model.Approved)
+    {
+        using (Html.BeginForm("ApproveOrder", "Admin", FormMethod.Post, new { @id = "approve-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("orderId", Model.Id)
+        }
+        <div>
+            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">Approve</a>
+        </div>
+    }
+    <div class="w3-right status">
+        <strong>
+            Status:
+            <text class="status-open">
+                @(Model.Closed ? "Closed" : "Open")
+            </text>
+        </strong>
+    </div>
+</div>
+
+<br />
+<br />
+<hr />
+<br />
+
+<div class="w3-xlarge">
+    @Model.Body
+</div>
+
+@if (Model.Images.Any())
+{
+    if (Model.Images.Count() > 1)
+    {
+        foreach (var image in Model.Images)
+        {
+            <a href="@image" target="_blank">
+                <img src="@image" class="content-image" />
+            </a>
+        }
+    }
+    else
+    {
+        if (Model.Images.First() != Constants.DefaultOrderImage)
+        {
+            <a href="@Model.Images.First()" target="_blank">
+                <img src="@Model.Images.First()" class="content-image" />
+            </a>
+        }
+    }
+}
+
+<br />
+<hr />
+
+<div class="response-container">
+    @if (User.Identity.IsAuthenticated && !Model.Closed)
+    {
+        @Html.Action("Create", "OrderResponse", new { orderId = Model.Id })
+    }
+    @Html.Action("Index", "OrderResponse", new { orderId = Model.Id })
+</div>

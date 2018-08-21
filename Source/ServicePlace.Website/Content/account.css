@@ -1,0 +1,32 @@
+﻿.profile-image {
+    height: 200px;
+    width: 200px;
+}
+
+.profile-image-container {
+    margin-right: 30px;
+}
+
+.profile-container {
+    display: flex;
+}
+
+.profile-info {
+    padding-right: 30px;
+}
+
+.profile-items {
+
+}
+
+.profile-items-buttons {
+    display: flex;
+}
+
+.profile-items-content {
+
+}
+
+.profile-button {
+    margin-right: 10px;
+}

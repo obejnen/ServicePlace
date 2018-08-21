@@ -1,0 +1,33 @@
+﻿@using ServicePlace.Model.ViewModels.ProviderViewModels
+@using ServicePlace.Website.Extensions
+@model IndexProviderViewModel
+
+@{
+    ViewBag.Title = "Providers";
+    int categoryId = ViewBag.CategoryId;
+}
+
+@using (Html.BeginForm("Search", "Provider", FormMethod.Post, new { @class = "w3-right search-form" }))
+{
+    @Html.Hidden("categoryId", (string)ViewBag.CategoryId.ToString())
+    <div class="search-div">
+        <div class="search-container">
+            @Html.TextBox("searchString", null, new { @class = "w3-input search-field", placeholder = "Search" })
+        </div>
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="Search" />
+    </div>
+}
+
+
+
+@Html.Action("Index", "ProviderCategory")
+
+<br />
+<hr />
+<br />
+@Html.Partial("Partials/_OrderProviderIndexPartial", Model)
+
+@if (Model.CurrentPage != 0)
+{
+    @Html.Page("Show", "ProviderCategory", Model.CurrentPage, Model.MinPage, Model.MaxPage, categoryId)
+}

@@ -1,11 +1,34 @@
-﻿@using ServicePlace.Website.Models.OrderViewModels
-@model IEnumerable<PreviewViewModel>
+﻿@using ServicePlace.Model.ViewModels.OrderViewModels
+@using ServicePlace.Website.Extensions
+@model IndexOrderViewModel
 
 @{
-    Layout = "_Layout";
+    ViewBag.Title = "Orders";
+    string action = ViewBag.Action ?? "Index";
 }
 
-@foreach (var order in Model)
+<link rel="stylesheet" href="~/Content/order.css" />
+
+@using (Html.BeginForm("Search", "Order", FormMethod.Post, new { @class = "w3-right search-form" }))
 {
-    <partial name="/Views/Partials/Order/Preview.cshtml" for="@order" />
+    <div class="search-div">
+        <div class="search-container">
+            @Html.TextBox("searchString", null, new { @class = "w3-input search-field", placeholder = "Search" })
+        </div>
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="Search" />
+    </div>
+}
+
+
+@Html.Action("Index", "OrderCategory")
+
+<br />
+<hr />
+<br />
+
+@Html.Partial("Partials/_OrderProviderIndexPartial", Model)
+
+@if (Model.CurrentPage != 0)
+{
+    @Html.Page(action, "Order", Model.CurrentPage, Model.MinPage, Model.MaxPage)
 }

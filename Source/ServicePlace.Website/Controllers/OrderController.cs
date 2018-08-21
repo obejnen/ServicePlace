@@ -1,74 +1,117 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using ServicePlace.Logic;
-using ServicePlace.DataProvider.Models;
-using Microsoft.AspNetCore.Identity;
-using ServicePlace.Website.Models.OrderViewModels;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using ServicePlace.Common;
+using ServicePlace.Logic.Interfaces.Mappers;
+using ServicePlace.Logic.Interfaces.Services;
+using ServicePlace.Model.ViewModels.OrderViewModels;
 
 namespace ServicePlace.Website.Controllers
 {
-    public class OrderController : BaseController
+    public class OrderController : Controller
     {
-        private OrderService orderService = OrderInitializer.GetService(10);
-        private UserManager<User> userManager;
+        private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
+        private readonly IOrderMapper _orderMapper;
+        private readonly PageHelper _helper;
 
-        public OrderController(UserManager<User> userManager)
+        public OrderController(
+            IOrderService orderService, 
+            IUserService userService, 
+            IOrderMapper orderMapper, 
+            PageHelper helper)
         {
-            this.userManager = userManager;
+            _orderService = orderService;
+            _userService = userService;
+            _orderMapper = orderMapper;
+            _helper = helper;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<List<ServicePlace.Model.Order>, List<PreviewViewModel>>());
-            var model = Mapper.Map<List<ServicePlace.Model.Order>, IEnumerable<PreviewViewModel>>(orderService.Orders);           
-            Mapper.Reset();
-            return View(model);
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(_orderService.Orders.Count(), 8));
+            var viewModel = _orderMapper.MapToIndexOrderViewModel(_orderService.GetPage(page, 8), new []{ page, pageRange[0], pageRange[1] });
+            return View(viewModel);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        [Authorize]
+        public ActionResult Create()
         {
-            var order = orderService.GetOrder(id);
-
-            Mapper.Initialize(cfg => cfg.CreateMap<ServicePlace.Model.Order, ShowViewModel>()
-                .ForMember("CreatedAt", opt => opt.MapFrom(src => src.CreatedAt.ToString())));
-            var model = Mapper.Map<ServicePlace.Model.Order, ShowViewModel>(order);
-            Mapper.Reset();
-
-            if (order == null) return NotFound(new
-            {
-                Error = $"Order #{id} has not been found"
-            });
-
-            return View(model);
-        }
-
-        [HttpGet]
-        [Route("Create")]
-        public IActionResult Create()
-        {
-            return View();
+            var viewModel = _orderMapper.GetCreateOrderViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Post(CreateViewModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CreateOrderViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                Mapper.Initialize(cfg => cfg.CreateMap<CreateViewModel, ServicePlace.Model.Order>()
-                    .ForMember("Creator", opt => opt.UseValue(userManager.GetUserName(User))));
-                var order = Mapper.Map<CreateViewModel, ServicePlace.Model.Order>(model);
-                Mapper.Reset();
-                orderService.AddOrder(order);
-                return RedirectToLocal($"Order/{orderService.Orders.Last().Id}");
-            }
+            if (!ModelState.IsValid) return View(model);
+            var order = _orderMapper
+                .MapToOrderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
 
-            return View("Get", orderService.Orders.Last());
+            _orderService.Create(order);
+            return RedirectToAction("Show", "Order", new { id = _orderService.GetAll().Last().Id });
+
+        }
+
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var viewModel = _orderMapper.MapToCreateOrderViewModel(_orderService.Get(id));
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreateOrderViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var order = _orderMapper
+                .MapToOrderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
+            _orderService.Update(order);
+            return RedirectToAction("Show", "Order", new { id = order.Id });
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            _orderService.Delete(_orderService.Get(id));
+            return RedirectToAction("Index", "Order");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Close(int orderId)
+        {
+            if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Profile.Id)
+            {
+                _orderService.CloseOrder(orderId);
+            }
+            return RedirectToAction("Show", "Order", new { id = orderId });
+        }
+
+        public ActionResult Show(int id)
+        {
+            var model = _orderMapper.MapToOrderViewModel(_orderService.Get(id));
+            if(model.Approved || 
+               User.IsInRole(Common.Constants.AdminRoleName) || 
+               User.Identity.GetUserId() == model.User.Id) return View(model);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Search(string searchString, int page = 1, int categoryId = 0)
+        {
+            var searchResult = _orderService.SearchOrder(searchString, categoryId).ToList();
+            var pageRange = _helper.GetPageRange(page, _helper.GetPagesCount(searchResult.Count(), 8));
+            ViewBag.Action = "Search";
+            return View("Index",
+                _orderMapper
+                    .MapToIndexOrderViewModel(_orderService.GetPage(searchResult, page, 8),
+                                              new []{ page, pageRange[0], pageRange[1]}));
         }
     }
 }

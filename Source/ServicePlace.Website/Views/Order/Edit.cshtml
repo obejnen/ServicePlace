@@ -1,0 +1,39 @@
+﻿@using ServicePlace.Model.ViewModels.OrderViewModels
+@model CreateOrderViewModel
+
+@{
+    ViewBag.Title = "Edit order";
+}
+
+<link rel="stylesheet" href="~/Content/order.css" />
+
+<div class="create-form w3-container w3-card-4">
+    @using (Html.BeginForm("Edit", "Order", FormMethod.Post, new { @id = "order-form" }))
+    {
+        <h2>@ViewBag.Title</h2>
+        <br />
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <br />
+
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title, new { @class = "w3-input" })
+        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+
+        <br />
+        @Html.LabelFor(m => m.Body)
+        @Html.TextAreaFor(m => m.Body, new { @class = "w3-input" })
+        @Html.ValidationMessageFor(m => m.Body, "", new { @class = "text-danger" })
+
+        <br />
+
+        @Html.LabelFor(m => m.CategoryId, "Category")
+        @Html.DropDownListFor(m => m.CategoryId, Model.Categories, new { @class = "w3-select" })
+
+        <br />
+        <br />
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="Edit"/>
+        <br />
+        <br />
+    }
+</div>
