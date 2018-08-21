@@ -97,7 +97,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Order> Take(int skip, int count)
         {
-            return _orderRepository.Take(skip, count);
+            return Orders.Skip(skip).Take(count);
         }
 
         public IEnumerable<Order> GetPage(int page, int perPage)
@@ -136,8 +136,6 @@ namespace ServicePlace.Logic.Services
 
         public void DeleteResponse(OrderResponse response)
         {
-            response.Order = null;
-            response.Provider = null;
             _responseRepository.Delete(response);
             _contextProvider.CommitChanges();
         }

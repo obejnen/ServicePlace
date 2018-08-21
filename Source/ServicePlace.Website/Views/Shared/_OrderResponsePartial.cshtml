@@ -1,4 +1,5 @@
-﻿@using ServicePlace.Model.ViewModels.OrderResponseViewModels
+﻿@using Newtonsoft.Json
+@using ServicePlace.Model.ViewModels.OrderResponseViewModels
 @model CreateOrderResponseViewModel
 
 @{
@@ -11,8 +12,10 @@
     <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
     <br />
     <br />
-    <div class="order-response-form" id="response-form">
-        @using (Html.BeginForm("Create", "OrderResponse", FormMethod.Post, new { @class = "w3-container w3-card-4" }))
+    <div class="order-response-form" id="response-div">
+        @using (Ajax.BeginForm("Create", "OrderResponse", null,
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "addToOrderResponse"},
+            new { @class = "w3-container w3-card-4", @id = "response-form"}))
         {
             <h2>Responde</h2>
             @Html.AntiForgeryToken()
@@ -30,12 +33,17 @@
             <br />
             <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
             <br />
+            <input type="hidden" id="response"/>
             <br />
         }
         <br />
         <br />
 
     </div>
+
+    <script>
+        
+    </script>
 }
 else
 {

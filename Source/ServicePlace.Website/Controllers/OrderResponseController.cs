@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderResponseViewModels;
@@ -35,7 +36,7 @@ namespace ServicePlace.Website.Controllers
         {
             var orderResponse = _orderResponseMapper.MapToOrderResponseModel(model, _userService.FindByUserName(User.Identity.GetUserName()));
             _orderService.CreateResponse(orderResponse);
-            return RedirectToAction("Show", "Order", new { id = model.OrderId });
+            return PartialView("Partials/_OrderResponse",_orderResponseMapper.MapToOrderResponseViewModel(orderResponse));
         }
 
         [HttpPost]

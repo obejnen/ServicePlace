@@ -10,60 +10,9 @@
     Layout = null;
 }
 
-@foreach (var orderResponse in Model.OrderResponses)
-{
-    <div class="order-response">
-        <div class="order-response-image w3-card-4">
-            <img src="@orderResponse.Provider.User.Avatar" />
-        </div>
-        <div class="w3-card-2 order-response-content">
-            <header class="w3-container w3-light-gray">
-                <h3>
-                    <strong>
-                        <div class="status-actions">
-                            @Html.ActionLink(@orderResponse.Provider.Title, "Show", "Provider", new { id = orderResponse.Provider.Id }, null)
-                            @if (orderResponse.Completed)
-                            {
-                                <i class="far fa-check-circle status-icon status-icon-completed"></i>
-                            }
-                            @if (User.Identity.GetUserId() == orderResponse.Order.User.Id && !orderResponse.Order.Closed)
-                            {
-                                using (Html.BeginForm("Complete", "OrderResponse", FormMethod.Post, new { @id = $"complete-form-{orderResponse.Id}" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("orderId", orderResponse.Order.Id)
-                                    @Html.Hidden("orderResponseId", orderResponse.Id)
-                                    <i class="far fa-check-circle status-icon complete-icon" onclick=@($"$('#complete-form-{orderResponse.Id}').submit()")></i>
-                                }
-                            }
-                        </div>
-                    </strong>
-                </h3>
-            </header>
-            <div class="w3-container">
-                <p>@orderResponse.Comment</p>
-            </div>
-        </div>
-        <div class="w3-card-2 w3-light-gray order-response-info">
-            <div class="w3-container">
-                <p>@orderResponse.Price</p>
-            </div>
-            <div class="w3-container">
-                <p>@orderResponse.CreatedAt</p>
-            </div>
-            @if (@orderResponse.Provider.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
-            {
-            <div class="w3-container">
-                @using (Html.BeginForm("Delete", "OrderResponse", FormMethod.Post, new { @id = "delete-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("id", orderResponse.Id)
-                }
-                <a class="w3-button w3-white w3-hover-black" onclick="$('#delete-form').submit()">Delete</a>
-            </div>
-            }
-        </div>
-    </div>
-    <br />
-    <br />
-}
+<div id="order-responses">
+    @foreach (var orderResponse in Model.OrderResponses)
+    {
+        @Html.Partial("Partials/_OrderResponse", orderResponse)
+    }
+</div>
