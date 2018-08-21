@@ -26,7 +26,7 @@
 
         <br/>
         @Html.LabelFor(m => m.Price)
-        @Html.TextBoxFor(m => m.Price, new {@class = "w3-input"})
+        @Html.TextBoxFor(m => m.Price, new { @class = "w3-input", @type = "number" })
         @Html.ValidationMessageFor(m => m.Price, "", new {@class = "text-danger"})
 
         <br/>
