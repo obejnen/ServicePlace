@@ -19,16 +19,3 @@ function hideForm() {
     $("#response-form").hide();
     $("#response-form").removeClass("w3-animate-top");
 }
-
-$(function () {
-    $("#providers").hide();
-    $("#order-responses").hide();
-    $("#provider-responses").hide();
-});
-function openContent(id) {
-    $("#orders").hide();
-    $("#providers").hide();
-    $("#order-responses").hide();
-    $("#provider-responses").hide();
-    $("#" + id).show();
-};

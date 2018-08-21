@@ -246,7 +246,7 @@
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\dropzone.js" />
-    <Content Include="Scripts\dropzone\admin.js" />
+    <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -267,6 +267,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\profile.js" />
     <Content Include="Scripts\responseForms.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Views\Account\Profile.cshtml" />

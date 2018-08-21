@@ -43,6 +43,9 @@ namespace ServicePlace.Website
             bundles.Add(new ScriptBundle("~/Scripts/javascripts")
                 .Include("~/Scripts/site.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/profilescripts")
+                .Include("~/Scripts/profile.js"));
+
             bundles.Add(new ScriptBundle("~/Scripts/adminscripts")
                 .Include("~/Scripts/admin.js"));
         }
