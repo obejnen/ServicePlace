@@ -37,6 +37,7 @@ namespace ServicePlace.Website.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             if (User.Identity.IsAuthenticated)
@@ -63,6 +64,7 @@ namespace ServicePlace.Website.Controllers
             return RedirectToAction("Show", new { id = _providerService.Providers.Last().Id });
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var viewModel = _providerMapper.MapToCreateProviderViewModel(_providerService.Get(id));

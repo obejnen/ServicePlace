@@ -31,19 +31,19 @@
     <div class="profile-items-buttons">
         @if (Model.Orders.Orders.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')">Orders</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('orders')" id="orders-button">Orders</button>
         }
         @if (Model.Providers.Providers.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('providers')">Providers</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('providers')" id="providers-button">Providers</button>
         }
         @if (Model.OrderResponses.OrderResponses.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-responses')">Order responses</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('order-responses')" id="order-responses-button">Order responses</button>
         }
         @if (Model.ProviderResponses.ProviderResponses.Any())
         {
-            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')">Provider responses</button>
+            <button class="w3-button w3-white w3-hover-black profile-button" onclick="openContent('provider-responses')" id="provider-responses-button">Provider responses</button>
         }
     </div>
     <div class="profile-items-content">

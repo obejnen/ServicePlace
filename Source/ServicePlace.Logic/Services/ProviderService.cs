@@ -50,6 +50,7 @@ namespace ServicePlace.Logic.Services
             if (providerToUpdate == null) return;
             provider.CreatedAt = providerToUpdate.CreatedAt;
             provider.Images = providerToUpdate.Images;
+            provider.Approved = false;
             _providerRepository.Update(provider);
             _contextProvider.CommitChanges();
         }

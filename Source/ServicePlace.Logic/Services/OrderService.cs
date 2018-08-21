@@ -50,6 +50,7 @@ namespace ServicePlace.Logic.Services
             if (orderToUpdate == null) return;
             order.CreatedAt = orderToUpdate.CreatedAt;
             order.Images = orderToUpdate.Images;
+            order.Approved = false;
             _orderRepository.Update(order);
             _contextProvider.CommitChanges();
         }
@@ -84,7 +85,7 @@ namespace ServicePlace.Logic.Services
             return _orderRepository.GetBy(x => x.Id == (int) id).SingleOrDefault();
         }
 
-        public IEnumerable<Order> GetAll() => _orderRepository.GetAll();
+        public IEnumerable<Order> GetAll() => _orderRepository.GetAll().OrderBy(x => x.CreatedAt);
 
         public IEnumerable<OrderResponse> GetAllOrderResponses() => _responseRepository.GetAll();
 

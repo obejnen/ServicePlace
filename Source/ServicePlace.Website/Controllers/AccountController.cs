@@ -78,6 +78,7 @@ namespace ServicePlace.Website.Controllers
             });
         }
 
+        [Authorize]
         public new ActionResult Profile()
         {
             var viewModel = _userMapper.MapToProfileViewModel(_userService.FindByUserName(User.Identity.GetUserName()));

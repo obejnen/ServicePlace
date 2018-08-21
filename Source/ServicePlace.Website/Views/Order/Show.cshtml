@@ -1,5 +1,6 @@
-﻿@using ServicePlace.Model.ViewModels.OrderViewModels
-@using ServicePlace.Common
+﻿@using Microsoft.AspNet.Identity
+@using ServicePlace.Model.ViewModels.OrderViewModels
+@using Constants = ServicePlace.Common.Constants
 @model OrderViewModel
 
 @{
@@ -18,7 +19,7 @@
 </div>
 
 <div class="status-actions">
-    @if (User.Identity.Name == Model.User.Name || User.IsInRole(Constants.AdminRoleName))
+    @if (User.Identity.GetUserId()== Model.User.Id || User.IsInRole(Constants.AdminRoleName))
     {
         if (!Model.Closed)
         {

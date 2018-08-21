@@ -34,33 +34,28 @@ namespace ServicePlace.Website.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var viewModel = _orderMapper.GetCreateOrderViewModel();
-                return View(viewModel);
-            }
-            return RedirectToAction("Login", "Account");
+            var viewModel = _orderMapper.GetCreateOrderViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var order = _orderMapper
-                    .MapToOrderModel(model,
-                                     _userService.FindByUserName(User.Identity.GetUserName()));
+            if (!ModelState.IsValid) return View(model);
+            var order = _orderMapper
+                .MapToOrderModel(model,
+                    _userService.FindByUserName(User.Identity.GetUserName()));
 
-                _orderService.Create(order);
-                return RedirectToAction("Show", "Order", new { id = _orderService.Orders.Last().Id });
-            }
+            _orderService.Create(order);
+            return RedirectToAction("Show", "Order", new { id = _orderService.GetAll().Last().Id });
 
-            return View(model);
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var viewModel = _orderMapper.MapToCreateOrderViewModel(_orderService.Get(id));
