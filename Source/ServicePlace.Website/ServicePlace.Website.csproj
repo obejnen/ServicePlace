@@ -329,7 +329,8 @@
     <Content Include="Views\Shared\_ProviderByCategoryIndex.cshtml" />
     <Content Include="Views\Shared\Partials\_OrderResponse.cshtml" />
     <Content Include="Views\Shared\Partials\_ProviderResponse.cshtml" />
-    <Content Include="Views\Shared\Partials\Notification.cshtml" />
+    <Content Include="Views\Shared\Partials\_OrderResponseNotification.cshtml" />
+    <Content Include="Views\Shared\Partials\_ProviderResponseNotitifaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

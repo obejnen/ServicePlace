@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.ProviderResponseViewModels;
+using ServicePlace.Website.Extensions;
+using ServicePlace.Website.Hubs;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -39,6 +41,10 @@ namespace ServicePlace.Website.Controllers
                 .MapToProviderResponseModel(viewModel, _userService.FindByUserName(User.Identity.GetUserName()));
             _providerService.CreateResponse(providerResponse);
             var responseModel = _providerResponseMapper.MapToProviderResponseViewModel(providerResponse);
+            var objNotifHub = new NotificationHub();
+            objNotifHub.SendNotification(responseModel.Provider.User.UserName,
+                PartialView("Partials/_ProviderResponseNotitifaction", responseModel)
+                    .ConvertToString(ControllerContext));
             return PartialView("Partials/_ProviderResponse", responseModel);
         }
 

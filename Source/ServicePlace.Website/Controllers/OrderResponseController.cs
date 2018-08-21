@@ -41,7 +41,9 @@ namespace ServicePlace.Website.Controllers
             _orderService.CreateResponse(orderResponse);
             var viewModel = _orderResponseMapper.MapToOrderResponseViewModel(orderResponse);
             var objNotifHub = new NotificationHub();
-            objNotifHub.SendNotification(viewModel.Order.User.UserName, PartialView("Partials/Notification", viewModel).ConvertToString(ControllerContext));
+            objNotifHub.SendNotification(viewModel.Order.User.UserName, 
+                PartialView("Partials/_OrderResponseNotification", viewModel)
+                    .ConvertToString(ControllerContext));
             return PartialView("Partials/_OrderResponse", viewModel);
         }
 
