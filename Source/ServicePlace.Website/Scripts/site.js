@@ -38,3 +38,7 @@ function removeFromProviderResponses(id) {
 function removeFromOrderResponses(id) {
     $("#order-response-" + id).remove();
 }
+
+function closeNotification(id) {
+    $("#" + id).hide();
+}

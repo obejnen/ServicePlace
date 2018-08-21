@@ -30,6 +30,7 @@ namespace ServicePlace.Website
                       "~/Content/provider.css",
                       "~/Content/category.css",
                       "~/Content/order-response.css",
+                      "~/Content/notification.css",
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
@@ -40,8 +41,9 @@ namespace ServicePlace.Website
                 "~/Scripts/dropzone/dropzone.css",
                 "~/Content/imagedropzone.css"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/javascripts")
-                .Include("~/Scripts/site.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/javascripts").Include(
+                "~/Scripts/site.js",
+                "~/Scripts/notification.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/profilescripts")
                 .Include("~/Scripts/profile.js"));

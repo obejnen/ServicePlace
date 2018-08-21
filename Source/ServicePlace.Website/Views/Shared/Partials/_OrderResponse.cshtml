@@ -2,59 +2,61 @@
 @using ServicePlace.Model.ViewModels.OrderResponseViewModels
 @model OrderResponseViewModel
 
-<div class="order-response" id=@($"order-response-{@Model.Id}")>
-    <div class="order-response-image w3-card-4">
-        <img src="@Model.Provider.User.Avatar" />
-    </div>
-    <div class="w3-card-2 order-response-content">
-        <header class="w3-container w3-light-gray">
-            <h3>
-                <strong>
-                    <div class="status-actions">
-                        @Html.ActionLink(@Model.Provider.Title, "Show", "Provider", new { id = Model.Provider.Id }, null)
-                        @if (Model.Completed)
-                        {
-                            <i class="far fa-check-circle status-icon status-icon-completed"></i>
-                        }
-                        @if (User.Identity.GetUserId() == Model.Order.User.Id && !Model.Order.Closed)
-                        {
-                            using (Html.BeginForm("Complete", "OrderResponse", FormMethod.Post, new { @id = $"complete-form-{Model.Id}" }))
+<div id=@($"order-response-{@Model.Id}")>
+    <div class="order-response">
+        <div class="order-response-image w3-card-4">
+            <img src="@Model.Provider.User.Avatar" />
+        </div>
+        <div class="w3-card-2 order-response-content">
+            <header class="w3-container w3-light-gray">
+                <h3>
+                    <strong>
+                        <div class="status-actions">
+                            @Html.ActionLink(@Model.Provider.Title, "Show", "Provider", new { id = Model.Provider.Id }, null)
+                            @if (Model.Completed)
                             {
-                                @Html.AntiForgeryToken()
-                                @Html.Hidden("orderId", Model.Order.Id)
-                                @Html.Hidden("orderResponseId", Model.Id)
-                                <i class="far fa-check-circle status-icon complete-icon" onclick=@($"$('#complete-form-{Model.Id}').submit()")></i>
+                                <i class="far fa-check-circle status-icon status-icon-completed"></i>
                             }
-                        }
-                    </div>
-                </strong>
-            </h3>
-        </header>
-        <div class="w3-container">
-            <p>@Model.Comment</p>
-        </div>
-    </div>
-    <div class="w3-card-2 w3-light-gray order-response-info">
-        <div class="w3-container">
-            <p>@Model.Price</p>
-        </div>
-        <div class="w3-container">
-            <p>@Model.CreatedAt</p>
-        </div>
-        @if (@Model.Provider.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
-        {
+                            @if (User.Identity.GetUserId() == Model.Order.User.Id && !Model.Order.Closed)
+                            {
+                                using (Html.BeginForm("Complete", "OrderResponse", FormMethod.Post, new { @id = $"complete-form-{Model.Id}" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("orderId", Model.Order.Id)
+                                    @Html.Hidden("orderResponseId", Model.Id)
+                                    <i class="far fa-check-circle status-icon complete-icon" onclick=@($"$('#complete-form-{Model.Id}').submit()")></i>
+                                }
+                            }
+                        </div>
+                    </strong>
+                </h3>
+            </header>
             <div class="w3-container">
-                @using (Ajax.BeginForm("Delete", "OrderResponse", null,
-                    new AjaxOptions { HttpMethod = "POST", OnSuccess = "removeFromOrderResponses" },
-                    new { @id = "delete-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("id", Model.Id)
-                    <input type="submit" class="w3-button w3-white w3-hover-black" value="Delete"/>
-                }
+                <p>@Model.Comment</p>
             </div>
-        }
+        </div>
+        <div class="w3-card-2 w3-light-gray order-response-info">
+            <div class="w3-container">
+                <p>@Model.Price</p>
+            </div>
+            <div class="w3-container">
+                <p>@Model.CreatedAt</p>
+            </div>
+            @if (@Model.Provider.User.Id == User.Identity.GetUserId() || User.IsInRole("admin"))
+            {
+                <div class="w3-container">
+                    @using (Ajax.BeginForm("Delete", "OrderResponse", null,
+                        new AjaxOptions { HttpMethod = "POST", OnSuccess = "removeFromOrderResponses" },
+                        new { @id = "delete-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", Model.Id)
+                        <input type="submit" class="w3-button w3-white w3-hover-black" value="Delete" />
+                    }
+                </div>
+            }
+        </div>
     </div>
+    <br />
+    <br />
 </div>
-<br />
-<br />

@@ -3,36 +3,38 @@
 @using ServicePlace.Model.ViewModels.ProviderResponseViewModels
 @model ProviderResponseViewModel
 
-<div class="order-response" id=@($"provider-response-{Model.Id}")>
-    <div class="order-response-image">
-        <img src="@Model.Order.User.Avatar" />
-    </div>
-    <div class="w3-card-2 order-response-content">
-        <header class="w3-container w3-light-gray">
-            <h3><strong>@Html.ActionLink(Model.Order.Title, "Show", "Order", new { id = Model.Order.Id }, null)</strong></h3>
-        </header>
-        <div class="w3-container">
-            <p>@Model.Comment</p>
+<div id=@($"provider-response-{Model.Id}")>
+    <div class="order-response">
+        <div class="order-response-image">
+            <img src="@Model.Order.User.Avatar" />
         </div>
-    </div>
-    <div class="w3-card-2 w3-light-gray order-response-info">
-        <div class="w3-container">
-            <p>@Model.CreatedAt</p>
-        </div>
-        @if (Model.Order.User.Id == User.Identity.GetUserId() || User.IsInRole(Constants.AdminRoleName))
-        {
+        <div class="w3-card-2 order-response-content">
+            <header class="w3-container w3-light-gray">
+                <h3><strong>@Html.ActionLink(Model.Order.Title, "Show", "Order", new { id = Model.Order.Id }, null)</strong></h3>
+            </header>
             <div class="w3-container">
-                @using (Ajax.BeginForm("Delete", "ProviderResponse", null,
-                    new AjaxOptions { HttpMethod = "POST", OnSuccess = "removeFromProviderResponses"},
-                    new { @id = "delete-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("id", Model.Id)
-                    <input type="submit" class="w3-button w3-white w3-hover-black" value="Delete"/>
-                }
+                <p>@Model.Comment</p>
             </div>
-        }
+        </div>
+        <div class="w3-card-2 w3-light-gray order-response-info">
+            <div class="w3-container">
+                <p>@Model.CreatedAt</p>
+            </div>
+            @if (Model.Order.User.Id == User.Identity.GetUserId() || User.IsInRole(Constants.AdminRoleName))
+            {
+                <div class="w3-container">
+                    @using (Ajax.BeginForm("Delete", "ProviderResponse", null,
+                        new AjaxOptions { HttpMethod = "POST", OnSuccess = "removeFromProviderResponses" },
+                        new { @id = "delete-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", Model.Id)
+                        <input type="submit" class="w3-button w3-white w3-hover-black" value="Delete" />
+                    }
+                </div>
+            }
+        </div>
     </div>
+    <br />
+    <br />
 </div>
-<br />
-<br />
