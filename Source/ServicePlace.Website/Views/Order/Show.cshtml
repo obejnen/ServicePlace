@@ -98,7 +98,7 @@
 <hr />
 
 <div class="response-container">
-    @if (User.Identity.IsAuthenticated && !Model.Closed)
+    @if (User.Identity.IsAuthenticated && !Model.Closed && Model.User.Id != User.Identity.GetUserId())
     {
         @Html.Action("Create", "OrderResponse", new { orderId = Model.Id })
     }

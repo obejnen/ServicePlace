@@ -50,7 +50,7 @@
 </div>
 
 <div class="w3-xxxlarge w3-right">
-    Price: @Model.Price
+    Price: @($"{Model.Price:C2}")
 </div>
 <br />
 <br />
@@ -82,7 +82,7 @@
 </div>
 
 <div class="response-container">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && User.Identity.GetUserId() != Model.User.Id)
     {
         @Html.Action("Create", "ProviderResponse", new { providerId = Model.Id })
     }

@@ -14,8 +14,8 @@
     <br />
     <div class="order-response-form w3-animate-top" id="response-div">
         @using (Ajax.BeginForm("Create", "OrderResponse", null,
-            new AjaxOptions { HttpMethod = "POST", OnSuccess = "addToOrderResponse"},
-            new { @class = "w3-container w3-card-4", @id = "response-form"}))
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "addToOrderResponse" },
+            new { @class = "w3-container w3-card-4", @id = "response-form" }))
         {
             <h2>Responde</h2>
             @Html.AntiForgeryToken()
@@ -25,15 +25,17 @@
             @Html.DropDownListFor(m => m.ProviderId, Model.Providers, new { @class = "w3-select" })
             <br />
             @Html.LabelFor(m => m.Price)
-            @Html.TextBoxFor(m => m.Price, new { @class = "w3-input" })
+            @Html.TextBoxFor(m => m.Price, new { @class = "w3-input", @type = "number" })
+            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
             <br />
             @Html.LabelFor(m => m.Comment)
             @Html.TextAreaFor(m => m.Comment, new { @class = "w3-input" })
+            @Html.ValidationMessageFor(m => m.Comment, "", new {@class = "text-danger"})
             <br />
             <br />
             <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
             <br />
-            <input type="hidden" id="response"/>
+            <input type="hidden" id="response" />
             <br />
         }
         <br />

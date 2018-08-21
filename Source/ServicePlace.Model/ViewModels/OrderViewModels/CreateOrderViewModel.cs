@@ -10,10 +10,12 @@ namespace ServicePlace.Model.ViewModels.OrderViewModels
         public int Id { get; set; }
 
         [Required]
+        [MinLength(3)]
         [AllowHtml]
         public string Title { get; set; }
 
         [Required]
+        [MinLength(3)]
         [AllowHtml]
         public string Body { get; set; }
 
