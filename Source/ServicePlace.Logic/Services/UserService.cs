@@ -41,7 +41,7 @@ namespace ServicePlace.Logic.Services
                 }
             };
             _repository.Create(user);
-            _repository.AddToRole(user.Id, "user");
+            _repository.AddToRole(user.Id, Constants.UserRoleName);
             _contextProvider.CommitChanges();
         }
 
