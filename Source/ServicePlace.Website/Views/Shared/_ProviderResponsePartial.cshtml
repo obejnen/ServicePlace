@@ -1,8 +1,6 @@
 ﻿@using ServicePlace.Model.ViewModels.ProviderResponseViewModels
 @model CreateProviderResponseViewModel
 
-<link rel="stylesheet" href="~/Content/order-response.css" />
-
 @{
     Layout = null;
 }
@@ -33,32 +31,5 @@
         }
         <br />
         <br />
-
     </div>
-    <script>
-        $(function () {
-            $("#response-form").hide();
-            $("#hide-form-button").hide();
-        });
-        function openForm() {
-            $("#hide-form-button").show();
-            $("#open-form-button").hide();
-            $("#response-form").show();
-            $("#response-form").addClass("w3-animate-top");
-        }
-
-        function hideForm() {
-            $("#open-form-button").show();
-            $("#hide-form-button").hide();
-            $("#response-form").hide();
-            $("#response-form").removeClass("w3-animate-top");
-        }
-    </script>
 }
-@*else
-{
-    using (Html.BeginForm("Create", "Provider"))
-    {
-        <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
-    }
-}*@

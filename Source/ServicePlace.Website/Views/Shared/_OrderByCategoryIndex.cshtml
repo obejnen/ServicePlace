@@ -7,8 +7,6 @@
     int categoryId = ViewBag.CategoryId;
 }
 
-<link rel="stylesheet" href="~/Content/order.css" />
-
 @using (Html.BeginForm("Search", "Order", FormMethod.Post, new { @class = "w3-right search-form" }))
 {
     @Html.Hidden("categoryId", (string)ViewBag.CategoryId.ToString())

@@ -1,28 +1,16 @@
 ﻿@using ServicePlace.Model.ViewModels.OrderCategoryViewModels
 @model IndexOrderCategoryViewModel
 
-<link rel="stylesheet" href="~/Content/category.css"/>
-
 @{
     Layout = null;
 }
 
 <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-large w3-animate-left category-navbar navbar-transparent"
-     style="display: none; z-index: 3; width: 40%; min-width: 300px; position: absolute;" id="mySidebar2">
-    <a href="javascript:void(0)" onclick="w3_close2()"
+     style="display: none; z-index: 3; width: 40%; min-width: 300px; position: absolute;" id="categoriesSidebar">
+    <a href="javascript:void(0)" onclick="toggleSidebar('categoriesSidebar')"
        class="w3-bar-item w3-button">Close Menu</a>
     @foreach (var category in Model.Categories)
     {
         @Html.ActionLink(category.Name, "Show", "OrderCategory", new { id = category.Id }, new { @class = "w3-bar-item w3-button", onclick = "w3_close2()" })
     }
 </nav>
-
-<script>
-    function w3_open2() {
-        document.getElementById("mySidebar2").style.display = "block";
-    }
-
-    function w3_close2() {
-        document.getElementById("mySidebar2").style.display = "none";
-    }
-</script>
