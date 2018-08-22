@@ -2,10 +2,8 @@
 @model CreateProviderViewModel
 
 @{
-    ViewBag.Title = "Create provider";
+    ViewBag.Title = Resources.Resource.CreateProvider;
 }
-
-<link rel="stylesheet" href="~/Content/provider.css" />
 
 <div class="create-form w3-container w3-card-4">
     @using (Html.BeginForm("Create", "Provider", FormMethod.Post, new {@id = "provider-form"}))
@@ -40,7 +38,9 @@
     }
     @Html.Partial("Partials/_DropzonePartial", new ViewDataDictionary { { "Selector", "provider-images" }, { "Multiple", true } })
     <br />
-    <button class="w3-button w3-black w3-hover-white" onclick="$('#provider-form').submit()">Create</button>
+    <button class="w3-button w3-black w3-hover-white" onclick="$('#provider-form').submit()">
+        @Resources.Resource.Create
+    </button>
     <br/>
     <br/>
 </div>

@@ -42,3 +42,8 @@ function removeFromOrderResponses(id) {
 function closeNotification(id) {
     $("#" + id).hide();
 }
+
+function setLang(lang) {
+    $("#lang-field").val(lang);
+    $("#lang-form").submit();
+}

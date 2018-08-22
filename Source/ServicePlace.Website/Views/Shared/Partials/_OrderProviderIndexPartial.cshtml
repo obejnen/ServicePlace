@@ -10,13 +10,11 @@
                 <div class="w3-display-container">
                     <img src="@(((IEnumerable<string>)item.Images).First())" class="index-preview-image">
                     <div class="w3-display-bottomright w3-text-white" style="text-shadow:1px 1px 0 #000;margin-right: 5px; padding-bottom: 15px;">
-                        @(DateTime.Now.Subtract(item.CreatedAt).Hours > 24
-                              ? $"Created {DateTime.Now.Subtract(item.CreatedAt).Days} days ago"
-                              : $"Created {DateTime.Now.Subtract(item.CreatedAt).Hours} hours ago")
+                        @Resources.Resource.Created @item.CreatedAt
                     </div>
                     <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
                         @(
-                            hasPrice == true ? $"Price: {item.Price}" : ""
+                            hasPrice == true ? $"{Resources.Resource.Price}: {item.Price}" : ""
                         )
                     </div>
                 </div>
@@ -42,13 +40,11 @@
                 <div class="w3-display-container">
                     <img src="@(((IEnumerable<string>)item.Images).First())" class="index-preview-image">
                     <div class="w3-display-bottomright w3-text-white" style="text-shadow: 1px 1px 0 #000;margin-right: 5px; padding-bottom: 15px;">
-                        @(DateTime.Now.Subtract(item.CreatedAt).Hours > 24
-                              ? $"Created {DateTime.Now.Subtract(item.CreatedAt).Days} days ago"
-                              : $"Created {DateTime.Now.Subtract(item.CreatedAt).Hours} hours ago")
+                        @Resources.Resource.Created @item.CreatedAt
                     </div>
                     <div class="w3-display-bottomright w3-text-white" style="margin-right: 5px;">
                         @(
-                            hasPrice == true ? $"Price: {item.Price}" : ""
+                            hasPrice == true ? $"{Resources.Resource.Price}: {item.Price}" : ""
                          )
                     </div>
                 </div>

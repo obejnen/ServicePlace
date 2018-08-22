@@ -12,8 +12,12 @@
     <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
         @Model.User.Name
     </div>
-    <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">Created by @Model.User.UserName</div>
-    <div class="w3-display-bottomright w3-container w3-text-white">Created at @Model.CreatedAt</div>
+    <div class="w3-display-bottomright w3-container w3-text-white" style="padding-bottom: 14px">
+        @Resources.Resource.Created @Model.User.UserName
+    </div>
+    <div class="w3-display-bottomright w3-container w3-text-white">
+        @Resources.Resource.Created @Model.CreatedAt
+    </div>
 </div>
 
 <div class="status-actions">
@@ -25,8 +29,10 @@
             @Html.Hidden("id", Model.Id)
         }
         <div>
-            @Html.ActionLink("Edit", "Edit", "Provider", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
-            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
+            @Html.ActionLink(Resources.Resource.Edit, "Edit", "Provider", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
+            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">
+                @Resources.Resource.Delete
+            </a>
         </div>
     }
     @if (User.IsInRole(Constants.AdminRoleName) && !Model.Approved)
@@ -37,7 +43,9 @@
             @Html.Hidden("providerId", Model.Id)
         }
         <div>
-            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">Approve</a>
+            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">
+                @Resources.Resource.Approve
+            </a>
         </div>
     }
 </div>
