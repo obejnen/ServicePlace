@@ -4,12 +4,12 @@
     using (Html.BeginForm("Logout", "Account", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <input class="w3-button w3-padding-16 w3-right" type="submit" value="Sign out" />
+        <input class="w3-button w3-padding-16 w3-right" type="submit" value="@Resources.Resource.SignOut" />
         @Html.ActionLink(@User.Identity.GetUserName(), "Profile", "Account", null, new { @class = "w3-button w3-padding-16 w3-right" })
     }
 }
 else
 {
-    @Html.ActionLink("Sign up", "Register", "Account", null, new { id = "registerLink", @class = "w3-button w3-padding-16 w3-right" })
-    @Html.ActionLink("Sign in", "Login", "Account", null, new { id = "loginLink", @class = "w3-button w3-padding-16 w3-right" })
+    @Html.ActionLink(Resources.Resource.SignUp, "Register", "Account", null, new { id = "registerLink", @class = "w3-button w3-padding-16 w3-right" })
+    @Html.ActionLink(Resources.Resource.SignIn, "Login", "Account", null, new { id = "loginLink", @class = "w3-button w3-padding-16 w3-right" })
 }

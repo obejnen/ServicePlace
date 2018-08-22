@@ -7,8 +7,6 @@
     ViewBag.Title = Model.Title;
 }
 
-<link rel="stylesheet" href="~/Content/order.css" />
-
 <div class="w3-card-4 order-image w3-display-container">
     <img src="@Constants.HeaderImage" class="header-image">
     <div class="w3-display-bottomleft w3-container w3-xxlarge w3-right w3-text-white">
@@ -29,7 +27,9 @@
                 @Html.Hidden("orderId", Model.Id)
             }
             <div>
-                <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#close-form').submit()">Close Order</a>
+                <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#close-form').submit()">
+                    @Resources.Resource.CloseOrder
+                </a>
             </div>
         }
         using (Html.BeginForm("Delete", "Order", FormMethod.Post, new { @id = "delete-form" }))
@@ -39,7 +39,9 @@
         }
         <div>
             @Html.ActionLink("Edit", "Edit", "Order", new { id = Model.Id }, new { @class = "w3-button w3-black w3-hover-white w3-right w3-xlarge" })
-            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">Delete</a>
+            <a class="w3-button w3-black w3-hover-white w3-right w3-xlarge" onclick="$('#delete-form').submit()">
+                @Resources.Resource.Delete
+            </a>
         </div>
     }
     @if (User.IsInRole(Constants.AdminRoleName) && !Model.Approved)
@@ -50,14 +52,16 @@
             @Html.Hidden("orderId", Model.Id)
         }
         <div>
-            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">Approve</a>
+            <a class="w3-button w3-black w3-hover-white w3-xlarge" onclick="$('#approve-form').submit()">
+                @Resources.Resource.Approve
+            </a>
         </div>
     }
     <div class="w3-right status">
         <strong>
-            Status:
+            @Resources.Resource.Status:
             <text class="status-open">
-                @(Model.Closed ? "Closed" : "Open")
+                @(Model.Closed ? Resources.Resource.Closed : Resources.Resource.Open)
             </text>
         </strong>
     </div>

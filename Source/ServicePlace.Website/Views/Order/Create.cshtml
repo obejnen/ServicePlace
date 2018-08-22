@@ -2,7 +2,7 @@
 @model CreateOrderViewModel
 
 @{
-    ViewBag.Title = "Create order";
+    ViewBag.Title = Resources.Resource.CreateOrder;
 }
 
 @Styles.Render("~/Content/dropzonecss")
@@ -38,7 +38,9 @@
 
     @Html.Partial("Partials/_DropzonePartial", new ViewDataDictionary { { "Selector", "order-images" }, { "Multiple", true } })
     <br />
-    <button onclick="$('#order-form').submit()" class="w3-button w3-black w3-hover-white">Create</button>
+    <button onclick="$('#order-form').submit()" class="w3-button w3-black w3-hover-white">
+        @Resources.Resource.Create
+    </button>
     <br />
     <br />
 </div>

@@ -3,18 +3,16 @@
 @model IndexProviderViewModel
 
 @{
-    ViewBag.Title = "Providers";
+    ViewBag.Title = Resources.Resource.Providers;
 }
-
-<link rel="stylesheet" href="~/Content/provider.css" />
 
 @using (Html.BeginForm("Search", "Provider", FormMethod.Post, new { @class = "w3-right search-form" }))
 {
     <div class="search-div">
         <div class="search-container">
-            @Html.TextBox("searchString", null, new { @class = "w3-input search-field", placeholder = "Search" })
+            @Html.TextBox("searchString", null, new { @class = "w3-input search-field", placeholder = $"{Resources.Resource.Search}" })
         </div>
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Search" />
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="@Resources.Resource.Search" />
     </div>
 }
 

@@ -8,8 +8,12 @@
 
 @if (Model.Providers.Any())
 {
-    <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">I can do it</button>
-    <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">Hide form</button>
+    <button onclick="openForm()" class="w3-button w3-black w3-hover-white" id="open-form-button">
+        @Resources.Resource.CreateResponse
+    </button>
+    <button class="w3-button w3-black w3-hover-white" onclick="hideForm()" id="hide-form-button">
+        @Resources.Resource.HideForm
+    </button>
     <br />
     <br />
     <div class="order-response-form w3-animate-top" id="response-div">
@@ -33,9 +37,8 @@
             @Html.ValidationMessageFor(m => m.Comment, "", new {@class = "text-danger"})
             <br />
             <br />
-            <input type="submit" value="Provide Service" class="w3-button w3-black w3-hover-white" />
+            <input type="submit" value="@Resources.Resource.Create" class="w3-button w3-black w3-hover-white" />
             <br />
-            <input type="hidden" id="response" />
             <br />
         }
         <br />
@@ -47,7 +50,9 @@ else
 {
     using (Html.BeginForm("Create", "Provider", FormMethod.Get))
     {
-        <button class="w3-button w3-black w3-hover-white" type="submit">Provide service</button>
+        <button class="w3-button w3-black w3-hover-white" type="submit">
+            @Resources.Resource.Create
+        </button>
         <br />
         <br />
     }

@@ -17,18 +17,33 @@
     <!-- Sidebar (hidden by default) -->
     <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left navbar-transparent" style="display:none;z-index:2;width:40%;min-width:300px" id="menuSidebar">
         <a href="javascript:void(0)" onclick="toggleSidebar('menuSidebar')"
-           class="w3-bar-item w3-button">Close Menu</a>
-        @Html.ActionLink("Orders", "Index", "Order", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
-        @Html.ActionLink("Providers", "Index", "Provider", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
-        @Html.ActionLink("Need service", "Create", "Order", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
-        @Html.ActionLink("Provide service", "Create", "Provider", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+           class="w3-bar-item w3-button">@Resources.Resource.CloseMenu</a>
+        @Html.ActionLink(Resources.Resource.Orders, "Index", "Order", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @Html.ActionLink(Resources.Resource.Providers, "Index", "Provider", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @Html.ActionLink(Resources.Resource.CreateOrder, "Create", "Order", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @Html.ActionLink(Resources.Resource.CreateProvider, "Create", "Provider", null, new { @class = "w3-bar-item w3-button", onclick = "toggleSidebar('menuSidebar')" })
+        @using (Html.BeginForm("ChangeLang", "Home", FormMethod.Post, new { @id = "lang-form", @style = "margin-left: 20px;"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("lang", "", new { @id = "lang-field" })
+            <a onclick="setLang('en')">
+                <img src="http://res.cloudinary.com/railsimagecloud/image/upload/v1534895143/gv48sh5xssojyhcgfn3u.svg" style="width: 40px" />
+            </a>
+            <a onclick="setLang('ru')">
+                <img src="http://res.cloudinary.com/railsimagecloud/image/upload/v1534895143/d3tsowpspgecqdrlmdj8.svg" style="width: 40px" />
+            </a>
+        }
     </nav>
 
     <!-- Top menu -->
     <div class="w3-top">
         <div class="w3-white w3-xlarge" style="max-width: 1200px; margin: auto">
-            <div class="w3-button w3-padding-16 w3-left" onclick="toggleSidebar('menuSidebar')">Menu</div>
-            <div class="w3-button w3-padding-16 w3-left" onclick="toggleSidebar('categoriesSidebar')">Categories</div>
+            <div class="w3-button w3-padding-16 w3-left" onclick="toggleSidebar('menuSidebar')">
+                @Resources.Resource.Menu
+            </div>
+            <div class="w3-button w3-padding-16 w3-left" onclick="toggleSidebar('categoriesSidebar')">
+                @Resources.Resource.Categories
+            </div>
             <div>@Html.Partial("_LoginPartial")</div>
             <div class="w3-center w3-padding-16 site-title" id="#title"><strong>@ViewBag.Title</strong></div>
         </div>

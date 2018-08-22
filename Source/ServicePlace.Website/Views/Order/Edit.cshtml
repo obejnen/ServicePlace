@@ -2,10 +2,8 @@
 @model CreateOrderViewModel
 
 @{
-    ViewBag.Title = "Edit order";
+    ViewBag.Title = Resources.Resource.Edit;
 }
-
-<link rel="stylesheet" href="~/Content/order.css" />
 
 <div class="create-form w3-container w3-card-4">
     @using (Html.BeginForm("Edit", "Order", FormMethod.Post, new { @id = "order-form" }))
@@ -32,7 +30,7 @@
 
         <br />
         <br />
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Edit"/>
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="@Resources.Resource.Edit"/>
         <br />
         <br />
     }
