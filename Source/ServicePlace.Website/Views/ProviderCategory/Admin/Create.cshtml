@@ -2,10 +2,8 @@
 @model CreateProviderCategoryViewModel
 
 @{
-    ViewBag.Title = "Create order";
+    ViewBag.Title = Resources.Resource.Create;
 }
-
-<link rel="stylesheet" href="~/Content/order.css" />
 
 <div class="create-form w3-container w3-card-4">
     @using (Html.BeginForm("Create", "ProviderCategory", FormMethod.Post))
@@ -22,7 +20,7 @@
 
         <br />
         <br />
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Create" />
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="@Resources.Resource.Create" />
         <br />
         <br />
     }

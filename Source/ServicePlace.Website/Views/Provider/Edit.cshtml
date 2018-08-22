@@ -2,10 +2,8 @@
 @model CreateProviderViewModel
 
 @{
-    ViewBag.Title = "Edit provider";
+    ViewBag.Title = Resources.Resource.Edit;
 }
-
-<link rel="stylesheet" href="~/Content/provider.css" />
 
 <div class="create-form w3-container w3-card-4">
     @using (Html.BeginForm("Edit", "Provider", FormMethod.Post, new { @id = "provider-form" }))
@@ -35,7 +33,7 @@
 
         <br />
         <br />
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Edit"/>
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="@Resources.Resource.Edit"/>
         <br />
         <br />
     }

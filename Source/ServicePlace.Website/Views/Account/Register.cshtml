@@ -2,7 +2,7 @@
 @model RegisterViewModel
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = Resources.Resource.SignUp;
 }
 
 <link rel="stylesheet" href="~/Content/identity.css"/>
@@ -50,7 +50,9 @@
     }
     @Html.Partial("Partials/_DropzonePartial", new ViewDataDictionary{ {"Selector","user-avatar"}, {"Multiple", false }})
     <br />
-    <button class="w3-button w3-black w3-hover-white" onclick="$('#register-form').submit()">Register</button>
+    <button class="w3-button w3-black w3-hover-white" onclick="$('#register-form').submit()">
+        @Resources.Resource.SignUp
+    </button>
     <br />
     <br />
 </div>

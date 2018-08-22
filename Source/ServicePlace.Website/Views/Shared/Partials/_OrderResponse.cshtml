@@ -37,7 +37,7 @@
         </div>
         <div class="w3-card-2 w3-light-gray order-response-info">
             <div class="w3-container">
-                <p>@Model.Price</p>
+                <p>@($"{Model.Price:C2}")</p>
             </div>
             <div class="w3-container">
                 <p>@Model.CreatedAt</p>
@@ -51,7 +51,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("id", Model.Id)
-                        <input type="submit" class="w3-button w3-white w3-hover-black" value="Delete" />
+                        <input type="submit" class="w3-button w3-white w3-hover-black" value="@Resources.Resource.Delete" />
                     }
                 </div>
             }

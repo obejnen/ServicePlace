@@ -5,6 +5,7 @@ using ServicePlace.Model.ViewModels.AccountViewModels;
 using Microsoft.AspNet.Identity;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Model.DTOModels;
+using Constants = ServicePlace.Common.Constants;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -79,9 +80,16 @@ namespace ServicePlace.Website.Controllers
         }
 
         [Authorize]
-        public new ActionResult Profile()
+        public ActionResult Profile(string id)
         {
-            var viewModel = _userMapper.MapToProfileViewModel(_userService.FindByUserName(User.Identity.GetUserName()));
+            ProfileViewModel viewModel;
+            if (!string.IsNullOrEmpty(id))
+            {
+                var user = _userService.Get(id);
+                viewModel = _userMapper.MapToProfileViewModel(_userService.FindByUserName(user.UserName));
+            }
+            else
+                viewModel = _userMapper.MapToProfileViewModel(_userService.FindByUserName(User.Identity.GetUserName()));
             return View("Profile", viewModel);
         }
     }

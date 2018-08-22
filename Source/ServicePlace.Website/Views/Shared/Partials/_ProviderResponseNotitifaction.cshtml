@@ -9,7 +9,7 @@
         <a class="w3-right" onclick=@($"closeNotification('order-response-notification')") style="cursor: pointer">X</a>
     </div>
     <div class="notification-content w3-white w3-text-black w3-large">
-        User @Model.Order.User.UserName writted comment in
+        @Resources.Resource.User <text> </text> @Model.Order.User.UserName @Resources.Resource.ProviderNotifBody
         @Html.ActionLink(Model.Provider.Title, "Show", "Provider", new { id = Model.Provider.Id }, null)
     </div>
 </div>

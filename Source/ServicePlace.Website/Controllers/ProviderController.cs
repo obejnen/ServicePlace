@@ -61,7 +61,7 @@ namespace ServicePlace.Website.Controllers
 
             _providerService.Create(provider);
 
-            return RedirectToAction("Show", new { id = _providerService.Providers.Last().Id });
+            return RedirectToAction("Show", new { id = _providerService.GetAll().Last().Id });
         }
 
         [Authorize]

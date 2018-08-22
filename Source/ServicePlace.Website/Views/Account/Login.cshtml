@@ -1,7 +1,7 @@
 ﻿@using ServicePlace.Model.ViewModels.AccountViewModels
 @model LoginViewModel
 @{
-    ViewBag.Title = "Sign in";
+    ViewBag.Title = Resources.Resource.SignIn;
 }
 
 <link rel="stylesheet" href="~/Content/identity.css"/>
@@ -14,7 +14,7 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.LabelFor(m => m.UserName)
+        @Html.DisplayFor(m => m.UserName)
         @Html.TextBoxFor(m => m.UserName, new { @class = "w3-input" })
         @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
 
@@ -25,7 +25,7 @@
 
         <br />
         <br />
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Sign in" />
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="@Resources.Resource.SignIn" />
         <br />
         <br />
     }

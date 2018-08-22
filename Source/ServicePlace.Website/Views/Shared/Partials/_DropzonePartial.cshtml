@@ -7,7 +7,9 @@
     , new { @class = $"dropzone image-dropzone w3-card-4 {isSmall}", @id = "dropzoneForm" }))
 {
     @Html.AntiForgeryToken()
-    <div class="dz-message" data-dz-message><span>Upload image/images</span></div>
+    <div class="dz-message" data-dz-message><span>
+        @Resources.Resource.ImageUpload
+    </span></div>
     <input name="file" type="file" id="fileInput" multiple style="display: none" />
 }
 

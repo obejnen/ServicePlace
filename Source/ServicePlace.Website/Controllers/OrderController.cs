@@ -5,6 +5,7 @@ using ServicePlace.Common;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderViewModels;
+using Constants = ServicePlace.Common.Constants;
 
 namespace ServicePlace.Website.Controllers
 {
@@ -87,7 +88,8 @@ namespace ServicePlace.Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Close(int orderId)
         {
-            if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Profile.Id)
+            if (User.Identity.GetUserId() == _orderService.Get(orderId).Creator.Profile.Id
+                || User.IsInRole(Constants.AdminRoleName))
             {
                 _orderService.CloseOrder(orderId);
             }

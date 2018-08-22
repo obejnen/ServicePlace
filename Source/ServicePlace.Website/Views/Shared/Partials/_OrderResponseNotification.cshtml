@@ -8,8 +8,8 @@
         </strong>
         <a class="w3-right" onclick=@($"closeNotification('order-response-notification')") style="cursor: pointer">X</a>
     </div>
-    <div class="notification-content w3-white w3-text-black w3-large">Provider 
+    <div class="notification-content w3-white w3-text-black w3-large">@Resources.Resource.Provider<text> </text>
         @Html.ActionLink(Model.Provider.Title, "Show", "Provider", new { id = Model.Provider.Id }, null)
-        responsed on your order 
+        @Resources.Resource.NotifBody<text> </text>
         @Html.ActionLink(Model.Order.Title, "Show", "Provider", new { id = Model.Order.Id }, null)</div>
 </div>

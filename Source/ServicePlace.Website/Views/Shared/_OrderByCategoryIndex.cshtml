@@ -3,7 +3,7 @@
 @model IndexOrderViewModel
 
 @{
-    ViewBag.Title = "Orders";
+    ViewBag.Title = Resources.Resource.Orders;
     int categoryId = ViewBag.CategoryId;
 }
 
@@ -12,9 +12,9 @@
     @Html.Hidden("categoryId", (string)ViewBag.CategoryId.ToString())
     <div class="search-div">
         <div class="search-container">
-            @Html.TextBox("searchString", null, new { @class = "w3-input search-field", placeholder = "Search" })
+            @Html.TextBox("searchString", null, new { @class = "w3-input search-field", placeholder = $"{Resources.Resource.Search}" })
         </div>
-        <input type="submit" class="w3-button w3-black w3-hover-white" value="Search" />
+        <input type="submit" class="w3-button w3-black w3-hover-white" value="@Resources.Resource.Search" />
     </div>
 }
 
