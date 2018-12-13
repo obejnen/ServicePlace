@@ -7,7 +7,7 @@ using ServicePlace.Model.DataModels;
 
 namespace ServicePlace.DataProvider.Repositories
 {
-    class ProviderCategoryRepository : BaseRepository<ProviderCategory>, IProviderCategoryRepository
+    public class ProviderCategoryRepository : BaseRepository<ProviderCategory>, IProviderCategoryRepository
     {
         protected override IEnumerable<Expression<Func<ProviderCategory, object>>> Includes =>
             new Expression<Func<ProviderCategory, object>>[]

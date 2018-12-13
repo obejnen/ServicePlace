@@ -268,6 +268,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order categories.
+        /// </summary>
+        public static string OrderCategories {
+            get {
+                return ResourceManager.GetString("OrderCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Responses.
         /// </summary>
         public static string OrderResponses {
@@ -345,6 +354,15 @@ namespace Resources {
         public static string Provider {
             get {
                 return ResourceManager.GetString("Provider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provider categories.
+        /// </summary>
+        public static string ProviderCategories {
+            get {
+                return ResourceManager.GetString("ProviderCategories", resourceCulture);
             }
         }
         

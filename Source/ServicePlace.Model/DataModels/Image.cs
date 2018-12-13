@@ -11,5 +11,10 @@ namespace ServicePlace.Model.DataModels
 
         [Required]
         public string Url { get; set; }
+
+        protected bool Equals(Image other)
+        {
+            return string.Equals(Url, other.Url);
+        }
     }
 }

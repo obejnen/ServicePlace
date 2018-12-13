@@ -31,5 +31,16 @@ namespace ServicePlace.Model.DataModels
         public User Creator { get; set; }
 
         public ICollection<Image> Images { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Order order &&
+                   Title == order.Title &&
+                   Body == order.Body &&
+                   EqualityComparer<OrderCategory>.Default.Equals(Category, order.Category) &&
+                   Closed == order.Closed &&
+                   Approved == order.Approved &&
+                   EqualityComparer<User>.Default.Equals(Creator, order.Creator);
+        }
     }
 }

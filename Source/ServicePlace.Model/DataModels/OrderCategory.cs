@@ -14,5 +14,12 @@ namespace ServicePlace.Model.DataModels
         public string Name { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is OrderCategory category &&
+                   Name == category.Name &&
+                   EqualityComparer<ICollection<Order>>.Default.Equals(Orders, category.Orders);
+        }
     }
 }

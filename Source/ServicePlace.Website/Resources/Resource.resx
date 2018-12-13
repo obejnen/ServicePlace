@@ -258,4 +258,10 @@
   <data name="WriteFeedback" xml:space="preserve">
     <value>Write feedback</value>
   </data>
+  <data name="OrderCategories" xml:space="preserve">
+    <value>Order categories</value>
+  </data>
+  <data name="ProviderCategories" xml:space="preserve">
+    <value>Provider categories</value>
+  </data>
 </root>

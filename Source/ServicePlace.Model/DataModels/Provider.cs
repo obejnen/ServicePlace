@@ -33,5 +33,19 @@ namespace ServicePlace.Model.DataModels
         public ICollection<Image> Images { get; set; }
 
         public ICollection<OrderResponse> OrderResponses { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Provider provider &&
+                   Title == provider.Title &&
+                   Body == provider.Body &&
+                   EqualityComparer<decimal?>.Default.Equals(Price, provider.Price) &&
+                   EqualityComparer<ProviderCategory>.Default.Equals(Category, provider.Category) &&
+                   CreatedAt == provider.CreatedAt &&
+                   Approved == provider.Approved &&
+                   EqualityComparer<User>.Default.Equals(Creator, provider.Creator) &&
+                   EqualityComparer<ICollection<Image>>.Default.Equals(Images, provider.Images) &&
+                   EqualityComparer<ICollection<OrderResponse>>.Default.Equals(OrderResponses, provider.OrderResponses);
+        }
     }
 }

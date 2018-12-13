@@ -1,13 +1,11 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Newtonsoft.Json;
 using ServicePlace.Logic.Interfaces.Mappers;
 using ServicePlace.Logic.Interfaces.Services;
 using ServicePlace.Model.ViewModels.OrderResponseViewModels;
 using ServicePlace.Website.Extensions;
 using ServicePlace.Website.Hubs;
-using ServicePlace.Website.Models.NotificationModels;
 
 namespace ServicePlace.Website.Controllers
 {
