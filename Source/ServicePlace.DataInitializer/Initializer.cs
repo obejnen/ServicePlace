@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Linq;
@@ -139,6 +140,7 @@ namespace ServicePlace.DataInitializer
                 .With(or => or.Provider = Pick<Provider>.RandomItemFrom(providers))
                 .With(or => or.Order = Pick<Order>.RandomItemFrom(orders))
                 .With(or => or.Creator = or.Provider.Creator)
+                .With(or => or.Completed = false)
                 .Build();
 
             var providerResponses = Builder<ProviderResponse>
@@ -163,6 +165,20 @@ namespace ServicePlace.DataInitializer
                 Context.OrderResponses.AddOrUpdate(x => x.Id, orderResponses.ToArray());
                 Context.ProviderResponses.AddOrUpdate(x => x.Id, providerResponses.ToArray());
                 Context.SaveChanges();
+        }
+
+        public OrderResponse CreateOrderResponse(Order order)
+        {
+            var provider = ProviderRepository.GetBy(x => x.Creator.Id != order.Creator.Id).First();
+            return new OrderResponse
+            {
+                Comment = "Comment",
+                Completed = false,
+                CreatedAt = DateTime.Now,
+                Order = order,
+                Provider = provider,
+                Creator = provider.Creator
+            };
         }
     }
 }

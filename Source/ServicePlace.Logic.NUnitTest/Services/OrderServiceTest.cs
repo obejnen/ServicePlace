@@ -27,7 +27,7 @@ namespace ServicePlace.Logic.NUnitTest.Services
         [Test]
         public void Create_CreatedOrder_ThrowsNoException()
         {
-            var order = new Order
+            var expected = new Order
             {
                 Title = "Order title",
                 Body = "Order body",
@@ -35,7 +35,9 @@ namespace ServicePlace.Logic.NUnitTest.Services
                 Creator = _initializer.IdentityRepository.GetAll().First(),
             };
 
-            Assert.That(() => _initializer.OrderService.Create(order), Throws.Nothing);
+            Assert.That(() => _initializer.OrderService.Create(expected), Throws.Nothing);
+            var actual = _initializer.OrderRepository.GetBy(x => x.Title == expected.Title).First();
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
@@ -212,7 +214,8 @@ namespace ServicePlace.Logic.NUnitTest.Services
             _initializer.OrderRepository.Update(order);
             _initializer.CommitProvider.CommitChanges();
             var orders = _initializer.OrderRepository.GetAll();
-            var expected = orders.Reverse().Take(orders.Count() - 1).Reverse();
+            var enumerable = orders.ToList();
+            var expected = enumerable.Skip(1).Take(enumerable.Count() - 1);
             var actual = _initializer.OrderService.Orders;
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -330,16 +333,12 @@ namespace ServicePlace.Logic.NUnitTest.Services
         [Test]
         public void GetOrderResponses_OrderResponses_ListOfOrderResponsesByOrderId()
         {
-            _initializer = new Initializer(100);
-            _initializer.InitializeDb();
-            var orderResponses = _initializer.OrderResponseRepository.GetAll().ToList();
-            var orderId = orderResponses
-                .GroupBy(order => order.Order.Id)
-                .OrderByDescending(order => order.Count()).First().Key;
-            var expected = _initializer
-                .OrderResponseRepository
-                .GetBy(x => x.Id == orderId).ToList();
-            var actual = _initializer.OrderService.GetOrderResponses(expected.First().Order.Id).ToList();
+            var order = _initializer.OrderRepository.GetAll().First();
+            _initializer.OrderResponseRepository.Create(_initializer.CreateOrderResponse(order));
+            _initializer.OrderResponseRepository.Create(_initializer.CreateOrderResponse(order));
+            _initializer.CommitProvider.CommitChanges();
+            var expected = _initializer.OrderResponseRepository.GetBy(x => x.Order.Id == order.Id).ToList();
+            var actual = _initializer.OrderService.GetOrderResponses(order.Id).ToList();
             CollectionAssert.AreEqual(expected, actual);
         }
 
