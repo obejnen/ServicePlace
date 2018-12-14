@@ -132,5 +132,71 @@ namespace ServicePlace.Logic.NUnitTest.Services
             var actual = _initializer.ProviderService.Providers.ToList();
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void GetAllProviderResponses_ProviderResponses_ListOfProviderResponses()
+        {
+            var expected = _initializer.ProviderResponseRepository.GetAll().ToList();
+            var actual = _initializer.ProviderService.GetAllProviderResponses().ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SearchProvider_FoundProvider_ApprovedByTitleProvider()
+        {
+            var expected = _initializer.ProviderRepository.GetBy(x => x.Approved).ToList().Last();
+            var actual = _initializer.ProviderService.SearchProvider(expected.Title).First();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SearchProvider_ProviderNotApproved_Null()
+        {
+            var provider = _initializer.ProviderRepository.GetAll().Last();
+            provider.Approved = false;
+            _initializer.ProviderRepository.Update(provider);
+            _initializer.CommitProvider.CommitChanges();
+            var actual = _initializer.ProviderService.SearchProvider(provider.Title).FirstOrDefault();
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public void SearchProvider_FoundProvider_ProviderByBody()
+        {
+            var expected = _initializer.ProviderRepository.GetAll().Last();
+            var actual = _initializer.ProviderService.SearchProvider(expected.Body).First();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void ApproveProvider_ApprovedProvider_Success()
+        {
+            var provider = _initializer.ProviderRepository.GetAll().First();
+            provider.Approved = false;
+            _initializer.ProviderRepository.Update(provider);
+            _initializer.CommitProvider.CommitChanges();
+            _initializer.ProviderService.ApproveProvider(provider.Id);
+            var actual = _initializer.ProviderRepository.GetBy(x => x.Id == provider.Id).First();
+            Assert.IsTrue(actual.Approved);
+        }
+
+        [Test]
+        public void ApproveProvider_ProviderNotFound_Success()
+        {
+            var list = _initializer.ProviderRepository.GetAll().ToList()
+                .Select(x =>
+                {
+                    x.Approved = false;
+                    return x;
+                });
+            foreach (var order in list)
+            {
+                _initializer.ProviderRepository.Update(order);
+                _initializer.CommitProvider.CommitChanges();
+            }
+            _initializer.ProviderService.ApproveProvider(_initializer.ProviderService.GetAll().OrderBy(x => x.Id).Last().Id + 1);
+            foreach (var actual in _initializer.ProviderRepository.GetAll())
+                Assert.IsFalse(actual.Approved);
+        }
     }
 }
