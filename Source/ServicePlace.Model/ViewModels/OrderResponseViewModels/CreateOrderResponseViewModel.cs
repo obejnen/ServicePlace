@@ -19,5 +19,15 @@ namespace ServicePlace.Model.ViewModels.OrderResponseViewModels
         public string Comment { get; set; }
 
         public IEnumerable<SelectListItem> Providers { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CreateOrderResponseViewModel model &&
+                   OrderId == model.OrderId &&
+                   ProviderId == model.ProviderId &&
+                   EqualityComparer<decimal?>.Default.Equals(Price, model.Price) &&
+                   Comment == model.Comment &&
+                   EqualityComparer<IEnumerable<SelectListItem>>.Default.Equals(Providers, model.Providers);
+        }
     }
 }

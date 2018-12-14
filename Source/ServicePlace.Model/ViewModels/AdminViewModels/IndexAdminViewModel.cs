@@ -18,5 +18,17 @@ namespace ServicePlace.Model.ViewModels.AdminViewModels
         public IndexProviderResponseViewModel ProviderResponses { get; set; }
         public IndexOrderCategoryViewModel OrderCategories { get; set; }
         public IndexProviderCategoryViewModel ProviderCategories { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is IndexAdminViewModel model &&
+                   EqualityComparer<IEnumerable<UserDTO>>.Default.Equals(Users, model.Users) &&
+                   EqualityComparer<IndexOrderViewModel>.Default.Equals(Orders, model.Orders) &&
+                   EqualityComparer<IndexProviderViewModel>.Default.Equals(Providers, model.Providers) &&
+                   EqualityComparer<IndexOrderResponseViewModel>.Default.Equals(OrderResponses, model.OrderResponses) &&
+                   EqualityComparer<IndexProviderResponseViewModel>.Default.Equals(ProviderResponses, model.ProviderResponses) &&
+                   EqualityComparer<IndexOrderCategoryViewModel>.Default.Equals(OrderCategories, model.OrderCategories) &&
+                   EqualityComparer<IndexProviderCategoryViewModel>.Default.Equals(ProviderCategories, model.ProviderCategories);
+        }
     }
 }

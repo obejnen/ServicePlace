@@ -26,5 +26,18 @@ namespace ServicePlace.Model.ViewModels.OrderViewModels
         public DateTime CreatedAt { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var model = obj as CreateOrderViewModel;
+            return model != null &&
+                   Id == model.Id &&
+                   Title == model.Title &&
+                   Body == model.Body &&
+                   Images == model.Images &&
+                   CategoryId == model.CategoryId &&
+                   CreatedAt == model.CreatedAt &&
+                   EqualityComparer<IEnumerable<SelectListItem>>.Default.Equals(Categories, model.Categories);
+        }
     }
 }

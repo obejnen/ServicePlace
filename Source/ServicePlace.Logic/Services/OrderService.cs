@@ -63,9 +63,9 @@ namespace ServicePlace.Logic.Services
 
         public void CompleteOrder(int orderId, int orderResponseId)
         {
-            CloseOrder(orderId);
             var orderResponse = _responseRepository.GetBy(x => x.Id == orderResponseId).SingleOrDefault();
-            if (orderResponse == null) return;
+            if (orderResponse == null || orderResponse.Order.Id != orderId) return;
+            CloseOrder(orderId);
             orderResponse.Completed = true;
             _responseRepository.Update(orderResponse);
             _contextProvider.CommitChanges();
@@ -91,7 +91,7 @@ namespace ServicePlace.Logic.Services
 
         public IEnumerable<Order> SearchOrder(string search, int categoryId)
         {
-            return _orderRepository.GetBy(x => (x.Title.Contains(search) || x.Body.Contains(search)) && x.Approved
+            return _orderRepository.GetBy(x => (x.Title.Contains(search) || x.Body.Contains(search)) && x.Approved && !x.Closed
                                                && (categoryId <= 0 || x.Category.Id == categoryId));
         }
 

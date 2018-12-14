@@ -28,5 +28,16 @@ namespace ServicePlace.Model.ViewModels.AccountViewModels
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is RegisterViewModel model &&
+                   UserName == model.UserName &&
+                   Email == model.Email &&
+                   Password == model.Password &&
+                   ConfirmPassword == model.ConfirmPassword &&
+                   Avatar == model.Avatar &&
+                   Name == model.Name;
+        }
     }
 }

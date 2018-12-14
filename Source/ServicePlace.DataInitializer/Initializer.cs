@@ -122,6 +122,7 @@ namespace ServicePlace.DataInitializer
                 .With(o => o.Creator = Pick<User>.RandomItemFrom(users))
                 .With(o => o.Category = Pick<OrderCategory>.RandomItemFrom(orderCategories))
                 .With(o => o.Closed = false)
+                .With(o => o.Approved = true)
                 .Build();
 
             var providers = Builder<Provider>
@@ -129,6 +130,7 @@ namespace ServicePlace.DataInitializer
                 .All()
                 .With(p => p.Creator = Pick<User>.RandomItemFrom(users))
                 .With(p => p.Category = Pick<ProviderCategory>.RandomItemFrom(providerCategories))
+                .With(p => p.Approved = true)
                 .Build();
 
             var orderResponses = Builder<OrderResponse>

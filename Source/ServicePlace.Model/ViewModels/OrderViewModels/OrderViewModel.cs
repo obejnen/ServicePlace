@@ -16,5 +16,20 @@ namespace ServicePlace.Model.ViewModels.OrderViewModels
         public UserViewModel User { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var model = obj as OrderViewModel;
+            return model != null &&
+                   Id == model.Id &&
+                   Title == model.Title &&
+                   Body == model.Body &&
+                   Closed == model.Closed &&
+                   Approved == model.Approved &&
+                   EqualityComparer<IEnumerable<string>>.Default.Equals(Images, model.Images) &&
+                   EqualityComparer<UserViewModel>.Default.Equals(User, model.User) &&
+                   CreatedAt == model.CreatedAt &&
+                   EqualityComparer<DateTime?>.Default.Equals(UpdatedAt, model.UpdatedAt);
+        }
     }
 }

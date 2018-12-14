@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ServicePlace.Model.DTOModels
 {
@@ -13,5 +12,18 @@ namespace ServicePlace.Model.DTOModels
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is UserDTO dTO &&
+                   Id == dTO.Id &&
+                   Avatar == dTO.Avatar &&
+                   UserName == dTO.UserName &&
+                   Password == dTO.Password &&
+                   Name == dTO.Name &&
+                   Email == dTO.Email &&
+                   IsAdmin == dTO.IsAdmin &&
+                   CreatedAt == dTO.CreatedAt;
+        }
     }
 }

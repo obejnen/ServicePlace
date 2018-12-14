@@ -7,5 +7,12 @@ namespace ServicePlace.Model.ViewModels.OrderCategoryViewModels
         [Required]
         [MinLength(3)]
         public string Name { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var model = obj as CreateOrderCategoryViewModel;
+            return model != null &&
+                   Name == model.Name;
+        }
     }
 }

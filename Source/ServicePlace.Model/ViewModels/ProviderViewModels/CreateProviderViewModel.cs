@@ -30,5 +30,19 @@ namespace ServicePlace.Model.ViewModels.ProviderViewModels
         public DateTime CreatedAt { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var model = obj as CreateProviderViewModel;
+            return model != null &&
+                   Id == model.Id &&
+                   Title == model.Title &&
+                   Body == model.Body &&
+                   CategoryId == model.CategoryId &&
+                   EqualityComparer<decimal?>.Default.Equals(Price, model.Price) &&
+                   Images == model.Images &&
+                   CreatedAt == model.CreatedAt &&
+                   EqualityComparer<IEnumerable<SelectListItem>>.Default.Equals(Categories, model.Categories);
+        }
     }
 }

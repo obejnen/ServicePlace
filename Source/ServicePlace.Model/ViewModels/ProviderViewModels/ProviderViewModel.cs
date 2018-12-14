@@ -15,5 +15,20 @@ namespace ServicePlace.Model.ViewModels.ProviderViewModels
         public UserViewModel User { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var model = obj as ProviderViewModel;
+            return model != null &&
+                   Id == model.Id &&
+                   Title == model.Title &&
+                   Body == model.Body &&
+                   EqualityComparer<decimal?>.Default.Equals(Price, model.Price) &&
+                   Approved == model.Approved &&
+                   EqualityComparer<IEnumerable<string>>.Default.Equals(Images, model.Images) &&
+                   EqualityComparer<UserViewModel>.Default.Equals(User, model.User) &&
+                   CreatedAt == model.CreatedAt &&
+                   EqualityComparer<DateTime?>.Default.Equals(UpdatedAt, model.UpdatedAt);
+        }
     }
 }
