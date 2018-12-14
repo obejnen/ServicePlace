@@ -26,11 +26,9 @@ namespace ServicePlace.DataProvider.Repositories
         public void CloseOrder(int id)
         {
             var order = Query.SingleOrDefault(x => x.Id == id);
-            if(order != null)
-            {
-                order.Closed = true;
-                Update(order);
-            }
+            if (order == null) return;
+            order.Closed = true;
+            Update(order);
         }
 
         public IEnumerable<Order> Take(int skip, int count)

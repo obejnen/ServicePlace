@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity.Migrations;
-using System.Data.Entity.Validation;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
-using Moq;
-using Faker;
 using FizzWare.NBuilder;
 using ServicePlace.Common;
 using ServicePlace.DataProvider.DbContexts;
@@ -22,80 +16,80 @@ namespace ServicePlace.DataInitializer
 {
     public class Initializer
     {
-        private readonly ApplicationContext _context;
-        private Random _random;
-        private readonly IdentityRepository _identityRepository;
-        private readonly CommitProvider _commitProvider;
         private readonly int _dataCount;
 
-        public ProviderRepository ProviderRepository => new ProviderRepository(_context);
-        public OrderRepository OrderRepository => new OrderRepository(_context);
-        public IdentityRepository IdentityRepository => _identityRepository;
-        public ImageRepository ImageRepository => new ImageRepository(_context);
-        public OrderResponseRepository OrderResponseRepository => new OrderResponseRepository(_context);
-        public ProviderResponseRepository ProviderResponseRepository => new ProviderResponseRepository(_context);
-        public OrderCategoryRepository OrderCategoryRepository => new OrderCategoryRepository(_context);
-        public ProviderCategoryRepository ProviderCategoryRepository => new ProviderCategoryRepository(_context);
-        public CommitProvider CommitProvider => new CommitProvider(_context);
+        public CommitProvider CommitProvider { get; private set; }
+        public ProviderRepository ProviderRepository { get; private set; }
+        public OrderRepository OrderRepository { get; private set; }
+        public IdentityRepository IdentityRepository { get; private set; }
+        public OrderResponseRepository OrderResponseRepository { get; private set; }
+        public ProviderResponseRepository ProviderResponseRepository { get; private set; }
+        public OrderCategoryRepository OrderCategoryRepository { get; private set; }
+        public ProviderCategoryRepository ProviderCategoryRepository { get; private set; }
+        public ProfileRepository ProfileRepository { get; private set; }
+        public ImageRepository ImageRepository { get; private set; }
 
-        public ProfileRepository ProfileRepository => new ProfileRepository(_context);
-        
-        public OrderService OrderService => new OrderService(
-            OrderRepository,
-            OrderResponseRepository,
-            OrderCategoryRepository,
-            _commitProvider);
-
-        public ProviderService ProviderService => new ProviderService(
-            ProviderRepository,
-            ProviderResponseRepository,
-            ProviderCategoryRepository,
-            _commitProvider
-            );
-
-        public UserService UserService => new UserService(
-            _identityRepository,
-            ProfileRepository,
-            _commitProvider);
-
-        public ImageService ImageService => new ImageService();
+        public OrderService OrderService { get; private set; }
+        public ProviderService ProviderService { get; private set; }
+        public UserService UserService { get; private set; }
+        public ImageService ImageService { get; private set; }
+        public ApplicationContext Context { get; private set; }
 
         public Initializer(int dataCount)
         {
             _dataCount = dataCount;
-            _context = new ApplicationContext();
-            var userManager = new UserManager(new UserStore(_context));
-            var roleManager = new RoleManager(new RoleStore(_context));
-            _random = new Random();
-            _identityRepository = new IdentityRepository(userManager, roleManager, _context);
+            Context = new ApplicationContext();
         }
 
         public void ClearDb()
         {
-            var connection = new SqlConnection(
-                "Data Source=obejnenPC;" +
-                "Initial Catalog=ServicePlaceDb;" +
-                "Integrated Security=True;" +
-                "Connect Timeout=30;" +
-                "Encrypt=False;" +
-                "TrustServerCertificate=False;" +
-                "ApplicationIntent=ReadWrite;" +
-                "MultiSubnetFailover=False"
-                );
-            var cmd = new SqlCommand("DeleteAll", connection);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var connection = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;" +
+                                               "Initial Catalog=ServicePlaceDb;" +
+                                               "Integrated Security=True;Connect Timeout=60;" +
+                                               "Encrypt=False;TrustServerCertificate=True;" +
+                                               "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            var cmd = new SqlCommand("DeleteAll", connection) {CommandType = CommandType.StoredProcedure};
             connection.Open();
             cmd.ExecuteNonQuery();
+            Context.Dispose();
+            connection.Close();
+        }
+
+        private void InitializeObjects()
+        {
+            ClearDb();
+            Context = new ApplicationContext();
+            CommitProvider = new CommitProvider(Context);
+            IdentityRepository = new IdentityRepository(
+                new UserManager(new UserStore(Context)),
+                new RoleManager(new RoleStore(Context)),
+                Context
+            );
+            OrderRepository = new OrderRepository(Context);
+            OrderResponseRepository = new OrderResponseRepository(Context);
+            OrderCategoryRepository = new OrderCategoryRepository(Context);
+            ProviderRepository = new ProviderRepository(Context);
+            ProviderResponseRepository = new ProviderResponseRepository(Context);
+            ProviderCategoryRepository = new ProviderCategoryRepository(Context);
+            ImageRepository = new ImageRepository(Context);
+            ProfileRepository = new ProfileRepository(Context);
+
+            OrderService = new OrderService(OrderRepository, OrderResponseRepository, OrderCategoryRepository, CommitProvider);
+            ProviderService = new ProviderService(ProviderRepository, ProviderResponseRepository, ProviderCategoryRepository, CommitProvider);
+            ImageService = new ImageService();
+            UserService = new UserService(IdentityRepository, ProfileRepository, CommitProvider);
         }
 
         public void InitializeDb()
         {
-            _identityRepository.CreateRole(new Role()
+            InitializeObjects();
+            
+            IdentityRepository.CreateRole(new Role()
             {
                 Name = Constants.UserRoleName
             });
 
-            _identityRepository.CreateRole(new Role()
+            IdentityRepository.CreateRole(new Role()
             {
                 Name = Constants.AdminRoleName
             });
@@ -107,11 +101,11 @@ namespace ServicePlace.DataInitializer
 
             foreach (var user in users)
             {
-                _identityRepository.Create(user);
+                IdentityRepository.Create(user);
             }
-            _context.SaveChanges();
+            Context.SaveChanges();
 
-            users = _identityRepository.GetAll().ToList();
+            users = IdentityRepository.GetAll().ToList();
 
 
             var orderCategories = Builder<OrderCategory>
@@ -127,6 +121,7 @@ namespace ServicePlace.DataInitializer
                 .All()
                 .With(o => o.Creator = Pick<User>.RandomItemFrom(users))
                 .With(o => o.Category = Pick<OrderCategory>.RandomItemFrom(orderCategories))
+                .With(o => o.Closed = false)
                 .Build();
 
             var providers = Builder<Provider>
@@ -151,16 +146,21 @@ namespace ServicePlace.DataInitializer
                 .With(pr => pr.Provider = Pick<Provider>.RandomItemFrom(providers))
                 .With(pr => pr.Creator = pr.Order.Creator)
                 .Build();
+
+            var images = Builder<Image>
+                .CreateListOfSize(_dataCount)
+                .Build();
             
-                _context.ProviderCategories.AddOrUpdate(x => x.Id, providerCategories.ToArray());
-                _context.OrderCategories.AddOrUpdate(x => x.Id, orderCategories.ToArray());
-                _context.SaveChanges();
-                _context.Orders.AddOrUpdate(x => x.Id, orders.ToArray());
-                _context.Providers.AddOrUpdate(x => x.Id, providers.ToArray());
-                _context.SaveChanges();
-                _context.OrderResponses.AddOrUpdate(x => x.Id, orderResponses.ToArray());
-                _context.ProviderResponses.AddOrUpdate(x => x.Id, providerResponses.ToArray());
-                _context.SaveChanges();
+                Context.Photos.AddOrUpdate(x => x.Id, images.ToArray());
+                Context.ProviderCategories.AddOrUpdate(x => x.Id, providerCategories.ToArray());
+                Context.OrderCategories.AddOrUpdate(x => x.Id, orderCategories.ToArray());
+                Context.SaveChanges();
+                Context.Orders.AddOrUpdate(x => x.Id, orders.ToArray());
+                Context.Providers.AddOrUpdate(x => x.Id, providers.ToArray());
+                Context.SaveChanges();
+                Context.OrderResponses.AddOrUpdate(x => x.Id, orderResponses.ToArray());
+                Context.ProviderResponses.AddOrUpdate(x => x.Id, providerResponses.ToArray());
+                Context.SaveChanges();
         }
     }
 }

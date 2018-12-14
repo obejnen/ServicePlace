@@ -22,7 +22,7 @@ namespace ServicePlace.DataProvider.Infrastructure
 
         private void LoadContexts(ContainerBuilder builder)
         {
-            builder.RegisterType<ApplicationContext>().AsSelf().InstancePerDependency();
+            builder.RegisterType<ApplicationContext>().AsSelf().SingleInstance();
             builder.RegisterType<CommitProvider>().As<IContextProvider>();
         }
 

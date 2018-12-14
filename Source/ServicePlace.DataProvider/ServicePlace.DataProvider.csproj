@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContextProvider\CommitProvider.cs" />
+    <Compile Include="ContextProviders\CommitProvider.cs" />
     <Compile Include="Interfaces\IContextProvider.cs" />
     <Compile Include="Interfaces\IImageRepository.cs" />
     <Compile Include="Interfaces\IOrderCategoryRepository.cs" />

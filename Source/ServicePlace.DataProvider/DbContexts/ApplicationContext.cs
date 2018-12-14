@@ -9,7 +9,7 @@ namespace ServicePlace.DataProvider.DbContexts
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        public ApplicationContext() : base("name = DefaultConnection")
+        public ApplicationContext() : base("DefaultConnection")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
         }

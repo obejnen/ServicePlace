@@ -1,7 +1,4 @@
-﻿using System;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
-using ServicePlace.DataProvider.DbContexts;
+﻿using ServicePlace.DataProvider.DbContexts;
 using ServicePlace.DataProvider.Interfaces;
 
 namespace ServicePlace.DataProvider.ContextProviders
