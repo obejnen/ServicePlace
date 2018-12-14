@@ -82,8 +82,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IdentityRepositoryTest.cs" />
     <Compile Include="Repositories\ImageRepositoryTest.cs" />
+    <Compile Include="Repositories\OrderCategoryRepositoryTest.cs" />
     <Compile Include="Repositories\OrderRepositoryTest.cs" />
+    <Compile Include="Repositories\OrderResponseRepositoryTest.cs" />
+    <Compile Include="Repositories\ProviderCategoryRepositoryTest.cs" />
     <Compile Include="Repositories\ProviderRepositoryTest.cs" />
+    <Compile Include="Repositories\ProviderResponseRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
