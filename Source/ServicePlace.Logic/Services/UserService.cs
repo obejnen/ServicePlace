@@ -49,13 +49,13 @@ namespace ServicePlace.Logic.Services
         {
             var user = _repository.GetBy(x => x.Id == userDto.Id).SingleOrDefault();
             if (user == null) return;
-            user.Profile.Id = userDto.Id;
+            //user.Profile.Id = userDto.Id;
             user.Avatar = new Image {Url = userDto.Avatar};
-            user.Profile.Name = userDto.Name;
+            //user.Profile.Name = userDto.Name;
             user.Id = userDto.Id;
             user.UserName = userDto.UserName;
             user.Email = userDto.Email;
-            _profileRepository.Update(user.Profile);
+            //_profileRepository.Update(user.Profile);
             _repository.Update(user);
             _contextProvider.CommitChanges();
         }
@@ -64,7 +64,7 @@ namespace ServicePlace.Logic.Services
         {
             var user = _repository.GetBy(x => x.Id == userDto.Id).SingleOrDefault();
             if (user == null) return;
-            _profileRepository.Delete(user.Profile);
+            //_profileRepository.Delete(user.Profile);
             _repository.Delete(user);
             _contextProvider.CommitChanges();
         }

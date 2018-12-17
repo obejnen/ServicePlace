@@ -125,7 +125,7 @@ namespace ServicePlace.Logic.Services
 
         public ProviderCategory GetCategory(int categoryId) =>
             _categoryRepository.GetBy(x => x.Id == categoryId).SingleOrDefault();
-
+        
         public IEnumerable<ProviderResponse> GetUserResponses(string userId) =>
             _responseRepository.GetBy(x => x.Creator.Id == userId);
 
@@ -138,7 +138,6 @@ namespace ServicePlace.Logic.Services
         {
             _categoryRepository.Create(providerCategory);
             _contextProvider.CommitChanges();
-
         }
     }
 }

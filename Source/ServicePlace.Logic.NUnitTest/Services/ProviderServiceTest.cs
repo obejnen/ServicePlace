@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using System.Linq;
 using ServicePlace.DataInitializer;
 using ServicePlace.Model.DataModels;
@@ -58,7 +60,7 @@ namespace ServicePlace.Logic.NUnitTest.Services
         {
             var providerToDelete = _initializer.ProviderRepository.GetAll().First();
             _initializer.ProviderService.Delete(providerToDelete);
-            foreach(var actual in _initializer.ProviderRepository.GetAll())
+            foreach (var actual in _initializer.ProviderRepository.GetAll())
                 Assert.AreNotEqual(providerToDelete, actual);
         }
 
@@ -194,9 +196,212 @@ namespace ServicePlace.Logic.NUnitTest.Services
                 _initializer.ProviderRepository.Update(order);
                 _initializer.CommitProvider.CommitChanges();
             }
-            _initializer.ProviderService.ApproveProvider(_initializer.ProviderService.GetAll().OrderBy(x => x.Id).Last().Id + 1);
+
+            _initializer.ProviderService.ApproveProvider(
+                _initializer.ProviderService.GetAll().OrderBy(x => x.Id).Last().Id + 1);
             foreach (var actual in _initializer.ProviderRepository.GetAll())
                 Assert.IsFalse(actual.Approved);
+        }
+
+        [Test]
+        public void Take_ProvidersInRange_ListOfApprovedProvidersInRange()
+        {
+            var providers = _initializer.ProviderRepository.GetAll().ToList();
+            const int skip = 3;
+            const int take = 2;
+            var expected = providers.Skip(skip).Take(take);
+            var actual = _initializer.ProviderService.Take(skip, take);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetUserProviders_Providers_ListOfProvidersByUserId()
+        {
+            var user = _initializer.IdentityRepository.GetBy(x => x.Providers.Count > 0).First();
+            var expected = _initializer.ProviderRepository.GetBy(x => x.Creator.Id == user.Id).ToList();
+            var actual = _initializer.ProviderService.GetUserProviders(user.Id);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetPage_Providers_ListOfProvidersOnFullPage()
+        {
+            const int page = 2;
+            const int perPage = 3;
+            var expected = _initializer.ProviderRepository.GetAll().Skip(perPage).Take(perPage).ToList();
+            var actual = _initializer.ProviderService.GetPage(page, perPage);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetPage_Providers_ListOfProvidersOnNonFullPage()
+        {
+            _initializer = new Initializer(11);
+            _initializer.InitializeDb();
+            const int page = 6;
+            const int perPage = 2;
+            var expected = _initializer.ProviderRepository.GetAll().Skip(10).Take(1).ToList();
+            var actual = _initializer.ProviderService.GetPage(page, perPage);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetPage_PartOfProviders_ListOfProvidersOnFullPage()
+        {
+            var providersList = _initializer.ProviderRepository.GetAll().Skip(2).ToList();
+            const int page = 2;
+            const int perPage = 2;
+            var expected = providersList.Skip(2).Take(2);
+            var actual = _initializer.ProviderService.GetPage(providersList, page, perPage);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetPage_PartOfProviders_ListOfProvidersOnNonFullPage()
+        {
+            _initializer = new Initializer(11);
+            _initializer.InitializeDb();
+            var providersList = _initializer.ProviderRepository.GetAll().Skip(2).ToList();
+            const int page = 5;
+            const int perPage = 2;
+            var expected = providersList.Skip(8).Take(1).ToList();
+            var actual = _initializer.ProviderService.GetPage(providersList, page, perPage);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CreateResponse_CreatedResponse_ThrowsNoException()
+        {
+            var user = _initializer.IdentityRepository.GetBy(x => x.Providers.Count > 0).First();
+            var order = _initializer.OrderRepository.GetBy(x => x.Creator.Id != user.Id).First();
+            var orderResponse = new OrderResponse
+            {
+                Comment = "Comment to find",
+                Creator = user,
+                Order = order,
+                Provider = user.Providers.First(),
+                Price = 300,
+                CreatedAt = DateTime.Now
+            };
+            _initializer.OrderResponseRepository.Create(orderResponse);
+            _initializer.CommitProvider.CommitChanges();
+
+            var expectedOrder = _initializer.OrderRepository.GetBy(x => x.Id == order.Id).Single();
+
+            var expected = new ProviderResponse
+            {
+                Comment = "Comment",
+                Provider = _initializer.IdentityRepository.GetBy(x => x.Id == user.Id).Single().Providers.First(),
+                Order = expectedOrder,
+                Creator = expectedOrder.Creator
+            };
+
+            Assert.That(() => _initializer.ProviderService.CreateResponse(expected), Throws.Nothing);
+            var actual = _initializer.ProviderResponseRepository.GetBy(x => x.Comment == expected.Comment).Single();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CreateResponse_ResponseNotValid_ThrowsException()
+        {
+            var response = new ProviderResponse
+            {
+                Comment = null,
+                Creator = new User(),
+                Provider = new Provider(),
+                Order = new Order()
+            };
+
+            Assert.That(() => _initializer.ProviderService.CreateResponse(response), Throws.Exception);
+        }
+
+        [Test]
+        public void DeleteResponse_DeletedResponse_Success()
+        {
+            var responseToDelete = _initializer.ProviderResponseRepository.GetAll().First();
+            _initializer.ProviderService.DeleteResponse(responseToDelete);
+            foreach (var actual in _initializer.ProviderResponseRepository.GetAll())
+                Assert.AreNotEqual(responseToDelete, actual);
+        }
+
+        [Test]
+        public void DeleteResponse_ResponseNotFound_ThrowsException()
+        {
+            var responseToDelete = new ProviderResponse();
+            Assert.That(() => _initializer.ProviderService.DeleteResponse(responseToDelete), Throws.Exception);
+        }
+
+        [Test]
+        public void GetProviderResponses_ProviderResponses_ListOfProviderResponsesByProviderId()
+        {
+            var providerResponse = _initializer.ProviderResponseRepository.GetAll().First();
+            var expected =
+                _initializer.ProviderResponseRepository.GetBy(x => x.Provider.Id == providerResponse.Provider.Id)
+                    .ToList();
+            var actual = _initializer.ProviderService.GetProviderResponses(providerResponse.Provider.Id);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetCategory_Category_CategoryById()
+        {
+            var expected = _initializer.ProviderCategoryRepository.GetAll().First();
+            var actual = _initializer.ProviderService.GetCategory(expected.Id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetUserResponses_ProviderResponses_ListOfProviderResponsesByUserId()
+        {
+            var user = _initializer.IdentityRepository.GetBy(x => x.ProviderResponses.Count > 0).First();
+            var expected = _initializer.ProviderResponseRepository.GetBy(x => x.Creator.Id == user.Id).ToList();
+            var actual = _initializer.ProviderService.GetUserResponses(user.Id);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetByCategory_Providers_ProvidersByCategoryId()
+        {
+            var category = _initializer.ProviderCategoryRepository.GetAll().First();
+            var expected = _initializer.ProviderRepository.GetBy(x => x.Category.Id == category.Id).ToList();
+            var actual = _initializer.ProviderService.GetByCategory(category.Id);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetByCategory_WrongCategoryId_EmptyList()
+        {
+            var actual =
+                _initializer.ProviderService.GetByCategory(
+                    _initializer.ProviderCategoryRepository.GetAll().OrderBy(x => x.Id).Last().Id + 1);
+            CollectionAssert.AreEqual(new List<Provider>(), actual);
+        }
+
+        [Test]
+        public void GetCategories_ProviderCategories_ListOfAllProviderCategories()
+        {
+            var expected = _initializer.ProviderCategoryRepository.GetAll().ToList();
+            var actual = _initializer.ProviderService.GetCategories();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CreateCategory_CreatedCategory_ThrowsNoException()
+        {
+            var expected = new ProviderCategory
+            {
+                Name = "New category"
+            };
+
+            Assert.That(() => _initializer.ProviderService.CreateCategory(expected), Throws.Nothing);
+            var actual = _initializer.ProviderCategoryRepository.GetBy(x => x.Name == expected.Name).Single();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CreateCategory_CategoryNotValid_ThrowsException()
+        {
+            Assert.That(() => _initializer.ProviderService.CreateCategory(new ProviderCategory()), Throws.Exception);
         }
     }
 }
