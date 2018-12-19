@@ -46,5 +46,9 @@ namespace ServicePlace.Logic.Interfaces.Services
         IEnumerable<OrderResponse> GetAllOrderResponses();
 
         void CreateCategory(OrderCategory orderCategory);
+
+        void UpdateCategory(OrderCategory category);
+
+        void DeleteCategory(OrderCategory category);
     }
 }

@@ -38,5 +38,9 @@ namespace ServicePlace.Logic.Interfaces.Services
         IEnumerable<ProviderResponse> GetAllProviderResponses();
 
         void CreateCategory(ProviderCategory providerCategory);
+
+        void UpdateCategory(ProviderCategory category);
+
+        void DeleteCategory(ProviderCategory category);
     }
 }

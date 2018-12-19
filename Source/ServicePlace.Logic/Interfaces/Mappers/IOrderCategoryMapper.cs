@@ -18,5 +18,7 @@ namespace ServicePlace.Logic.Interfaces.Mappers
         IndexOrderCategoryViewModel MapToIndexOrderCategoryViewModel(IEnumerable<OrderCategory> orderCategories);
 
         OrderCategory MapToOrderCategoryModel(CreateOrderCategoryViewModel viewModel);
+
+        CreateOrderCategoryViewModel MapToCreateOrderCategoryViewModel(OrderCategory orderCategory);
     }
 }

@@ -39,7 +39,17 @@ namespace ServicePlace.Logic.Mappers
         {
             return new OrderCategory
             {
+                Id = createViewModel.Id,
                 Name = createViewModel.Name
+            };
+        }
+
+        public CreateOrderCategoryViewModel MapToCreateOrderCategoryViewModel(OrderCategory orderCategory)
+        {
+            return new CreateOrderCategoryViewModel
+            {
+                Id = orderCategory.Id,
+                Name = orderCategory.Name
             };
         }
     }

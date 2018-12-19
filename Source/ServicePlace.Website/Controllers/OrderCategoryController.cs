@@ -63,5 +63,31 @@ namespace ServicePlace.Website.Controllers
                 _orderService.GetPage(orders, page, Constants.ItemsPerPage),
                 new[] { page, pageRange[0], pageRange[1] }));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            _orderService.DeleteCategory(_orderService.GetCategory(id));
+            var viewModel = _orderCategoryMapper.MapToIndexOrderCategoryViewModel(_orderService.GetCategories());
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var viewModel = _orderCategoryMapper.MapToCreateOrderCategoryViewModel(_orderService.GetCategory(id));
+            return View("Admin/Edit", viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreateOrderCategoryViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return View(viewModel);
+            var orderCategory = _orderCategoryMapper.MapToOrderCategoryModel(viewModel);
+            _orderService.UpdateCategory(orderCategory);
+            return RedirectToAction("Index", "Admin");
+        }
     }
 }

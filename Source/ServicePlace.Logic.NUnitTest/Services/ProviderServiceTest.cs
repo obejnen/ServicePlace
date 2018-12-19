@@ -18,7 +18,6 @@ namespace ServicePlace.Logic.NUnitTest.Services
             _initializer = new Initializer(10);
             _initializer.InitializeDb();
         }
-
         [TearDown]
         public void Dispose()
         {
@@ -402,6 +401,40 @@ namespace ServicePlace.Logic.NUnitTest.Services
         public void CreateCategory_CategoryNotValid_ThrowsException()
         {
             Assert.That(() => _initializer.ProviderService.CreateCategory(new ProviderCategory()), Throws.Exception);
+        }
+
+        [Test]
+        public void DeleteCategory_DeletedCategory_Success()
+        {
+            var expected = _initializer.ProviderCategoryRepository.GetAll().First();
+            _initializer.ProviderService.DeleteCategory(expected);
+            foreach (var actual in _initializer.ProviderCategoryRepository.GetAll())
+                Assert.AreNotEqual(expected, actual);
+        }
+
+        [Test]
+        public void DeleteCategory_CategoryNotFound_ThrowsException()
+        {
+            var providerCategory = new ProviderCategory();
+            Assert.That(() => _initializer.ProviderService.DeleteCategory(providerCategory), Throws.Exception);
+        }
+
+        [Test]
+        public void UpdateCategory_UpdatedCategory_Success()
+        {
+            var expected = _initializer.ProviderCategoryRepository.GetAll().ToList().First();
+            expected.Name = "new category name";
+            Assert.That(() => _initializer.ProviderService.UpdateCategory(expected), Throws.Nothing);
+            var actual = _initializer.ProviderCategoryRepository.GetBy(x => x.Id == expected.Id).Single();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void UpdateCategory_CategoryNotValid_ThrowsException()
+        {
+            var expected = _initializer.ProviderCategoryRepository.GetAll().First();
+            expected.Name = null;
+            Assert.That(() => _initializer.ProviderService.UpdateCategory(expected), Throws.Exception);
         }
     }
 }

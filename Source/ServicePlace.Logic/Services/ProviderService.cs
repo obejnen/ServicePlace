@@ -140,5 +140,19 @@ namespace ServicePlace.Logic.Services
             _categoryRepository.Create(providerCategory);
             _contextProvider.CommitChanges();
         }
+
+        public void DeleteCategory(ProviderCategory category)
+        {
+            foreach(var provider in _providerRepository.GetBy(x => x.Category.Id == category.Id))
+                Delete(provider);
+            _categoryRepository.Delete(category);
+            _contextProvider.CommitChanges();
+        }
+
+        public void UpdateCategory(ProviderCategory category)
+        {
+            _categoryRepository.Update(category);
+            _contextProvider.CommitChanges();
+        }
     }
 }

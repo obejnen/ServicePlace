@@ -142,19 +142,37 @@
                 <br />
                 @foreach (var orderCategory in Model.OrderCategories.Categories)
                 {
-                    @Html.ActionLink(orderCategory.Name, "Show", "Order", new { id = orderCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    @Html.ActionLink(orderCategory.Name, "Show", "OrderCategory", new { id = orderCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    @Html.ActionLink("Edit", "Edit", "OrderCategory", new { id = orderCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    <button class="w3-button w3-black w3-hover-red" onclick="$('#delete-order-category-form').submit()">
+                        Delete category
+                    </button>
+                    using (Html.BeginForm("Delete", "OrderCategory", FormMethod.Post, new { @id = "delete-order-category-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", orderCategory.Id)
+                    }
                     <br />
                 }
             </div>
-        <div id="provider-categories" class="w3-animate-top">
-            <h3><strong>@Resources.Resource.ProviderCategories</strong></h3>
-            @Html.ActionLink("Create provider category", "Create", "ProviderCategory", null, new { @class = "w3-button w3-gray w3-hover-white" })
-            <br />
-            @foreach (var providerCategory in Model.ProviderCategories.Categories)
-            {
-                @Html.ActionLink(providerCategory.Name, "Show", "Order", new { id = providerCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+            <div id="provider-categories" class="w3-animate-top">
+                <h3><strong>@Resources.Resource.ProviderCategories</strong></h3>
+                @Html.ActionLink("Create provider category", "Create", "ProviderCategory", null, new { @class = "w3-button w3-gray w3-hover-white" })
                 <br />
-            }
-        </div>
+                @foreach (var providerCategory in Model.ProviderCategories.Categories)
+                {
+                    @Html.ActionLink(providerCategory.Name, "Show", "OrderCategory", new { id = providerCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    @Html.ActionLink("Edit", "Edit", "ProviderCategory", new { id = providerCategory.Id }, new { @class = "w3-button w3-white w3-hover-black" })
+                    <button class="w3-button w3-black w3-hover-red" onclick="$('#delete-provider-category-form').submit()">
+                        Delete category
+                    </button>
+                    using (Html.BeginForm("Delete", "ProviderCategory", FormMethod.Post, new { @id = "delete-provider-category-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", providerCategory.Id)
+                    }
+                    <br />
+                }
+            </div>
     </div>
 </div>

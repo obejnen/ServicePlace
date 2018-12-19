@@ -40,7 +40,17 @@ namespace ServicePlace.Logic.Mappers
         {
             return new ProviderCategory
             {
+                Id = createViewModel.Id,
                 Name = createViewModel.Name
+            };
+        }
+
+        public CreateProviderCategoryViewModel MapToCreateProviderCategoryViewModel(ProviderCategory providerCategory)
+        {
+            return new CreateProviderCategoryViewModel
+            {
+                Id = providerCategory.Id,
+                Name = providerCategory.Name
             };
         }
     }

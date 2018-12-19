@@ -65,5 +65,31 @@ namespace ServicePlace.Website.Controllers
                     .MapToIndexProviderViewModel(_providerService.GetPage(providers, page, Constants.ItemsPerPage),
                         new[] { page, pageRange[0], pageRange[1] }));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            _providerService.DeleteCategory(_providerService.GetCategory(id));
+            var viewModel = _providerCategoryMapper.MapToIndexProviderCategoryViewModel(_providerService.GetCategories());
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var viewModel = _providerCategoryMapper.MapToCreateProviderCategoryViewModel(_providerService.GetCategory(id));
+            return View("Admin/Edit", viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreateProviderCategoryViewModel viewModel)
+        {
+            if (!ModelState.IsValid) return View(viewModel);
+            var orderCategory = _providerCategoryMapper.MapToProviderCategoryModel(viewModel);
+            _providerService.UpdateCategory(orderCategory);
+            return RedirectToAction("Index", "Admin");
+        }
     }
 }

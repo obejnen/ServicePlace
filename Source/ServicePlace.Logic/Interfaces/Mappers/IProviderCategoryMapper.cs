@@ -15,5 +15,8 @@ namespace ServicePlace.Logic.Interfaces.Mappers
             IEnumerable<ProviderCategory> providerCategories);
 
         ProviderCategory MapToProviderCategoryModel(CreateProviderCategoryViewModel createViewModel);
+
+        CreateProviderCategoryViewModel MapToCreateProviderCategoryViewModel(ProviderCategory providerCategory);
+
     }
 }

@@ -375,6 +375,8 @@
     <Content Include="Views\Shared\Partials\_OrderResponseNotification.cshtml" />
     <Content Include="Views\Shared\Partials\_ProviderResponseNotitifaction.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\OrderCategory\Admin\Edit.cshtml" />
+    <Content Include="Views\ProviderCategory\Admin\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

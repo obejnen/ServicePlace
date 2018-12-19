@@ -175,5 +175,23 @@ namespace ServicePlace.Logic.Services
             _categoryRepository.Create(orderCategory);
             _contextProvider.CommitChanges();
         }
+
+        public void DeleteCategory(OrderCategory category)
+        {
+            var orders = _orderRepository.GetBy(x => x.Category.Id == category.Id);
+            foreach (var order in orders)
+            {
+                Delete(order);
+            }
+            _categoryRepository.Delete(category);
+            _contextProvider.CommitChanges();
+        }
+
+
+        public void UpdateCategory(OrderCategory category)
+        {
+            _categoryRepository.Update(category);
+            _contextProvider.CommitChanges();
+        }
     }
 }

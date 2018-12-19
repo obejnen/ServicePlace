@@ -423,5 +423,39 @@ namespace ServicePlace.Logic.NUnitTest.Services
 
             Assert.That(() => _initializer.OrderService.CreateCategory(category), Throws.Exception);
         }
+
+        [Test]
+        public void DeleteCategory_DeletedCategory_Success()
+        {
+            var expected = _initializer.OrderCategoryRepository.GetAll().First();
+            _initializer.OrderService.DeleteCategory(expected);
+            foreach (var actual in _initializer.OrderCategoryRepository.GetAll())
+                Assert.AreNotEqual(expected, actual);
+        }
+
+        [Test]
+        public void DeleteCategory_CategoryNotFound_ThrowsException()
+        {
+            var orderCategory = new OrderCategory();
+            Assert.That(() => _initializer.OrderService.DeleteCategory(orderCategory), Throws.Exception);
+        }
+
+        [Test]
+        public void UpdateCategory_UpdatedCategory_Success()
+        {
+            var expected = _initializer.OrderCategoryRepository.GetAll().ToList().First();
+            expected.Name = "new category name";
+            Assert.That(() => _initializer.OrderService.UpdateCategory(expected), Throws.Nothing);
+            var actual = _initializer.OrderCategoryRepository.GetBy(x => x.Id == expected.Id).Single();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void UpdateCategory_CategoryNotValid_ThrowsException()
+        {
+            var expected = _initializer.OrderCategoryRepository.GetAll().First();
+            expected.Name = null;
+            Assert.That(() => _initializer.OrderService.UpdateCategory(expected), Throws.Exception);
+        }
     }
 }
