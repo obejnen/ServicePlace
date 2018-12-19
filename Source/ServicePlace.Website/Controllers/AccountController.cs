@@ -62,6 +62,8 @@ namespace ServicePlace.Website.Controllers
 
         public ActionResult Register()
         {
+            _userService.CreateRole(Constants.AdminRoleName);
+            _userService.CreateRole(Constants.UserRoleName);
             return View();
         }
 

@@ -46,7 +46,11 @@ namespace ServicePlace.Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                model.Categories = _orderMapper.GetCreateOrderViewModel().Categories;
+                return View("Create", model);
+            }
             var order = _orderMapper
                 .MapToOrderModel(model,
                     _userService.FindByUserName(User.Identity.GetUserName()));

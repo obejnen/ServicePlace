@@ -41,9 +41,11 @@ namespace ServicePlace.Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateOrderCategoryViewModel viewModel)
         {
+            if (!ModelState.IsValid) return View("Admin/Create", viewModel);
             var category = _orderCategoryMapper.MapToOrderCategoryModel(viewModel);
             _orderService.CreateCategory(category);
             return RedirectToAction("Index", "Admin");
+
         }
 
         public ActionResult Index()

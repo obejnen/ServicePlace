@@ -83,8 +83,8 @@ namespace ServicePlace.DataProvider.NUnitTest.Repositories
         [Test]
         public void Update_UserNotValid_UserNotUpdated()
         {
-            var expected = _initializer.IdentityRepository.GetAll().FirstOrDefault();
-            var userToUpdate = _initializer.IdentityRepository.GetAll().FirstOrDefault();
+            var expected = _initializer.IdentityRepository.GetAll().First();
+            var userToUpdate = _initializer.IdentityRepository.GetAll().First();
             userToUpdate.UserName = "not valid username";
             userToUpdate.Email = "not valid email";
             _initializer.IdentityRepository.Update(userToUpdate);

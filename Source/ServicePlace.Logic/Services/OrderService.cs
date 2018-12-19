@@ -57,6 +57,7 @@ namespace ServicePlace.Logic.Services
 
         public void CloseOrder(int id)
         {
+            if (!_orderRepository.GetBy(x => x.Id == id).Any()) return;
             _orderRepository.CloseOrder(id);
             _contextProvider.CommitChanges();
         }
@@ -170,6 +171,7 @@ namespace ServicePlace.Logic.Services
 
         public void CreateCategory(OrderCategory orderCategory)
         {
+            if (_categoryRepository.GetBy(x => x.Name == orderCategory.Name).Any()) return;
             _categoryRepository.Create(orderCategory);
             _contextProvider.CommitChanges();
         }

@@ -21,6 +21,7 @@ namespace ServicePlace.Model.ViewModels.OrderViewModels
 
         public string Images { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -29,8 +30,7 @@ namespace ServicePlace.Model.ViewModels.OrderViewModels
 
         public override bool Equals(object obj)
         {
-            var model = obj as CreateOrderViewModel;
-            return model != null &&
+            return obj is CreateOrderViewModel model &&
                    Id == model.Id &&
                    Title == model.Title &&
                    Body == model.Body &&

@@ -136,6 +136,7 @@ namespace ServicePlace.Logic.Services
 
         public void CreateCategory(ProviderCategory providerCategory)
         {
+            if (_categoryRepository.GetBy(x => x.Name == providerCategory.Name).Any()) return;
             _categoryRepository.Create(providerCategory);
             _contextProvider.CommitChanges();
         }

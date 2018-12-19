@@ -40,21 +40,22 @@ namespace ServicePlace.Website.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var viewModel = _providerMapper.GetCreateProviderViewModel();
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            var viewModel = _providerMapper.GetCreateProviderViewModel();
 
-                return View(viewModel);
-            }
+            return View(viewModel);
 
-            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateProviderViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                model.Categories = _providerMapper.GetCreateProviderViewModel().Categories;
+                return View(model);
+            }
 
             var creator = _userService.FindByUserName(User.Identity.GetUserName());
             var provider = _providerMapper.MapToProviderModel(model, creator);
